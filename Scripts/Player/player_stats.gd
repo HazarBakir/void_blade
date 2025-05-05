@@ -1,6 +1,11 @@
 extends Node
 
-var health = 100
+class_name Health
+var hp = 100
 
+func take_damage(amount):
+	hp -= amount
+	
+	
 func _ready():
-	print($".".name, " health: ", health)
+	print($".".name ," hp = ", hp)
