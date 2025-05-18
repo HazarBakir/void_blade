@@ -87,16 +87,16 @@ animations = [{
 "speed": 13.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d2wvv"]
+radius = 7.0
+height = 18.0
+
 [sub_resource type="Curve" id="Curve_qhqgy"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_qhqgy"]
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d2wvv"]
-radius = 7.0
-height = 18.0
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_qhqgy")
@@ -107,15 +107,21 @@ sprite_frames = SubResource("SpriteFrames_u8vuu")
 animation = &"move"
 autoplay = "idle"
 
-[node name="Line2D" type="Line2D" parent="AnimatedSprite2D"]
-show_behind_parent = true
-top_level = true
-width = 4.625
-width_curve = SubResource("Curve_qhqgy")
-gradient = SubResource("Gradient_qhqgy")
-script = ExtResource("4_dqkch")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2(1, 0)
 shape = SubResource("CapsuleShape2D_d2wvv")
+
+[node name="Line2D" type="Line2D" parent="."]
+show_behind_parent = true
+top_level = true
+z_index = -1
+position = Vector2(1, -1)
+points = PackedVector2Array(0, 0)
+width = 4.625
+width_curve = SubResource("Curve_qhqgy")
+gradient = SubResource("Gradient_qhqgy")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+script = ExtResource("4_dqkch")
