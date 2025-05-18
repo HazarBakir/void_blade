@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bvr6pjuau5noi" path="res://scenes/player.tscn" id="1_w5aja"]
 [ext_resource type="PackedScene" uid="uid://r13vl64ffkrw" path="res://Scripts/Player/sword.tscn" id="2_onqr8"]
-[ext_resource type="Texture2D" uid="uid://cbvrpblaxd16w" path="res://icon.svg" id="3_ycayy"]
+[ext_resource type="PackedScene" uid="uid://n5m7nhhfcg3n" path="res://scenes/enemy_lvl_1.tscn" id="4_bw6k5"]
 
 [node name="game_scene" type="Node2D"]
 
@@ -10,21 +10,9 @@
 position = Vector2(-2, 0)
 motion_mode = 1
 
-[node name="Camera2D" type="Camera2D" parent="player"]
-zoom = Vector2(3.45, 3.45)
-drag_horizontal_enabled = true
-drag_vertical_enabled = true
-drag_left_margin = 0.1
-drag_top_margin = 0.1
-drag_right_margin = 0.1
-drag_bottom_margin = 0.1
-
 [node name="sword" parent="player" instance=ExtResource("2_onqr8")]
 visible = false
 position = Vector2(12, -3)
 
-[node name="Icon" type="Sprite2D" parent="."]
-z_index = -1
-position = Vector2(-22, -24)
-scale = Vector2(0.351563, 0.367188)
-texture = ExtResource("3_ycayy")
+[node name="enemy_lvl_1" parent="." instance=ExtResource("4_bw6k5")]
+position = Vector2(25, -2)

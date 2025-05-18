@@ -101,6 +101,13 @@ colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_qhqgy")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.3, 2.3)
+drag_left_margin = 0.1
+drag_top_margin = 0.1
+drag_right_margin = 0.1
+drag_bottom_margin = 0.1
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_u8vuu")
