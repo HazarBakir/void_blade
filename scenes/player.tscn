@@ -1,8 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://bvr6pjuau5noi"]
+[gd_scene load_steps=18 format=3 uid="uid://bvr6pjuau5noi"]
 
 [ext_resource type="Texture2D" uid="uid://d4cwudjr1d7k4" path="res://Sprites/DinoSprites - mort.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://ci83gs3bkbyh4" path="res://Scripts/Player/player_movement.gd" id="1_qhqgy"]
-[ext_resource type="Script" uid="uid://tfvwmqsmfiwn" path="res://Scripts/Player/player_stats.gd" id="2_g2els"]
+[ext_resource type="Script" uid="uid://b13u0ty16kbto" path="res://Scripts/trail_line.gd" id="4_dqkch"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
 atlas = ExtResource("1_3vyb7")
@@ -87,21 +87,35 @@ animations = [{
 "speed": 13.0
 }]
 
+[sub_resource type="Curve" id="Curve_qhqgy"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_qhqgy"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d2wvv"]
 radius = 7.0
 height = 18.0
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_qhqgy")
-movement_speed = 150.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_u8vuu")
 animation = &"move"
 autoplay = "idle"
-script = ExtResource("2_g2els")
+
+[node name="Line2D" type="Line2D" parent="AnimatedSprite2D"]
+show_behind_parent = true
+top_level = true
+width = 4.625
+width_curve = SubResource("Curve_qhqgy")
+gradient = SubResource("Gradient_qhqgy")
+script = ExtResource("4_dqkch")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(1, 0)
 shape = SubResource("CapsuleShape2D_d2wvv")
