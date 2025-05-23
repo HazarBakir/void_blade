@@ -1,18 +1,21 @@
 [gd_scene load_steps=4 format=3 uid="uid://pektlh5iak8r"]
 
 [ext_resource type="PackedScene" uid="uid://bvr6pjuau5noi" path="res://scenes/player.tscn" id="1_w5aja"]
-[ext_resource type="PackedScene" uid="uid://r13vl64ffkrw" path="res://Scripts/Player/sword.tscn" id="2_onqr8"]
+[ext_resource type="Texture2D" uid="uid://cbvrpblaxd16w" path="res://icon.svg" id="3_ycayy"]
 [ext_resource type="PackedScene" uid="uid://n5m7nhhfcg3n" path="res://scenes/enemy_lvl_1.tscn" id="4_bw6k5"]
 
 [node name="game_scene" type="Node2D"]
 
 [node name="player" parent="." instance=ExtResource("1_w5aja")]
+unique_name_in_owner = true
 position = Vector2(-2, 0)
 motion_mode = 1
 
-[node name="sword" parent="player" instance=ExtResource("2_onqr8")]
-visible = false
-position = Vector2(12, -3)
-
 [node name="enemy_lvl_1" parent="." instance=ExtResource("4_bw6k5")]
 position = Vector2(25, -2)
+
+[node name="Icon" type="Sprite2D" parent="."]
+z_index = -5
+position = Vector2(21.5, 87.5)
+scale = Vector2(8.03906, 5.69531)
+texture = ExtResource("3_ycayy")

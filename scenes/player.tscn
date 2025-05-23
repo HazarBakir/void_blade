@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://d4cwudjr1d7k4" path="res://Sprites/DinoSprites - mort.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://ci83gs3bkbyh4" path="res://Scripts/Player/player_movement.gd" id="1_qhqgy"]
-[ext_resource type="Script" uid="uid://b13u0ty16kbto" path="res://Scripts/trail_line.gd" id="4_dqkch"]
+[ext_resource type="Script" uid="uid://b13u0ty16kbto" path="res://Scripts/Player/trail_line.gd" id="4_dqkch"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
 atlas = ExtResource("1_3vyb7")
@@ -92,6 +92,7 @@ radius = 7.0
 height = 18.0
 
 [sub_resource type="Curve" id="Curve_qhqgy"]
+bake_resolution = 500
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -131,4 +132,7 @@ gradient = SubResource("Gradient_qhqgy")
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
+round_precision = 15
 script = ExtResource("4_dqkch")
+
+[connection signal="ready" from="." to="." method="_on_ready"]

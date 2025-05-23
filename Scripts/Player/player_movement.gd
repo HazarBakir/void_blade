@@ -1,13 +1,16 @@
 extends CharacterBody2D
-var speed = 200
+var speed = 600
 var mouse_position = null
- 
+
+func _ready() -> void:
+	add_to_group("player")
+
 func _physics_process(delta):
 	velocity = Vector2(0, 0)
 	mouse_position = get_global_mouse_position()
- 
-	var direction = (mouse_position - position).normalized()
-	velocity = (direction * speed)
+	if Input.is_action_pressed("move_mouse"):
+		var direction = (mouse_position - position).normalized()
+		velocity = (direction * speed)
 	
 	#Camera offset
 	$Camera2D.offset.x = (mouse_position.x - global_position.x) / (1920 / 2.0) * 140
