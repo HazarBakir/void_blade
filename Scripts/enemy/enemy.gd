@@ -7,9 +7,7 @@ const bullet = preload("res://scenes/bullet.tscn")
 var speed = 150
 
 func _physics_process(delta):
-	var direction = (target.position - position).normalized()
-	velocity = direction * speed
-	
+	move_to_player()
 	look_at(target.position)
 	move_and_slide()
 	
@@ -21,3 +19,7 @@ func shoot():
 
 func _on_timer_timeout() -> void:
 	shoot()
+
+func move_to_player():
+	var direction = (target.position - position).normalized()
+	velocity = direction * speed

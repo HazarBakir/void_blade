@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bvr6pjuau5noi"]
+[gd_scene load_steps=19 format=3 uid="uid://bvr6pjuau5noi"]
 
 [ext_resource type="Texture2D" uid="uid://d4cwudjr1d7k4" path="res://Sprites/DinoSprites - mort.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://ci83gs3bkbyh4" path="res://Scripts/Player/player_movement.gd" id="1_qhqgy"]
@@ -99,11 +99,14 @@ point_count = 2
 [sub_resource type="Gradient" id="Gradient_qhqgy"]
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]
+radius = 124.145
+
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_qhqgy")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(2.3, 2.3)
+zoom = Vector2(1.66, 1.66)
 drag_left_margin = 0.1
 drag_top_margin = 0.1
 drag_right_margin = 0.1
@@ -116,7 +119,6 @@ animation = &"move"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(1, 0)
 shape = SubResource("CapsuleShape2D_d2wvv")
 
@@ -134,5 +136,10 @@ begin_cap_mode = 2
 end_cap_mode = 2
 round_precision = 15
 script = ExtResource("4_dqkch")
+
+[node name="EnemyDetectArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetectArea"]
+shape = SubResource("CircleShape2D_qhqgy")
 
 [connection signal="ready" from="." to="." method="_on_ready"]

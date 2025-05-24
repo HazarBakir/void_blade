@@ -3,12 +3,10 @@ extends Area2D
 var speed = 300
 var target: CharacterBody2D
 var direction = Vector2.ZERO
-var follow_target = true  # Start by following the target
+var follow_target = true
 
 func _physics_process(delta):
-	if follow_target and target:
-		direction = (target.position - position).normalized()
-	
+	move_to_player()
 	position += direction * speed * delta
 	look_at(position + direction)
 
@@ -17,4 +15,8 @@ func _on_body_entered(body):
 		queue_free()
 
 func _on_timer_timeout() -> void:
-	follow_target = false  # Stop following, keep last direction
+	follow_target = false
+	
+func move_to_player():
+	if follow_target and target:
+		direction = (target.position - position).normalized()
