@@ -65,6 +65,6 @@ shape = SubResource("RectangleShape2D_y25gk")
 wait_time = 0.915
 autostart = true
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
