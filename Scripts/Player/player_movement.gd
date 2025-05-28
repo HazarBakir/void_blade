@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var speed = 600
+var speed = 600.0
 var mouse_position = null
 var accel = 10.0 
 var decel = 5.0 
@@ -14,8 +14,8 @@ func _physics_process(delta):
 	if Input.is_action_pressed("move_mouse"):
 		move(delta)
 	else:
-		velocity.x = lerp(velocity.x, 0.0, decel * delta)
-		velocity.y = lerp(velocity.y, 0.0, decel * delta)
+		slow_down(delta)
+		
 	
 	velocity = velocity.limit_length(speed)
 	move_and_slide()
@@ -33,3 +33,17 @@ func move(delta):
 	
 	velocity.x = lerp(velocity.x, target_velocity.x, accel * delta)
 	velocity.y = lerp(velocity.y, target_velocity.y, accel * delta)
+
+func slow_down(delta):
+	velocity.x = lerp(velocity.x, 0.0, decel * delta)
+	velocity.y = lerp(velocity.y, 0.0, decel * delta)
+
+func _on_enemy_detect_area_area_entered(area: Area2D) -> void:
+	if area.get_parent().is_in_group("enemies"):
+		area.get_parent().speed = 0
+
+
+
+func _on_enemy_detect_area_area_exited(area: Area2D) -> void:
+	if area.get_parent().is_in_group("enemies"):
+		area.get_parent().speed = area.get_parent().original_speed

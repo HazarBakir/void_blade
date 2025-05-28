@@ -143,3 +143,5 @@ script = ExtResource("4_dqkch")
 shape = SubResource("CircleShape2D_qhqgy")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="area_entered" from="EnemyDetectArea" to="." method="_on_enemy_detect_area_area_entered"]
+[connection signal="area_exited" from="EnemyDetectArea" to="." method="_on_enemy_detect_area_area_exited"]
