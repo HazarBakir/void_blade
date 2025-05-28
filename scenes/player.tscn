@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://bvr6pjuau5noi"]
+[gd_scene load_steps=20 format=3 uid="uid://bvr6pjuau5noi"]
 
 [ext_resource type="Texture2D" uid="uid://d4cwudjr1d7k4" path="res://Sprites/DinoSprites - mort.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://ci83gs3bkbyh4" path="res://Scripts/Player/player_movement.gd" id="1_qhqgy"]
+[ext_resource type="Texture2D" uid="uid://b118d671n3r7b" path="res://Sprites/crosshair043.png" id="2_dqkch"]
 [ext_resource type="Script" uid="uid://b13u0ty16kbto" path="res://Scripts/Player/trail_line.gd" id="4_dqkch"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
@@ -87,9 +88,8 @@ animations = [{
 "speed": 13.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d2wvv"]
-radius = 7.0
-height = 18.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
+size = Vector2(6.9262, 7.21023)
 
 [sub_resource type="Curve" id="Curve_qhqgy"]
 bake_resolution = 500
@@ -103,24 +103,32 @@ colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
 radius = 193.933
 
 [node name="player" type="CharacterBody2D"]
+scale = Vector2(1.9, 1.9)
 script = ExtResource("1_qhqgy")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(1.66, 1.66)
+zoom = Vector2(1.7, 1.7)
 drag_left_margin = 0.1
 drag_top_margin = 0.1
 drag_right_margin = 0.1
 drag_bottom_margin = 0.1
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_dqkch")
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+visible = false
 sprite_frames = SubResource("SpriteFrames_u8vuu")
 animation = &"move"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 0)
-shape = SubResource("CapsuleShape2D_d2wvv")
+position = Vector2(-0.10042, -0.00201782)
+rotation = 0.785398
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_dqkch")
 
 [node name="Line2D" type="Line2D" parent="."]
 show_behind_parent = true

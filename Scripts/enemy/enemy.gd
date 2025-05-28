@@ -27,7 +27,6 @@ func _on_timer_timeout() -> void:
 	
 func move_to_player(delta):
 	var direction = (target.position - position).normalized()
-	
 	if speed == 0:
 		current_speed = lerp(current_speed, 0.0, decel * delta)
 	else:

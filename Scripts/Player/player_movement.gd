@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-var speed = 600.0
+var speed = 700.0
 var mouse_position = null
 var accel = 10.0 
 var decel = 5.0 
@@ -16,7 +16,6 @@ func _physics_process(delta):
 	else:
 		slow_down(delta)
 		
-	
 	velocity = velocity.limit_length(speed)
 	move_and_slide()
 	
@@ -41,8 +40,6 @@ func slow_down(delta):
 func _on_enemy_detect_area_area_entered(area: Area2D) -> void:
 	if area.get_parent().is_in_group("enemies"):
 		area.get_parent().speed = 0
-
-
 
 func _on_enemy_detect_area_area_exited(area: Area2D) -> void:
 	if area.get_parent().is_in_group("enemies"):
