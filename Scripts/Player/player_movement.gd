@@ -44,3 +44,7 @@ func _on_enemy_detect_area_area_entered(area: Area2D) -> void:
 func _on_enemy_detect_area_area_exited(area: Area2D) -> void:
 	if area.get_parent().is_in_group("enemies"):
 		area.get_parent().speed = area.get_parent().original_speed
+
+func _on_enemy_kill_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemies"):
+		body.queue_free()

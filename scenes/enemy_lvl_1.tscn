@@ -8,6 +8,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xaxbr"]
 
 [node name="enemy_lvl_1" type="CharacterBody2D"]
+scale = Vector2(2.04052, 2.04052)
 script = ExtResource("1_huous")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
