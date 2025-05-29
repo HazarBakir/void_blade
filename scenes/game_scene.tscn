@@ -12,32 +12,42 @@ unique_name_in_owner = true
 position = Vector2(-2, 0)
 motion_mode = 1
 
-[node name="enemy_lvl_1" parent="." instance=ExtResource("4_bw6k5")]
-position = Vector2(199, 42)
-
-[node name="enemy_lvl_2" parent="." instance=ExtResource("4_bw6k5")]
-position = Vector2(1064.38, -648)
-
-[node name="enemy_lvl_3" parent="." instance=ExtResource("4_bw6k5")]
-position = Vector2(-414.36, -574)
-
-[node name="enemy_lvl_4" parent="." instance=ExtResource("4_bw6k5")]
-position = Vector2(-960.295, -166)
-
-[node name="enemy_lvl_5" parent="." instance=ExtResource("4_bw6k5")]
-position = Vector2(-1005.46, -859)
-
-[node name="enemy_lvl_6" parent="." instance=ExtResource("4_bw6k5")]
-position = Vector2(364.284, -768)
-
-[node name="enemy_lvl_7" parent="." instance=ExtResource("4_bw6k5")]
-position = Vector2(1005.46, 271)
-
-[node name="enemy_lvl_8" parent="." instance=ExtResource("4_bw6k5")]
-position = Vector2(-678.49, 462)
-
 [node name="Icon" type="Sprite2D" parent="."]
 z_index = -5
 position = Vector2(21.5, -84.0001)
 scale = Vector2(8.03906, 8.375)
 texture = ExtResource("3_ycayy")
+
+[node name="enemies" type="Node" parent="."]
+
+[node name="enemy_lvl_1" parent="enemies" instance=ExtResource("4_bw6k5")]
+position = Vector2(202.669, 42)
+scale = Vector2(2.07814, 2.04052)
+
+[node name="enemy_lvl_2" parent="enemies" instance=ExtResource("4_bw6k5")]
+position = Vector2(1084, -648)
+scale = Vector2(2.07814, 2.04052)
+
+[node name="enemy_lvl_3" parent="enemies" instance=ExtResource("4_bw6k5")]
+position = Vector2(-422, -574)
+scale = Vector2(2.07814, 2.04052)
+
+[node name="enemy_lvl_4" parent="enemies" instance=ExtResource("4_bw6k5")]
+position = Vector2(-978, -166)
+scale = Vector2(2.07814, 2.04052)
+
+[node name="enemy_lvl_5" parent="enemies" instance=ExtResource("4_bw6k5")]
+position = Vector2(-1024, -859)
+scale = Vector2(2.07814, 2.04052)
+
+[node name="enemy_lvl_6" parent="enemies" instance=ExtResource("4_bw6k5")]
+position = Vector2(371, -768)
+scale = Vector2(2.07814, 2.04052)
+
+[node name="enemy_lvl_7" parent="enemies" instance=ExtResource("4_bw6k5")]
+position = Vector2(1024, 271)
+scale = Vector2(2.07814, 2.04052)
+
+[node name="enemy_lvl_8" parent="enemies" instance=ExtResource("4_bw6k5")]
+position = Vector2(-691, 462)
+scale = Vector2(2.07814, 2.04052)
