@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://n5m7nhhfcg3n" path="res://scenes/enemy_lvl_1.tscn" id="4_bw6k5"]
 
 [node name="game_scene" type="Node2D"]
+scale = Vector2(1.01844, 1)
 
 [node name="player" parent="." instance=ExtResource("1_w5aja")]
 unique_name_in_owner = true
@@ -13,6 +14,27 @@ motion_mode = 1
 
 [node name="enemy_lvl_1" parent="." instance=ExtResource("4_bw6k5")]
 position = Vector2(199, 42)
+
+[node name="enemy_lvl_2" parent="." instance=ExtResource("4_bw6k5")]
+position = Vector2(1064.38, -648)
+
+[node name="enemy_lvl_3" parent="." instance=ExtResource("4_bw6k5")]
+position = Vector2(-414.36, -574)
+
+[node name="enemy_lvl_4" parent="." instance=ExtResource("4_bw6k5")]
+position = Vector2(-960.295, -166)
+
+[node name="enemy_lvl_5" parent="." instance=ExtResource("4_bw6k5")]
+position = Vector2(-1005.46, -859)
+
+[node name="enemy_lvl_6" parent="." instance=ExtResource("4_bw6k5")]
+position = Vector2(364.284, -768)
+
+[node name="enemy_lvl_7" parent="." instance=ExtResource("4_bw6k5")]
+position = Vector2(1005.46, 271)
+
+[node name="enemy_lvl_8" parent="." instance=ExtResource("4_bw6k5")]
+position = Vector2(-678.49, 462)
 
 [node name="Icon" type="Sprite2D" parent="."]
 z_index = -5
