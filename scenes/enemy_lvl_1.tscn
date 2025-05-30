@@ -22,6 +22,7 @@ texture = ExtResource("1_k76vs")
 position = Vector2(12, 0)
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
 autostart = true
 
 [node name="Area2D" type="Area2D" parent="."]
