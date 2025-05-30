@@ -1,26 +1,26 @@
 [gd_scene load_steps=10 format=3 uid="uid://by4phb5t6b52f"]
 
-[ext_resource type="Texture2D" uid="uid://bgg4c6xlw04r1" path="res://Sprites/All_Fire_Bullet_Pixel_16x16_01.png" id="1_mkf8s"]
-[ext_resource type="Script" uid="uid://bxembtdwqs3e5" path="res://Scripts/enemy/bullet.gd" id="1_y25gk"]
+[ext_resource type="Script" uid="uid://bxembtdwqs3e5" path="res://Scripts/Enemy/bullet.gd" id="1_oduel"]
+[ext_resource type="Texture2D" uid="uid://bgg4c6xlw04r1" path="res://Sprites/All_Fire_Bullet_Pixel_16x16_01.png" id="2_ycag2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y25gk"]
-atlas = ExtResource("1_mkf8s")
+atlas = ExtResource("2_ycag2")
 region = Rect2(256, 208, 32, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l5glv"]
-atlas = ExtResource("1_mkf8s")
+atlas = ExtResource("2_ycag2")
 region = Rect2(288, 208, 32, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eoqba"]
-atlas = ExtResource("1_mkf8s")
+atlas = ExtResource("2_ycag2")
 region = Rect2(320, 208, 32, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qncy5"]
-atlas = ExtResource("1_mkf8s")
+atlas = ExtResource("2_ycag2")
 region = Rect2(352, 208, 32, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tamys"]
-atlas = ExtResource("1_mkf8s")
+atlas = ExtResource("2_ycag2")
 region = Rect2(384, 208, 32, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mkf8s"]
@@ -50,7 +50,7 @@ animations = [{
 size = Vector2(23, 8)
 
 [node name="Bullet" type="Area2D"]
-script = ExtResource("1_y25gk")
+script = ExtResource("1_oduel")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_mkf8s")
