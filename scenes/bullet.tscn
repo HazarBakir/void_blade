@@ -47,7 +47,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y25gk"]
-size = Vector2(9, 6)
+size = Vector2(23, 8)
 
 [node name="Bullet" type="Area2D"]
 script = ExtResource("1_y25gk")
@@ -59,7 +59,7 @@ frame = 2
 frame_progress = 0.29078
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(6.5, 0)
+position = Vector2(2.5, 0)
 shape = SubResource("RectangleShape2D_y25gk")
 
 [node name="Timer" type="Timer" parent="."]

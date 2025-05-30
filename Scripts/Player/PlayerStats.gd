@@ -1,5 +1,4 @@
-class_name PlayerStats
-extends Resource
+extends Node
 
 signal health_changed(new_health, max_health)
 signal stamina_changed(new_stamina, max_stamina)
@@ -7,10 +6,10 @@ signal level_changed(new_level)
 signal experience_gained(amount)
 
 # Base Stats
-@export var max_health: int = 100
-@export var max_stamina: int = 100
-@export var base_speed: int = 600
-@export var base_damage: int = 10
+var max_health: int = 100
+var max_stamina: int = 100
+var base_speed: int = 600
+var base_damage: int = 10
 
 # Current Stats
 var current_health: int
@@ -23,9 +22,16 @@ var experience_to_next_level: int = 100
 var health_regen: float = 5.0  # per second
 var stamina_regen: float = 20.0  # per second
 
-func _init():
+func _ready():
+	# Initialize stats
 	current_health = max_health
 	current_stamina = max_stamina
+	print("PlayerStats singleton initialized")
+
+func _process(delta):
+	# Auto regeneration every frame
+	regenerate_health(delta)
+	regenerate_stamina(delta)
 
 # Health Management
 func take_damage(amount: int):
@@ -111,3 +117,30 @@ func get_health_percentage() -> float:
 
 func get_stamina_percentage() -> float:
 	return float(current_stamina) / float(max_stamina)
+
+# Save/Load functions
+func save_data() -> Dictionary:
+	return {
+		"current_health": current_health,
+		"current_stamina": current_stamina,
+		"level": level,
+		"experience": experience,
+		"max_health": max_health,
+		"max_stamina": max_stamina,
+		"base_speed": base_speed,
+		"base_damage": base_damage
+	}
+
+func load_data(data: Dictionary):
+	current_health = data.get("current_health", max_health)
+	current_stamina = data.get("current_stamina", max_stamina)
+	level = data.get("level", 1)
+	experience = data.get("experience", 0)
+	max_health = data.get("max_health", 100)
+	max_stamina = data.get("max_stamina", 100)
+	base_speed = data.get("base_speed", 600)
+	base_damage = data.get("base_damage", 10)
+	
+	# Update UI
+	health_changed.emit(current_health, max_health)
+	stamina_changed.emit(current_stamina, max_stamina)

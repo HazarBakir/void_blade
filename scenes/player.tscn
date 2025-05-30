@@ -89,7 +89,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
-size = Vector2(6.9262, 7.21023)
+size = Vector2(8.18755, 8.18755)
 
 [sub_resource type="Curve" id="Curve_qhqgy"]
 bake_resolution = 500
@@ -100,7 +100,7 @@ point_count = 2
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]
-radius = 193.933
+radius = 121.277
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qlg0r"]
 size = Vector2(1.05263, 10)
@@ -110,7 +110,7 @@ scale = Vector2(1.9, 1.9)
 script = ExtResource("1_qhqgy")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(1.7, 1.7)
+zoom = Vector2(1.5, 1.5)
 drag_left_margin = 0.1
 drag_top_margin = 0.1
 drag_right_margin = 0.1
@@ -128,7 +128,7 @@ animation = &"move"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.10042, -0.00201782)
+position = Vector2(-2.19596e-07, 1.33326e-07)
 rotation = 0.785398
 shape = SubResource("RectangleShape2D_dqkch")
 

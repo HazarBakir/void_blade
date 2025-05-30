@@ -15,6 +15,10 @@ run/main_scene="uid://pektlh5iak8r"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+player_stats="*res://Scripts/Player/PlayerStats.gd"
+
 [display]
 
 mouse_cursor/custom_image="uid://b0kxeidr1s50s"
