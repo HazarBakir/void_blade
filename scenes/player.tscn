@@ -89,7 +89,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
-size = Vector2(8.18755, 8.18755)
+size = Vector2(7.44323, 7.44323)
 
 [sub_resource type="Curve" id="Curve_qhqgy"]
 bake_resolution = 500
@@ -128,7 +128,7 @@ animation = &"move"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2.19596e-07, 1.33326e-07)
+position = Vector2(7.84272e-09, -1.05877e-07)
 rotation = 0.785398
 shape = SubResource("RectangleShape2D_dqkch")
 

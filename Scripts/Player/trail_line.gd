@@ -39,7 +39,6 @@ func apply_fade(delta: float):
 		var fade_factor = float(i) / float(points_alpha.size())
 		points_alpha[i] = max(0.0, points_alpha[i] - fade_speed * delta * (1.0 - fade_factor * 0.5))
 	
-	var gradient = Gradient.new()
 	for i in range(points_alpha.size()):
 		var point_color = default_color
 		point_color.a = points_alpha[i]

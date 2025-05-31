@@ -1,22 +1,22 @@
 [gd_scene load_steps=5 format=3 uid="uid://n5m7nhhfcg3n"]
 
-[ext_resource type="Script" uid="uid://cxtqkpmof6s2u" path="res://Scripts/Enemy/enemy.gd" id="1_huous"]
-[ext_resource type="Texture2D" uid="uid://cbvrpblaxd16w" path="res://icon.svg" id="1_k76vs"]
+[ext_resource type="Script" uid="uid://cxtqkpmof6s2u" path="res://Scripts/Enemy/enemy.gd" id="1_rrurh"]
+[ext_resource type="Texture2D" uid="uid://cbvrpblaxd16w" path="res://icon.svg" id="2_cvvx1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_huous"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xaxbr"]
 
-[node name="enemy_lvl_1" type="CharacterBody2D"]
+[node name="enemy_lvl_1_ranger" type="CharacterBody2D"]
 scale = Vector2(2.04052, 2.04052)
-script = ExtResource("1_huous")
+script = ExtResource("1_rrurh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_huous")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.15, 0.15)
-texture = ExtResource("1_k76vs")
+texture = ExtResource("2_cvvx1")
 
 [node name="Muzzle-Shoot_Point" type="Marker2D" parent="."]
 position = Vector2(12, 0)
