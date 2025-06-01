@@ -16,7 +16,7 @@ func find_player():
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		target = players[0] as CharacterBody2D
-		
+		 		
 func _physics_process(delta):
 	if target == null or not is_instance_valid(target):
 		find_player()
