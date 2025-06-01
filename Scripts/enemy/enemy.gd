@@ -8,9 +8,28 @@ var accel = 8.0
 var decel = 5.0 
 var current_speed = 0.0
 
+var shoot_timer: Timer
+var min_shoot_interval = 1.0
+var max_shoot_interval = 3.0
+var player_distance_threshold = 500.0
+var can_shoot = true
+
 func _ready() -> void:
 	add_to_group("enemies")
 	find_player()
+	setup_random_shooting()
+
+func setup_random_shooting():
+	shoot_timer = Timer.new()
+	shoot_timer.one_shot = true
+	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
+	add_child(shoot_timer)
+	start_random_shoot_timer()
+
+func start_random_shoot_timer():
+	var random_interval = randf_range(min_shoot_interval, max_shoot_interval)
+	shoot_timer.wait_time = random_interval
+	shoot_timer.start()
 
 func find_player():
 	var players = get_tree().get_nodes_in_group("player")
@@ -26,8 +45,23 @@ func _physics_process(delta):
 	look_at(target.position)
 	move_and_slide()
 	
+func should_shoot() -> bool:
+	if not can_shoot or target == null:
+		return false
+	
+	# Check distance to player
+	var distance_to_player = global_position.distance_to(target.global_position)
+	if distance_to_player > player_distance_threshold:
+		return false
+	
+	var to_player = (target.global_position - global_position).normalized()
+	var forward = Vector2.RIGHT.rotated(rotation)
+	var dot_product = to_player.dot(forward)
+	
+	return dot_product > 0.3
+	
 func shoot():
-	if target == null or not is_instance_valid(target):
+	if not should_shoot():
 		return
 		
 	var b = bullet.instantiate()
@@ -38,8 +72,13 @@ func shoot():
 	b.target = target
 	game_scene.add_child(b)
 	
-func _on_timer_timeout() -> void:
+	can_shoot = false
+	await get_tree().create_timer(0.2).timeout
+	can_shoot = true
+	
+func _on_shoot_timer_timeout() -> void:
 	shoot()
+	start_random_shoot_timer()
 	
 func move_to_player(delta):
 	if target == null:
