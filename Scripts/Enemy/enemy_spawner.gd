@@ -1,15 +1,13 @@
 extends Node2D
 
 @onready var enemy = preload("res://Scenes/enemy_lvl_1_ranger.tscn")
-var spawn_timer: Timer
+@onready var spawn_timer: Timer = $Timer
 var min_spawn_time = 2.0
 var max_spawn_time = 5.0
 
 func _ready():
-	spawn_timer = Timer.new()
 	spawn_timer.one_shot = true
 	spawn_timer.timeout.connect(_on_timer_timeout)
-	add_child(spawn_timer)
 	start_random_spawn_timer()
 
 func start_random_spawn_timer():

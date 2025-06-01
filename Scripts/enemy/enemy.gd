@@ -8,7 +8,8 @@ var accel = 8.0
 var decel = 5.0 
 var current_speed = 0.0
 
-var shoot_timer: Timer
+
+@onready var shoot_timer: Timer = $Timer
 var min_shoot_interval = 1.0
 var max_shoot_interval = 3.0
 var player_distance_threshold = 500.0
@@ -20,10 +21,8 @@ func _ready() -> void:
 	setup_random_shooting()
 
 func setup_random_shooting():
-	shoot_timer = Timer.new()
 	shoot_timer.one_shot = true
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
-	add_child(shoot_timer)
 	start_random_shoot_timer()
 
 func start_random_shoot_timer():
