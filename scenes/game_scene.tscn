@@ -20,16 +20,20 @@ texture = ExtResource("3_ycayy")
 
 [node name="spawners" type="Node" parent="."]
 
-[node name="enemies" type="Node" parent="."]
+[node name="enemy_spawner3" parent="spawners" instance=ExtResource("4_fiftr")]
+position = Vector2(-810, 0)
+scale = Vector2(1.01844, 1)
 
-[node name="enemy_spawner3" parent="." instance=ExtResource("4_fiftr")]
-position = Vector2(-795.334, 0)
+[node name="enemy_spawner4" parent="spawners" instance=ExtResource("4_fiftr")]
+position = Vector2(2.42815e-07, -879)
+scale = Vector2(1.01844, 1)
 
-[node name="enemy_spawner4" parent="." instance=ExtResource("4_fiftr")]
-position = Vector2(2.38419e-07, -879)
+[node name="enemy_spawner5" parent="spawners" instance=ExtResource("4_fiftr")]
+position = Vector2(973, 0)
+scale = Vector2(1.01844, 1)
 
-[node name="enemy_spawner5" parent="." instance=ExtResource("4_fiftr")]
-position = Vector2(955.383, 0)
-
-[node name="enemy_spawner6" parent="." instance=ExtResource("4_fiftr")]
+[node name="enemy_spawner6" parent="spawners" instance=ExtResource("4_fiftr")]
 position = Vector2(0, 615)
+scale = Vector2(1.01844, 1)
+
+[node name="enemies" type="Node" parent="."]
