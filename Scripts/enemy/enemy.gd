@@ -7,8 +7,6 @@ var original_speed = 250.0
 var accel = 8.0
 var decel = 5.0 
 var current_speed = 0.0
-
-
 @onready var shoot_timer: Timer = $Timer
 var min_shoot_interval = 1.0
 var max_shoot_interval = 3.0
@@ -39,16 +37,27 @@ func _physics_process(delta):
 	if target == null or not is_instance_valid(target):
 		find_player()
 		return
+	
+	check_distance_to_player()
 		
 	move_to_player(delta)
 	look_at(target.position)
 	move_and_slide()
+
+func check_distance_to_player():
+	if target == null:
+		return
+		
+	var distance_to_player = global_position.distance_to(target.global_position)
+	if distance_to_player < 300.0: 
+		speed = 0
+	elif speed == 0 and distance_to_player > 200.0: 
+		speed = original_speed
 	
 func should_shoot() -> bool:
 	if not can_shoot or target == null:
 		return false
 	
-	# Check distance to player
 	var distance_to_player = global_position.distance_to(target.global_position)
 	if distance_to_player > player_distance_threshold:
 		return false

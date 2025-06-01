@@ -25,9 +25,11 @@ position = Vector2(12, 0)
 wait_time = 2.0
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("RectangleShape2D_xaxbr")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="DetectionArea" to="." method="_on_detection_area_area_of_player_entered"]
+[connection signal="area_exited" from="DetectionArea" to="." method="_on_detection_area_area_of_player_exited"]

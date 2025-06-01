@@ -4,6 +4,7 @@ var speed = 300.0
 var target: CharacterBody2D
 var direction = Vector2.ZERO
 var follow_target = true
+
 func _ready():
 	var follow_timer = Timer.new()
 	follow_timer.wait_time = 1.0
@@ -17,8 +18,8 @@ func _physics_process(delta):
 	move_to_player()
 	position += direction * speed * delta
 
-func _on_body_entered(body):
-	if body.is_in_group("player"):
+func _on_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player") or area.get_parent().is_in_group("player") and area.name == "BulletDetectArea":
 		queue_free()
 
 func _stop_following():

@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://d4cwudjr1d7k4" path="res://Sprites/DinoSprites - mort.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://ci83gs3bkbyh4" path="res://Scripts/Player/player_movement.gd" id="1_qhqgy"]
-[ext_resource type="Texture2D" uid="uid://b118d671n3r7b" path="res://Sprites/crosshair043.png" id="2_dqkch"]
+[ext_resource type="Texture2D" uid="uid://ctsjve8tw3vv0" path="res://Sprites/crosshair098.png" id="2_vgqql"]
 [ext_resource type="Script" uid="uid://b13u0ty16kbto" path="res://Scripts/Player/trail_line.gd" id="4_dqkch"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
@@ -89,7 +89,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
-size = Vector2(7.44323, 7.44323)
+size = Vector2(7.4701, 7.41617)
 
 [sub_resource type="Curve" id="Curve_qhqgy"]
 bake_resolution = 500
@@ -100,10 +100,10 @@ point_count = 2
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]
-radius = 121.277
+radius = 5.81335
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qlg0r"]
-size = Vector2(1.05263, 10)
+size = Vector2(2.10526, 10)
 
 [node name="player" type="CharacterBody2D"]
 scale = Vector2(1.9, 1.9)
@@ -117,8 +117,9 @@ drag_right_margin = 0.1
 drag_bottom_margin = 0.1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_dqkch")
+rotation = 1.57079
+scale = Vector2(0.176536, 0.176536)
+texture = ExtResource("2_vgqql")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
@@ -128,9 +129,10 @@ animation = &"move"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(7.84272e-09, -1.05877e-07)
-rotation = 0.785398
+position = Vector2(-0.019068, -6.88983e-05)
+rotation = 0.792644
 shape = SubResource("RectangleShape2D_dqkch")
+disabled = true
 
 [node name="Line2D" type="Line2D" parent="."]
 show_behind_parent = true
@@ -147,19 +149,19 @@ end_cap_mode = 2
 round_precision = 15
 script = ExtResource("4_dqkch")
 
-[node name="EnemyDetectArea" type="Area2D" parent="."]
+[node name="BulletDetectArea" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyDetectArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletDetectArea"]
 shape = SubResource("CircleShape2D_qhqgy")
 
 [node name="EnemyKillArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyKillArea"]
-position = Vector2(5.26316, 0)
+position = Vector2(5.78948, 0)
 shape = SubResource("RectangleShape2D_qlg0r")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="area_entered" from="EnemyDetectArea" to="." method="_on_enemy_detect_area_area_entered"]
-[connection signal="area_exited" from="EnemyDetectArea" to="." method="_on_enemy_detect_area_area_exited"]
-[connection signal="body_entered" from="EnemyDetectArea" to="." method="_on_enemy_body_entered"]
-[connection signal="body_entered" from="EnemyKillArea" to="." method="_on_enemy_kill_area_body_entered"]
+[connection signal="area_entered" from="BulletDetectArea" to="." method="_on_enemy_detect_area_area_entered"]
+[connection signal="area_exited" from="BulletDetectArea" to="." method="_on_enemy_detect_area_area_exited"]
+[connection signal="body_entered" from="BulletDetectArea" to="." method="_on_enemy_body_entered"]
+[connection signal="area_entered" from="EnemyKillArea" to="." method="_on_enemy_kill_area_area_entered"]

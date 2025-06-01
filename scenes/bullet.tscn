@@ -53,10 +53,11 @@ size = Vector2(23, 8)
 script = ExtResource("1_oduel")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+rotation = 0.00220585
 sprite_frames = SubResource("SpriteFrames_mkf8s")
 autoplay = "default"
-frame = 2
-frame_progress = 0.29078
+frame = 1
+frame_progress = 0.925955
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2.5, 0)
@@ -66,6 +67,5 @@ shape = SubResource("RectangleShape2D_y25gk")
 wait_time = 0.915
 autostart = true
 
-[connection signal="body_entered" from="." to="." method="_on_Bullet_body_entered"]
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

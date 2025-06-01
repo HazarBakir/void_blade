@@ -7,7 +7,6 @@ var max_spawn_time = 5.0
 
 func _ready():
 	spawn_timer.one_shot = true
-	spawn_timer.timeout.connect(_on_timer_timeout)
 	start_random_spawn_timer()
 
 func start_random_spawn_timer():
