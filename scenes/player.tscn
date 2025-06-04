@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bvr6pjuau5noi"]
+[gd_scene load_steps=20 format=3 uid="uid://bvr6pjuau5noi"]
 
 [ext_resource type="Texture2D" uid="uid://d4cwudjr1d7k4" path="res://Sprites/DinoSprites - mort.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://ci83gs3bkbyh4" path="res://Scripts/Player/player_movement.gd" id="1_qhqgy"]
@@ -88,9 +88,6 @@ animations = [{
 "speed": 13.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
-size = Vector2(7.4701, 7.41617)
-
 [sub_resource type="Curve" id="Curve_qhqgy"]
 bake_resolution = 500
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -128,10 +125,8 @@ sprite_frames = SubResource("SpriteFrames_u8vuu")
 animation = &"move"
 autoplay = "idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.019068, -6.88983e-05)
-rotation = 0.792644
-shape = SubResource("RectangleShape2D_dqkch")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-2.10526, -3.68421, -2.10526, 3.68421, 4.21053, 0)
 disabled = true
 
 [node name="Line2D" type="Line2D" parent="."]
@@ -157,7 +152,7 @@ shape = SubResource("CircleShape2D_qhqgy")
 [node name="EnemyKillArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyKillArea"]
-position = Vector2(5.78948, 0)
+position = Vector2(6.31579, 0)
 shape = SubResource("RectangleShape2D_qlg0r")
 
 [connection signal="ready" from="." to="." method="_on_ready"]
