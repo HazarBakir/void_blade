@@ -39,10 +39,13 @@ func _physics_process(delta):
 		return
 	
 	check_distance_to_player()
-		
 	move_to_player(delta)
-	look_at(target.position)
+	
+	# Önce hareket et, sonra bak
 	move_and_slide()
+	
+	# Global pozisyonları kullanarak doğru yöne bak
+	look_at(target.global_position)
 
 func check_distance_to_player():
 	if target == null:
@@ -92,7 +95,7 @@ func move_to_player(delta):
 	if target == null:
 		return
 		
-	var direction = (target.position - position).normalized()
+	var direction = (target.global_position - global_position).normalized()
 	if speed == 0:
 		current_speed = lerp(current_speed, 0.0, decel * delta)
 	else:
