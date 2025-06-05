@@ -5,7 +5,6 @@ var follow_speed = 400.0
 var mouse_position = null
 var accel = 10.0
 var decel = 5.0
-var isAttacking = false
 
 var normal_zoom = Vector2(1.0, 1.0)
 var attack_zoom = Vector2(1.3, 1.3)
@@ -19,15 +18,15 @@ func _physics_process(delta):
 	mouse_position = get_global_mouse_position()
 	
 	if Input.is_action_pressed("move_mouse"):
-		isAttacking = true
+		PlayerStats.isAttacking = true
 		move_fast(delta)
 		zoom_camera(attack_zoom, delta)
 	else:
-		isAttacking = false
+		PlayerStats.isAttacking = false
 		follow_mouse_slowly(delta)
 		zoom_camera(normal_zoom, delta)
 		
-	velocity = velocity.limit_length(speed if isAttacking else follow_speed)
+	velocity = velocity.limit_length(speed if PlayerStats.isAttacking else follow_speed)
 	move_and_slide()
 	
 	camera_offset(delta)
@@ -60,5 +59,5 @@ func zoom_camera(target_zoom: Vector2, delta):
 	$Camera2D.zoom.y = lerp($Camera2D.zoom.y, target_zoom.y, zoom_speed * delta)
 
 func _on_enemy_kill_area_area_entered(area: Area2D) -> void:
-	if area.get_parent().is_in_group("enemies") and isAttacking == true:
+	if area.get_parent().is_in_group("enemies") and PlayerStats.isAttacking == true:
 		area.get_parent().queue_free()

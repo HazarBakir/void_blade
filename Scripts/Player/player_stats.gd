@@ -12,6 +12,7 @@ var base_speed: int = 600
 var base_damage: int = 10
 
 # Current Stats
+var isAttacking = false
 var current_health: int
 var current_stamina: int
 var level: int = 1

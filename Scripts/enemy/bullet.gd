@@ -20,8 +20,10 @@ func _physics_process(delta):
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player") or area.get_parent().is_in_group("player") and area.name == "BulletDetectArea":
-		PlayerStats.take_damage(20)
+		if PlayerStats.isAttacking == false:
+			PlayerStats.take_damage(20)
 		queue_free()
+
 
 func _stop_following():
 	follow_target = false
