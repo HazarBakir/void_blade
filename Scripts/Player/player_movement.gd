@@ -34,8 +34,8 @@ func _physics_process(delta):
 	look_at(mouse_position)
 
 func camera_offset(delta):
-	var target_offset_x = (mouse_position.x - global_position.x) / (1920 / 2.0) * 140
-	var target_offset_y = (mouse_position.y - global_position.y) / (1080 / 2.0) * 140
+	var target_offset_x = (mouse_position.x - global_position.x) / (1920 / 2.0) * 180
+	var target_offset_y = (mouse_position.y - global_position.y) / (1080 / 2.0) * 180
 	
 	$Camera2D.offset.x = lerp($Camera2D.offset.x, target_offset_x, 4.5 * delta)
 	$Camera2D.offset.y = lerp($Camera2D.offset.y, target_offset_y, 4.5 * delta)
