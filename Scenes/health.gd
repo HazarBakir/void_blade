@@ -1,4 +1,4 @@
 extends Label
 
 func _process(_delta: float) -> void:
-	$".".text = str(PlayerStats.current_health)
+	$".".text = str("Health: ", PlayerStats.current_health)
