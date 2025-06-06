@@ -90,7 +90,7 @@ This project welcomes contributors who share the vision of **meaningful minimali
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/HazarBakir/void_blade/blob/main/LICENSE) file for details.
 
 ## Philosophy
 
