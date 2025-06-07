@@ -12,7 +12,8 @@ var base_speed: int = 600
 var base_damage: int = 10
 
 # Current Stats
-var isAttacking = false
+var kill_count : int = 0
+var is_attacking = false
 var current_health: int
 var current_stamina: int
 var level: int = 1
@@ -92,7 +93,10 @@ func level_up():
 
 func die():
 	print("Player died!")
-	# Handle death logic here
+	# Player explodes to particles
+	# Screen Shakes at the same time
+	# Everything slows down
+	# after 1.5 seconds UI comes (Retry, Main Menu)
 
 # Getters for computed stats
 func get_current_speed() -> int:
