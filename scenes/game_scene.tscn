@@ -6,11 +6,13 @@
 
 [sub_resource type="Environment" id="Environment_6h5vk"]
 background_mode = 3
-tonemap_exposure = 2.09
+tonemap_exposure = 2.1
 glow_enabled = true
 glow_intensity = 1.23
 glow_strength = 1.35
 glow_blend_mode = 0
+adjustment_enabled = true
+adjustment_saturation = 4.03
 
 [node name="game_scene" type="Node2D"]
 scale = Vector2(1.01844, 1)

@@ -18,15 +18,15 @@ func _physics_process(delta):
 	mouse_position = get_global_mouse_position()
 	
 	if Input.is_action_pressed("move_mouse"):
-		PlayerStats.isAttacking = true
+		PlayerStats.is_attacking = true
 		move_fast(delta)
 		zoom_camera(attack_zoom, delta)
 	else:
-		PlayerStats.isAttacking = false
+		PlayerStats.is_attacking = false
 		follow_mouse_slowly(delta)
 		zoom_camera(normal_zoom, delta)
 		
-	velocity = velocity.limit_length(speed if PlayerStats.isAttacking else follow_speed)
+	velocity = velocity.limit_length(speed if PlayerStats.is_attacking else follow_speed)
 	move_and_slide()
 	
 	camera_offset(delta)
@@ -59,5 +59,5 @@ func zoom_camera(target_zoom: Vector2, delta):
 	$Camera2D.zoom.y = lerp($Camera2D.zoom.y, target_zoom.y, zoom_speed * delta)
 
 func _on_enemy_kill_area_area_entered(area: Area2D) -> void:
-	if area.get_parent().is_in_group("enemies") and PlayerStats.isAttacking == true:
+	if area.get_parent().is_in_group("enemies") and PlayerStats.is_attacking == true:
 		area.get_parent().queue_free()

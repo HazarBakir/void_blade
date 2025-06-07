@@ -11,17 +11,13 @@ config_version=5
 [application]
 
 config/name="knights_vs_vampires"
-run/main_scene="uid://pektlh5iak8r"
+run/main_scene="uid://kfomgjtk4775"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 PlayerStats="*res://Scripts/Player/player_stats.gd"
-
-[display]
-
-mouse_cursor/custom_image="uid://b0kxeidr1s50s"
 
 [input]
 

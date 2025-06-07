@@ -26,7 +26,7 @@ func _on_timer_timeout() -> void:
 
 	entity.position = position
 	
-	var random_offset = Vector2(randf_range(-50, 50), randf_range(-50, 50))
+	var random_offset = Vector2(randf_range(-150, 150), randf_range(-150, 150))
 	entity.position += random_offset
 
 	var enemies_node = get_tree().current_scene.get_node("enemies")
