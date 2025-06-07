@@ -1,6 +1,6 @@
 extends Area2D
 
-var speed = 300.0
+var speed = 500.0
 var target: CharacterBody2D
 var direction = Vector2.ZERO
 var follow_target = true

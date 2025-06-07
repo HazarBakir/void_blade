@@ -41,10 +41,8 @@ func _physics_process(delta):
 	check_distance_to_player()
 	move_to_player(delta)
 	
-	# Önce hareket et, sonra bak
 	move_and_slide()
 	
-	# Global pozisyonları kullanarak doğru yöne bak
 	look_at(target.global_position)
 
 func check_distance_to_player():
