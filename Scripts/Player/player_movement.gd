@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+@onready var explode_particle: GPUParticles2D = $"Explode Particle"
+
+var isAlive: bool
 var speed = 700.0
 var follow_speed = 400.0
 var mouse_position = null
@@ -16,21 +19,26 @@ func _ready() -> void:
 
 func _physics_process(delta):
 	mouse_position = get_global_mouse_position()
-	
-	if Input.is_action_pressed("move_mouse"):
-		PlayerStats.is_attacking = true
-		move_fast(delta)
-		zoom_camera(attack_zoom, delta)
-	else:
-		PlayerStats.is_attacking = false
-		follow_mouse_slowly(delta)
-		zoom_camera(normal_zoom, delta)
+	if not PlayerStats.current_health <= 0:
 		
-	velocity = velocity.limit_length(speed if PlayerStats.is_attacking else follow_speed)
-	move_and_slide()
+		if Input.is_action_pressed("move_mouse"):
+			PlayerStats.is_attacking = true
+			move_fast(delta)
+			zoom_camera(attack_zoom, delta)
+		else:
+			PlayerStats.is_attacking = false
+			follow_mouse_slowly(delta)
+			zoom_camera(normal_zoom, delta)
+			
+		velocity = velocity.limit_length(speed if PlayerStats.is_attacking else follow_speed)
+		move_and_slide()
+
+		
+		camera_offset(delta)
+		look_at(mouse_position)
 	
-	camera_offset(delta)
-	look_at(mouse_position)
+	else:
+		on_death()
 
 func camera_offset(delta):
 	var target_offset_x = (mouse_position.x - global_position.x) / (1920 / 2.0) * 180
@@ -61,3 +69,7 @@ func zoom_camera(target_zoom: Vector2, delta):
 func _on_enemy_kill_area_area_entered(area: Area2D) -> void:
 	if area.get_parent().is_in_group("enemies") and PlayerStats.is_attacking == true:
 		area.get_parent().queue_free()
+		
+func on_death():
+	explode_particle.set_position($Sprite2D.position)
+	explode_particle.emitting = true

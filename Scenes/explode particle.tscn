@@ -10,8 +10,11 @@ initial_velocity_max = 121.86
 gravity = Vector3(0, 0, 0)
 linear_accel_min = -20.43
 linear_accel_max = 47.32
+scale_max = 10.0
 
-[node name="GPUParticles2D" type="GPUParticles2D"]
-amount = 70
+[node name="Explode Particle" type="GPUParticles2D"]
+emitting = false
+amount = 200
+one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_m2nu4")

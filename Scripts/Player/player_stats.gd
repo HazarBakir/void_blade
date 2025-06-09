@@ -6,7 +6,7 @@ signal level_changed(new_level)
 signal experience_gained(amount)
 
 # Base Stats
-var max_health: int = 100
+var max_health: int = 10
 var max_stamina: int = 100
 var base_speed: int = 600
 var base_damage: int = 10
@@ -31,6 +31,7 @@ func _ready():
 	print("PlayerStats singleton initialized")
 
 func _process(delta):
+	
 	# Auto regeneration every frame
 	regenerate_health(delta)
 	regenerate_stamina(delta)
