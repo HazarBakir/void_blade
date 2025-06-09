@@ -14,7 +14,7 @@ scale_max = 10.0
 
 [node name="Explode Particle" type="GPUParticles2D"]
 emitting = false
-amount = 150
+amount = 200
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_m2nu4")

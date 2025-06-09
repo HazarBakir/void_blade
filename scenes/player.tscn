@@ -159,7 +159,7 @@ shape = SubResource("RectangleShape2D_qlg0r")
 [node name="Marker2D" type="Marker2D" parent="."]
 
 [node name="Explode Particle" parent="." instance=ExtResource("5_fkybt")]
-scale = Vector2(5, 5)
+scale = Vector2(6, 6)
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="area_entered" from="BulletDetectArea" to="." method="_on_enemy_detect_area_area_entered"]
