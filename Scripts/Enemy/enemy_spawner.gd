@@ -6,8 +6,8 @@ var min_spawn_time = 2.0
 var max_spawn_time = 5.0
 
 func _ready():
-	spawn_timer.one_shot = true
-	start_random_spawn_timer()
+		spawn_timer.one_shot = true
+		start_random_spawn_timer()
 
 func start_random_spawn_timer():
 	var random_time = randf_range(min_spawn_time, max_spawn_time)
@@ -15,23 +15,24 @@ func start_random_spawn_timer():
 	spawn_timer.start()
 
 func _on_timer_timeout() -> void:
-	if enemy == null:
-		print("Error: Enemy scene failed to preload")
-		return
+	if PlayerStats.is_alive():
+		if enemy == null:
+			print("Error: Enemy scene failed to preload")
+			return
 
-	var entity = enemy.instantiate()
-	if entity == null:
-		print("Error: Failed to instantiate enemy")
-		return
+		var entity = enemy.instantiate()
+		if entity == null:
+			print("Error: Failed to instantiate enemy")
+			return
 
-	entity.position = position
-	
-	var random_offset = Vector2(randf_range(-150, 150), randf_range(-150, 150))
-	entity.position += random_offset
+		entity.position = position
+		
+		var random_offset = Vector2(randf_range(-150, 150), randf_range(-150, 150))
+		entity.position += random_offset
 
-	var enemies_node = get_tree().current_scene.get_node("enemies")
-	if enemies_node:
-		enemies_node.add_child(entity)
-		start_random_spawn_timer()
-	else:
-		print("enemies node is null")
+		var enemies_node = get_tree().current_scene.get_node("enemies")
+		if enemies_node:
+			enemies_node.add_child(entity)
+			start_random_spawn_timer()
+		else:
+			print("enemies node is null")

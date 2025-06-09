@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://bvr6pjuau5noi"]
+[gd_scene load_steps=21 format=3 uid="uid://bvr6pjuau5noi"]
 
 [ext_resource type="Texture2D" uid="uid://d4cwudjr1d7k4" path="res://Sprites/DinoSprites - mort.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://ci83gs3bkbyh4" path="res://Scripts/Player/player_movement.gd" id="1_qhqgy"]
 [ext_resource type="Texture2D" uid="uid://ctsjve8tw3vv0" path="res://Sprites/crosshair098.png" id="2_vgqql"]
 [ext_resource type="Script" uid="uid://b13u0ty16kbto" path="res://Scripts/Player/trail_line.gd" id="4_dqkch"]
+[ext_resource type="PackedScene" uid="uid://btrm2qlbxc62e" path="res://Scenes/explode particle.tscn" id="5_fkybt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
 atlas = ExtResource("1_3vyb7")
@@ -154,6 +155,11 @@ shape = SubResource("CircleShape2D_qhqgy")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyKillArea"]
 position = Vector2(6.31579, 0)
 shape = SubResource("RectangleShape2D_qlg0r")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="Explode Particle" parent="." instance=ExtResource("5_fkybt")]
+scale = Vector2(5, 5)
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="area_entered" from="BulletDetectArea" to="." method="_on_enemy_detect_area_area_entered"]

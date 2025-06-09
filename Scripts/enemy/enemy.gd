@@ -34,16 +34,17 @@ func find_player():
 		target = players[0] as CharacterBody2D
 		 		
 func _physics_process(delta):
-	if target == null or not is_instance_valid(target):
-		find_player()
-		return
-	
-	check_distance_to_player()
-	move_to_player(delta)
-	
-	move_and_slide()
-	
-	look_at(target.global_position)
+	if PlayerStats.is_alive():
+		if target == null or not is_instance_valid(target):
+			find_player()
+			return
+		
+		check_distance_to_player()
+		move_to_player(delta)
+		
+		move_and_slide()
+		
+		look_at(target.global_position)
 
 func check_distance_to_player():
 	if target == null:
@@ -86,8 +87,9 @@ func shoot():
 	can_shoot = true
 	
 func _on_shoot_timer_timeout() -> void:
-	shoot()
-	start_random_shoot_timer()
+	if PlayerStats.is_alive():
+		shoot()
+		start_random_shoot_timer()
 	
 func move_to_player(delta):
 	if target == null:
