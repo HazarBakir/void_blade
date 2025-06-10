@@ -5,7 +5,6 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var marker_2d: Marker2D = $Marker2D
 
-var isAlive: bool
 var speed: float = 700.0
 var follow_speed: float = 400.0
 var mouse_position: Vector2
@@ -84,9 +83,10 @@ func _zoom_camera(target_zoom: Vector2, delta: float) -> void:
 	camera.zoom.y = lerp(camera.zoom.y, target_zoom.y, zoom_speed * delta)
 
 func _trigger_death() -> void:
-	explode_particle.set_position(marker_2d.position)
-	explode_particle.emitting = true
 	if not sprite == null:
+		$Camera2D.screen_shake(25, 3)
+		explode_particle.set_position(marker_2d.position)
+		explode_particle.emitting = true
 		sprite.queue_free()
 
 func _on_enemy_kill_area_area_entered(area: Area2D) -> void:
@@ -94,12 +94,16 @@ func _on_enemy_kill_area_area_entered(area: Area2D) -> void:
 		var enemy = area.get_parent()
 		
 		if PlayerStats.is_attacking:
+			PlayerStats.kill_count += 1
+			$Camera2D.screen_shake(8, 0.15)
 			if enemy.has_method("on_death"):
 				enemy.call("on_death")
 		else:
+			PlayerStats.kill_count += 1
 			PlayerStats.die()
 			if enemy.has_method("on_death"):
 				enemy.call("on_death")
 
 func _is_enemy_area(area: Area2D) -> bool:
 	return area.get_parent().is_in_group("enemies")
+	

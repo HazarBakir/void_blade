@@ -1,5 +1,4 @@
 extends Area2D
-
 @onready var bullet_particle: GPUParticles2D = $BulletParticle
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var particle_timer: Timer = $BulletParticle/Timer
@@ -10,6 +9,7 @@ var direction: Vector2 = Vector2.ZERO
 var follow_target: bool = true
 
 func _ready() -> void:
+	add_to_group("bullets")
 	_setup_follow_timer()
 	scale = Vector2(1.3, 1.3)
 
@@ -54,7 +54,16 @@ func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player") or area.get_parent().is_in_group("player") and area.name == "BulletDetectArea":
 		if PlayerStats.is_attacking == false:
 			PlayerStats.take_damage(10)
+			screen_shake_on_collision(15, 0.5)
+		else:
+			screen_shake_on_collision(3, 0.2)
 		_destroy_projectile()
 
 func _on_bullet_destroy_timer_timeout() -> void:
 	queue_free()
+func screen_shake_on_collision(intensity: int, time: float):
+	var player_nodes = get_tree().get_nodes_in_group("player")
+	if player_nodes.size() > 0:
+		var player = player_nodes[0]
+		if player.has_node("Camera2D"):
+			player.get_node("Camera2D").screen_shake(intensity, time)

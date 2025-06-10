@@ -73,6 +73,8 @@ func gain_experience(amount: int):
 func check_level_up():
 	while experience >= experience_to_next_level:
 		level_up()
+func check_kill_count():
+	print("Kill Count: ", kill_count)
 
 func level_up():
 	level += 1
