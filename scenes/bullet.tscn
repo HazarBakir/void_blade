@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://by4phb5t6b52f"]
+[gd_scene load_steps=11 format=3 uid="uid://by4phb5t6b52f"]
 
 [ext_resource type="Script" uid="uid://bxembtdwqs3e5" path="res://Scripts/Enemy/bullet.gd" id="1_oduel"]
+[ext_resource type="PackedScene" uid="uid://ccme6x75ia77x" path="res://Scenes/bullet_particle.tscn" id="2_6afsh"]
 [ext_resource type="Texture2D" uid="uid://bgg4c6xlw04r1" path="res://Sprites/All_Fire_Bullet_Pixel_16x16_01.png" id="2_ycag2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y25gk"]
@@ -52,6 +53,11 @@ size = Vector2(23, 8)
 [node name="Bullet" type="Area2D"]
 script = ExtResource("1_oduel")
 
+[node name="BulletParticle" parent="." instance=ExtResource("2_6afsh")]
+
+[node name="Timer" type="Timer" parent="BulletParticle"]
+one_shot = true
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 rotation = 0.00220585
 sprite_frames = SubResource("SpriteFrames_mkf8s")
@@ -68,4 +74,5 @@ wait_time = 0.915
 autostart = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="BulletParticle/Timer" to="." method="_on_bullet_destroy_timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

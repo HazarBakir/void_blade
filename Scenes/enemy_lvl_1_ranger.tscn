@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://n5m7nhhfcg3n"]
+[gd_scene load_steps=6 format=3 uid="uid://n5m7nhhfcg3n"]
 
 [ext_resource type="Script" uid="uid://cxtqkpmof6s2u" path="res://Scripts/Enemy/enemy.gd" id="1_rrurh"]
 [ext_resource type="Texture2D" uid="uid://cbvrpblaxd16w" path="res://icon.svg" id="2_cvvx1"]
+[ext_resource type="PackedScene" uid="uid://r7whatksuq8d" path="res://Scenes/explode_enemy_death.tscn" id="3_cvvx1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_huous"]
 
@@ -30,6 +31,12 @@ one_shot = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("RectangleShape2D_xaxbr")
 
+[node name="Explode Particle" parent="." instance=ExtResource("3_cvvx1")]
+
+[node name="Timer" type="Timer" parent="Explode Particle"]
+one_shot = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="area_entered" from="DetectionArea" to="." method="_on_detection_area_area_of_player_entered"]
 [connection signal="area_exited" from="DetectionArea" to="." method="_on_detection_area_area_of_player_exited"]
+[connection signal="timeout" from="Explode Particle/Timer" to="." method="_on_death_timer_timeout"]
