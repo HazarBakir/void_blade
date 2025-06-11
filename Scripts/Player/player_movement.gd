@@ -5,8 +5,8 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var marker_2d: Marker2D = $Marker2D
 
-var speed: float = 700.0
-var follow_speed: float = 400.0
+var speed: float = 850.0
+var follow_speed: float = 560.0
 var mouse_position: Vector2
 var accel: float = 10.0
 var decel: float = 5.0
@@ -92,7 +92,6 @@ func _trigger_death() -> void:
 func _on_enemy_kill_area_area_entered(area: Area2D) -> void:
 	if _is_enemy_area(area):
 		var enemy = area.get_parent()
-		
 		if PlayerStats.is_attacking:
 			PlayerStats.kill_count += 1
 			$Camera2D.screen_shake(8, 0.15)
@@ -106,4 +105,3 @@ func _on_enemy_kill_area_area_entered(area: Area2D) -> void:
 
 func _is_enemy_area(area: Area2D) -> bool:
 	return area.get_parent().is_in_group("enemies")
-	

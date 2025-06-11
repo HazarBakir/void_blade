@@ -397,6 +397,7 @@ shader_parameter/color_value = Color(1, 0.416667, 0, 1)
 shader_parameter/gravity = Vector3(0, -1e-06, 0)
 
 [node name="BulletParticle" type="GPUParticles2D"]
+scale = Vector2(0.5, 0.5)
 emitting = false
 amount = 35
 one_shot = true

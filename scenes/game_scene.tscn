@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://pektlh5iak8r"]
+[gd_scene load_steps=6 format=3 uid="uid://pektlh5iak8r"]
 
 [ext_resource type="PackedScene" uid="uid://bvr6pjuau5noi" path="res://Scenes/player.tscn" id="1_w5aja"]
 [ext_resource type="Script" uid="uid://c7shxdlp0vqye" path="res://Scenes/health.gd" id="4_1ixah"]
 [ext_resource type="PackedScene" uid="uid://dot0y6kbrri6e" path="res://Scenes/enemy_spawner.tscn" id="4_fiftr"]
+[ext_resource type="Script" uid="uid://dj4jlrxcrjnj2" path="res://Scenes/kill_count.gd" id="4_rgj8m"]
 
 [sub_resource type="Environment" id="Environment_6h5vk"]
 background_mode = 3
@@ -67,6 +68,20 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "HP: 100"
 script = ExtResource("4_1ixah")
+
+[node name="Health2" type="Label" parent="Control/CanvasLayer"]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -71.0
+offset_top = -11.5
+offset_bottom = 11.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "KillCount:"
+script = ExtResource("4_rgj8m")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6h5vk")
