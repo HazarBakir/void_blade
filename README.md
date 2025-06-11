@@ -2,6 +2,9 @@
 
 > *Experience the cut of nothingness - A hypnotic top-down journey where geometry meets intensity*
 
+![Image](https://github.com/HazarBakir/void_blade/blob/main/thumbnail.png)
+
+
 ## About
 
 **Void Blade** is a mesmerizing top-down action game that strips away visual complexity to focus on pure gameplay essence. Control a geometric blade cutting through the void, experiencing fluid movement, precise combat, and atmospheric tension through stark minimalist design enhanced by contrasting visuals and immersive audio.
