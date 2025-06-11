@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://pektlh5iak8r"]
 
 [ext_resource type="PackedScene" uid="uid://bvr6pjuau5noi" path="res://Scenes/player.tscn" id="1_w5aja"]
-[ext_resource type="Script" uid="uid://c7shxdlp0vqye" path="res://Scenes/health.gd" id="4_1ixah"]
+[ext_resource type="Script" uid="uid://c7shxdlp0vqye" path="res://Scripts/Player/health.gd" id="4_1ixah"]
 [ext_resource type="PackedScene" uid="uid://dot0y6kbrri6e" path="res://Scenes/enemy_spawner.tscn" id="4_fiftr"]
-[ext_resource type="Script" uid="uid://dj4jlrxcrjnj2" path="res://Scenes/kill_count.gd" id="4_rgj8m"]
+[ext_resource type="Script" uid="uid://dj4jlrxcrjnj2" path="res://Scripts/Player/kill_count.gd" id="4_rgj8m"]
 
 [sub_resource type="Environment" id="Environment_6h5vk"]
 background_mode = 3
