@@ -393,7 +393,7 @@ shader_parameter/lifetime_randomness = 0.0
 shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
 shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
 shader_parameter/velocity_pivot = Vector3(0, 0, 0)
-shader_parameter/color_value = Color(0.740653, 0.224336, 0.999999, 1)
+shader_parameter/color_value = Color(0, 0.733333, 1, 1)
 shader_parameter/gravity = Vector3(0, -1e-06, 0)
 
 [node name="GPUParticles2D" type="GPUParticles2D"]
