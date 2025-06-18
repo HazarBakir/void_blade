@@ -6,7 +6,6 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var marker_2d: Marker2D = $Marker2D
 
-var is_alive: bool = true
 var is_attacking: bool
 var speed: float = 850.0
 var follow_speed: float = 560.0
@@ -16,7 +15,7 @@ var decel: float = 5.0
 var normal_zoom: Vector2 = Vector2(1.0, 1.0)
 var attack_zoom: Vector2 = Vector2(1.3, 1.3)
 var zoom_speed: float = 3.0
-var attack_damage : float = 10.0
+var attack_damage : float = 100.0
 var self_damage: float = 10.0
 
 const SCREEN_WIDTH: float = 1920.0
@@ -30,11 +29,9 @@ func _on_ready() -> void:
 	camera.zoom = normal_zoom
 
 func _physics_process(delta: float) -> void:
-	if health_component.is_alive == false:
-		is_alive = false
 	mouse_position = get_global_mouse_position()
 	
-	if is_alive:
+	if health_component.is_alive:
 		_handle_movement_input(delta)
 		_apply_movement()
 		_update_camera(delta)
@@ -92,8 +89,7 @@ func _zoom_camera(target_zoom: Vector2, delta: float) -> void:
 func _trigger_death() -> void:
 	if not sprite == null:
 		$Camera2D.screen_shake(25, 3)
-		explode_particle.set_position(marker_2d.position)
-		explode_particle.emitting = true
+		particle_manager.emit_particle("player_death", position)
 		sprite.queue_free()
 
 
@@ -102,17 +98,24 @@ func _is_enemy_area(area: Area2D) -> bool:
 
 
 func _on_area_entered(area: Area2D) -> void:
+	print("Area entered!")
+	
+	var attack = Attack.new()
 	if area is HitboxComponent:
-		var hitbox: HitboxComponent = area
-		var attack = Attack.new()
-		attack.attack_damage = attack_damage
-		hitbox.damage(attack)
-		var enemy = area.get_parent()
-		if is_attacking:
+		# Input durumunu direkt burada kontrol et
+		var currently_attacking = Input.is_action_pressed("move_mouse")
+		print("Currently attacking: ", currently_attacking)
+		
+		if currently_attacking:
+			print("ATTACKING - Dealing damage to enemy")
+			var hitbox: HitboxComponent = area
+			attack.attack_damage = attack_damage
+			hitbox.damage(attack)
 			$Camera2D.screen_shake(8, 0.15)
 		else:
+			print("NOT ATTACKING - Checking if enemy...")
 			if area.get_parent().is_in_group("enemies"):
+				print("IS ENEMY - Taking self damage")
 				health_component.current_health = 0
-			attack.attack_damage = self_damage
-			hitbox_component.damage(attack)
-			
+				attack.attack_damage = self_damage
+				hitbox_component.damage(attack)

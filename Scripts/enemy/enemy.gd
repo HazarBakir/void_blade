@@ -1,11 +1,11 @@
 extends CharacterBody2D
 
-@onready var explode_particle: GPUParticles2D = $"Explode Particle"
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var hitbox_component: HitboxComponent = $HitboxComponent
 @onready var game_scene = get_node("/root/game_scene")
 @onready var shoot_timer: Timer = $Timer
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var muzzle_point = $"Muzzle-Shoot_Point"
-@onready var death_timer: Timer = $"Explode Particle/Timer"
 
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
 
@@ -33,7 +33,10 @@ func _ready() -> void:
 	_setup_shooting_system()
 
 func _physics_process(delta: float) -> void:
-	if target.is_alive:
+	if health_component.is_alive == false:
+		on_death()
+		
+	if target.get_node("HealthComponent").is_alive:
 		_update_movement_behavior()
 		_handle_movement(delta)
 		move_and_slide()
@@ -124,29 +127,13 @@ func _apply_shoot_cooldown() -> void:
 	can_shoot = true
 
 func on_death() -> void:
-	if not is_alive:
-		return
-	
-	_trigger_death_sequence()
-
-func _trigger_death_sequence() -> void:
-	is_alive = false
-	_setup_death_effects()
-	_cleanup_sprite()
+		_setup_death_effects()
+		queue_free()
 
 func _setup_death_effects() -> void:
-	explode_particle.position = muzzle_point.position
-	explode_particle.emitting = true
-	death_timer.start()
-
-func _cleanup_sprite() -> void:
-	if sprite != null:
-		sprite.queue_free()
+	particle_manager.emit_particle("enemy", position)
 
 func _on_shoot_timer_timeout() -> void:
-	if target.is_alive and is_alive:
+	if target.get_node("HealthComponent").is_alive and is_alive:
 		_shoot()
 		_start_random_shoot_timer()
-
-func _on_death_timer_timeout() -> void:
-	queue_free()

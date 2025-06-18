@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://n5m7nhhfcg3n"]
+[gd_scene load_steps=8 format=3 uid="uid://wer3pvkapch2"]
 
 [ext_resource type="Script" uid="uid://cxtqkpmof6s2u" path="res://Scripts/Enemy/enemy.gd" id="1_rrurh"]
 [ext_resource type="PackedScene" uid="uid://bk26mij5r3bbl" path="res://Scenes/Components/HealthComponent.tscn" id="2_cipht"]
@@ -15,15 +15,12 @@ scale = Vector2(2.04052, 2.04052)
 script = ExtResource("1_rrurh")
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_cipht")]
-scale = Vector2(1, 1)
-MAX_HEALTH = 50.0
+MAX_HEALTH = 10.0
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_p86u8")]
-scale = Vector2(1, 1)
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_xaxbr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

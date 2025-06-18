@@ -70,7 +70,7 @@ func _add_enemy_to_scene(enemy_instance: Node) -> void:
 	enemies_container.add_child(enemy_instance)
 
 func _on_timer_timeout() -> void:
-	if target.is_alive:
+	if target.get_node("HealthComponent").is_alive:
 		_spawn_enemy()
 	
 func _find_player() -> void:

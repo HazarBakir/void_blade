@@ -49,10 +49,8 @@ func setup_destroy_timer() -> void:
 func _destroy_projectile() -> void:
 	if not animated_sprite == null:
 		follow_target = false
-		bullet_particle.set_position(animated_sprite.position)
-		bullet_particle.emitting = true
-		particle_timer.start()
-		animated_sprite.queue_free()
+		particle_manager.emit_particle("bullet", position)
+		queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player") or area.get_parent().is_in_group("player") and area.name == "BulletDetectArea":

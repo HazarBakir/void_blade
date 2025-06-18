@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 PlayerStats="*res://Scripts/Player/player_stats.gd"
+particle_manager="*res://Scripts/particle_manager.gd"
 
 [debug]
 
