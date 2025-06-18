@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var spawn_timer: Timer = $Timer
 @onready var enemies_container: Node = get_tree().current_scene.get_node("enemies")
+var target: CharacterBody2D = null
 
 const ENEMY_SCENE = preload("res://Scenes/enemy_lvl_1_ranger.tscn")
 const MIN_SPAWN_TIME: float = 2.0
@@ -9,6 +10,7 @@ const MAX_SPAWN_TIME: float = 5.0
 const SPAWN_OFFSET_RANGE: float = 150.0
 
 func _ready() -> void:
+	_find_player()
 	_setup_spawn_timer()
 
 func _setup_spawn_timer() -> void:
@@ -68,4 +70,10 @@ func _add_enemy_to_scene(enemy_instance: Node) -> void:
 	enemies_container.add_child(enemy_instance)
 
 func _on_timer_timeout() -> void:
-	_spawn_enemy()
+	if target.is_alive:
+		_spawn_enemy()
+	
+func _find_player() -> void:
+	var player = get_tree().get_nodes_in_group("player")
+	if player.size() > 0:
+		target = player[0] as CharacterBody2D

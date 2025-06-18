@@ -13,4 +13,3 @@ func damage(attack: Attack):
 	current_health -= attack.attack_damage
 	if current_health <= 0:
 		is_alive = false
-		get_parent().queue_free()

@@ -1,16 +1,30 @@
-[gd_scene load_steps=6 format=3 uid="uid://n5m7nhhfcg3n"]
+[gd_scene load_steps=8 format=3 uid="uid://n5m7nhhfcg3n"]
 
 [ext_resource type="Script" uid="uid://cxtqkpmof6s2u" path="res://Scripts/Enemy/enemy.gd" id="1_rrurh"]
+[ext_resource type="PackedScene" uid="uid://bk26mij5r3bbl" path="res://Scenes/Components/HealthComponent.tscn" id="2_cipht"]
 [ext_resource type="Texture2D" uid="uid://cbvrpblaxd16w" path="res://icon.svg" id="2_cvvx1"]
 [ext_resource type="PackedScene" uid="uid://r7whatksuq8d" path="res://Scenes/explode_enemy_death.tscn" id="3_cvvx1"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_huous"]
+[ext_resource type="PackedScene" uid="uid://c0gq8trldftv0" path="res://Scenes/Components/HitboxComponent.tscn" id="3_p86u8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xaxbr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_huous"]
 
 [node name="enemy_lvl_1_ranger" type="CharacterBody2D"]
 scale = Vector2(2.04052, 2.04052)
 script = ExtResource("1_rrurh")
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_cipht")]
+scale = Vector2(1, 1)
+MAX_HEALTH = 50.0
+
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_p86u8")]
+scale = Vector2(1, 1)
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_xaxbr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_huous")
@@ -26,17 +40,10 @@ position = Vector2(12, 0)
 wait_time = 2.0
 one_shot = true
 
-[node name="DetectionArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
-shape = SubResource("RectangleShape2D_xaxbr")
-
 [node name="Explode Particle" parent="." instance=ExtResource("3_cvvx1")]
 
 [node name="Timer" type="Timer" parent="Explode Particle"]
 one_shot = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="area_entered" from="DetectionArea" to="." method="_on_detection_area_area_of_player_entered"]
-[connection signal="area_exited" from="DetectionArea" to="." method="_on_detection_area_area_of_player_exited"]
 [connection signal="timeout" from="Explode Particle/Timer" to="." method="_on_death_timer_timeout"]

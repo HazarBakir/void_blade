@@ -33,17 +33,11 @@ func _ready() -> void:
 	_setup_shooting_system()
 
 func _physics_process(delta: float) -> void:
-	if not PlayerStats.is_alive():
-		return
-		
-	_update_target()
-	if target == null:
-		return
-		
-	_update_movement_behavior()
-	_handle_movement(delta)
-	move_and_slide()
-	_update_rotation()
+	if target.is_alive:
+		_update_movement_behavior()
+		_handle_movement(delta)
+		move_and_slide()
+		_update_rotation()
 
 func _initialize_enemy() -> void:
 	add_to_group("enemies")
@@ -60,9 +54,9 @@ func _start_random_shoot_timer() -> void:
 	shoot_timer.start()
 
 func _find_player() -> void:
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		target = players[0] as CharacterBody2D
+	var player = get_tree().get_nodes_in_group("player")
+	if player.size() > 0:
+		target = player[0] as CharacterBody2D
 
 func _update_target() -> void:
 	if target == null or not is_instance_valid(target):
@@ -150,7 +144,7 @@ func _cleanup_sprite() -> void:
 		sprite.queue_free()
 
 func _on_shoot_timer_timeout() -> void:
-	if PlayerStats.is_alive() and is_alive:
+	if target.is_alive and is_alive:
 		_shoot()
 		_start_random_shoot_timer()
 
