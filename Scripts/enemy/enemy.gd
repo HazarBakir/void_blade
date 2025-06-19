@@ -127,6 +127,7 @@ func _apply_shoot_cooldown() -> void:
 	can_shoot = true
 
 func on_death() -> void:
+		target.kill_count += 1
 		_setup_death_effects()
 		queue_free()
 

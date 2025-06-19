@@ -35,7 +35,7 @@ func _spawn_enemy() -> void:
 	_start_random_spawn_timer()
 
 func _can_spawn() -> bool:
-	return PlayerStats.is_alive() and _is_enemies_container_valid()
+	return target.get_node("HealthComponent").is_alive and _is_enemies_container_valid()
 
 func _is_enemies_container_valid() -> bool:
 	return enemies_container != null and is_instance_valid(enemies_container)

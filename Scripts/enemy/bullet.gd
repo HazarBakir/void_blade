@@ -54,8 +54,8 @@ func _destroy_projectile() -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player") or area.get_parent().is_in_group("player") and area.name == "BulletDetectArea":
-		if PlayerStats.is_attacking == false:
-			PlayerStats.take_damage(10)
+		if target.is_attacking == false:
+			#PlayerStats.take_damage(10)
 			screen_shake_on_collision(15, 0.5)
 		else:
 			screen_shake_on_collision(3, 0.2)
