@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var marker_2d: Marker2D = $Marker2D
 
+var kill_count: int = 0
 var is_attacking: bool
 var speed: float = 850.0
 var follow_speed: float = 560.0
@@ -102,7 +103,6 @@ func _on_area_entered(area: Area2D) -> void:
 	
 	var attack = Attack.new()
 	if area is HitboxComponent:
-		# Input durumunu direkt burada kontrol et
 		var currently_attacking = Input.is_action_pressed("move_mouse")
 		print("Currently attacking: ", currently_attacking)
 		
