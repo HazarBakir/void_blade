@@ -30,6 +30,7 @@ func _on_ready() -> void:
 	camera.zoom = normal_zoom
 
 func _physics_process(delta: float) -> void:
+	print(is_attacking)
 	mouse_position = get_global_mouse_position()
 	
 	if health_component.is_alive:
@@ -103,19 +104,14 @@ func _on_area_entered(area: Area2D) -> void:
 	
 	var attack = Attack.new()
 	if area is HitboxComponent:
-		var currently_attacking = Input.is_action_pressed("move_mouse")
-		print("Currently attacking: ", currently_attacking)
 		
-		if currently_attacking:
-			print("ATTACKING - Dealing damage to enemy")
+		if is_attacking:
 			var hitbox: HitboxComponent = area
 			attack.attack_damage = attack_damage
 			hitbox.damage(attack)
 			$Camera2D.screen_shake(8, 0.15)
 		else:
-			print("NOT ATTACKING - Checking if enemy...")
 			if area.get_parent().is_in_group("enemies"):
-				print("IS ENEMY - Taking self damage")
 				health_component.current_health = 0
 				attack.attack_damage = self_damage
 				hitbox_component.damage(attack)

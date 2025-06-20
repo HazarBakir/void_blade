@@ -52,21 +52,20 @@ func _destroy_projectile() -> void:
 		particle_manager.emit_particle("bullet", position)
 		queue_free()
 
-func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("player") or area.get_parent().is_in_group("player") and area.name == "BulletDetectArea":
-		if target.is_attacking == false:
-			#PlayerStats.take_damage(10)
-			screen_shake_on_collision(15, 0.5)
-		else:
-			screen_shake_on_collision(3, 0.2)
-		_destroy_projectile()
-
 func _on_bullet_destroy_timer_timeout() -> void:
 	queue_free()
-
 func screen_shake_on_collision(intensity: int, time: float):
 	var player_nodes = get_tree().get_nodes_in_group("player")
 	if player_nodes.size() > 0:
 		var player = player_nodes[0]
 		if player.has_node("Camera2D"):
 			player.get_node("Camera2D").screen_shake(intensity, time)
+
+func _on_area_entered(area: Area2D) -> void:
+	if area.is_in_group("player") or area.get_parent().is_in_group("player") and area is HitboxComponent:
+		if target.is_attacking == false:
+		#PlayerStats.take_damage(10)
+			screen_shake_on_collision(15, 0.5)
+		else:
+			screen_shake_on_collision(3, 0.2)
+		_destroy_projectile()
