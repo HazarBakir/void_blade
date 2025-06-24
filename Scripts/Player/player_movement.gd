@@ -14,7 +14,7 @@ var mouse_position: Vector2
 var accel: float = 10.0
 var decel: float = 5.0
 var normal_zoom: Vector2 = Vector2(1.0, 1.0)
-var attack_zoom: Vector2 = Vector2(1.3, 1.3)
+var attack_zoom: Vector2 = Vector2(1.4, 1.4)
 var zoom_speed: float = 3.0
 var attack_damage : float = 100.0
 var self_damage: float = 10.0
@@ -30,7 +30,6 @@ func _on_ready() -> void:
 	camera.zoom = normal_zoom
 
 func _physics_process(delta: float) -> void:
-	print(is_attacking)
 	mouse_position = get_global_mouse_position()
 	
 	if health_component.is_alive:
@@ -98,20 +97,11 @@ func _trigger_death() -> void:
 func _is_enemy_area(area: Area2D) -> bool:
 	return area.get_parent().is_in_group("enemies")
 
-
 func _on_area_entered(area: Area2D) -> void:
-	print("Area entered!")
-	
 	var attack = Attack.new()
 	if area is HitboxComponent:
-		
 		if is_attacking:
 			var hitbox: HitboxComponent = area
 			attack.attack_damage = attack_damage
 			hitbox.damage(attack)
 			$Camera2D.screen_shake(8, 0.15)
-		else:
-			if area.get_parent().is_in_group("enemies"):
-				health_component.current_health = 0
-				attack.attack_damage = self_damage
-				hitbox_component.damage(attack)

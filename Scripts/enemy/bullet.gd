@@ -2,6 +2,8 @@ extends Area2D
 @onready var bullet_particle: GPUParticles2D = $BulletParticle
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var particle_timer: Timer = $BulletParticle/Timer
+
+var damage: float = 10.0
 var speed: float = 500.0
 var target: CharacterBody2D
 var direction: Vector2 = Vector2.ZERO
@@ -62,10 +64,13 @@ func screen_shake_on_collision(intensity: int, time: float):
 			player.get_node("Camera2D").screen_shake(intensity, time)
 
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("player") or area.get_parent().is_in_group("player") and area is HitboxComponent:
+	var attack = Attack.new()
+	if area is HitboxComponent and area.get_parent().is_in_group("player"):
+		var hitbox = area
+		attack.attack_damage = damage
 		if target.is_attacking == false:
-		#PlayerStats.take_damage(10)
 			screen_shake_on_collision(15, 0.5)
+			hitbox.damage(attack)
 		else:
 			screen_shake_on_collision(3, 0.2)
 		_destroy_projectile()
