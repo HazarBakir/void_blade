@@ -16,7 +16,7 @@ var decel: float = 5.0
 var normal_zoom: Vector2 = Vector2(1.0, 1.0)
 var attack_zoom: Vector2 = Vector2(1.4, 1.4)
 var zoom_speed: float = 3.0
-var attack_damage : float = 100.0
+var attack_damage : float = 10.0
 var self_damage: float = 10.0
 
 const SCREEN_WIDTH: float = 1920.0
@@ -99,9 +99,12 @@ func _is_enemy_area(area: Area2D) -> bool:
 
 func _on_area_entered(area: Area2D) -> void:
 	var attack = Attack.new()
-	if area is HitboxComponent:
+	if area is HitboxComponent and area.get_parent().is_in_group("enemies"):
+		var hitbox: HitboxComponent = area
 		if is_attacking:
-			var hitbox: HitboxComponent = area
 			attack.attack_damage = attack_damage
 			hitbox.damage(attack)
 			$Camera2D.screen_shake(8, 0.15)
+		else:
+			attack.attack_damage = attack_damage * 1000
+			hitbox_component.damage(attack)

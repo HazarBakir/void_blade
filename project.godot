@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="void_blade"
-run/main_scene="uid://kfomgjtk4775"
+run/main_scene="uid://clkfjx2ev7pwk"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 

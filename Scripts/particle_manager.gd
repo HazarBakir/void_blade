@@ -14,7 +14,6 @@ func register_particle(particle_name: String, scene_path: String):
 
 func emit_particle(particle_name: String, position: Vector2, duration: float = 0.0):
 	if not particle_scenes.has(particle_name):
-		print("Hata: Particle bulunamadı: ", particle_name)
 		return null
 	
 	var particle_scene = load(particle_scenes[particle_name])
