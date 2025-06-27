@@ -19,8 +19,12 @@ const DECELERATION: float = 5.0
 const STOP_DISTANCE: float = 300.0
 const RESUME_DISTANCE: float = 200.0
 
+const RECOIL_FORCE: float = 500.0
+const RECOIL_DURATION: float = 0.4
+
 var speed: float = ORIGINAL_SPEED
 var current_speed: float = 0.0
+var recoil_velocity: Vector2 = Vector2.ZERO
 
 const MIN_SHOOT_INTERVAL: float = 1.0
 const MAX_SHOOT_INTERVAL: float = 3.0
@@ -85,7 +89,14 @@ func _handle_movement(delta: float) -> void:
 	var lerp_factor = ACCELERATION if speed > 0 else DECELERATION
 	
 	current_speed = lerp(current_speed, target_speed, lerp_factor * delta)
-	velocity = direction * current_speed
+	var normal_velocity = direction * current_speed
+	
+	recoil_velocity = lerp(recoil_velocity, Vector2.ZERO, 4.0 * delta)
+	
+	if speed == 0:
+		velocity = recoil_velocity
+	else:
+		velocity = normal_velocity
 
 func _update_rotation() -> void:
 	if target != null:
@@ -107,6 +118,10 @@ func _is_facing_target() -> bool:
 	var dot_product = to_player.dot(forward)
 	return dot_product > SHOOT_ANGLE_THRESHOLD
 
+func _apply_recoil() -> void:
+	var backward_direction = -Vector2.RIGHT.rotated(rotation)
+	recoil_velocity = backward_direction * RECOIL_FORCE
+
 func _shoot() -> void:
 	if not _should_shoot():
 		return
@@ -119,6 +134,7 @@ func _shoot() -> void:
 	bullet_instance.target = target
 	game_scene.add_child(bullet_instance)
 	
+	_apply_recoil()
 	_apply_shoot_cooldown()
 
 func _apply_shoot_cooldown() -> void:
@@ -139,11 +155,8 @@ func _on_shoot_timer_timeout() -> void:
 		_shoot()
 		_start_random_shoot_timer()
 
-
 func _on_hitbox_component_area_entered(area: Area2D) -> void:
 	if area.get_parent().is_in_group("player"):
 		$AnimationPlayer.play("Hit")
 		if not target.is_attacking:
 			on_death()
-		
-			

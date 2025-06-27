@@ -39,7 +39,7 @@ scale = Vector2(2.04052, 2.04052)
 script = ExtResource("1_rrurh")
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_cipht")]
-MAX_HEALTH = 10.0
+MAX_HEALTH = 20.0
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_p86u8")]
 health_component = NodePath("../HealthComponent")
@@ -49,6 +49,7 @@ shape = SubResource("RectangleShape2D_xaxbr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_huous")
+disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.15, 0.15)
