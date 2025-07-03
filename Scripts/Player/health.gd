@@ -1,8 +1,14 @@
-extends Label
+extends ProgressBar
 @onready var health_component: HealthComponent = %player.get_node("%HealthComponent")
+var tween: Tween
 
-func _process(_delta: float) -> void:
-	if not health_component == null and health_component.current_health > 0:
-		$".".text = str("Health: ", int(health_component.current_health))
-	else:
-		$".".text = str("Health: ", 0)
+func _ready() -> void:
+	health_component.updateHealth.connect(update)
+	
+func update():
+	var target_value = health_component.current_health * 100 / health_component.MAX_HEALTH
+	var duration = 0.5
+	if target_value <= 0:
+		duration = 2.5
+	tween = create_tween()
+	tween.tween_property(self, "value", target_value, duration)

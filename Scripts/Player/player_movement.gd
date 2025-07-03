@@ -106,5 +106,5 @@ func _on_area_entered(area: Area2D) -> void:
 			hitbox.damage(attack)
 			$Camera2D.screen_shake(8, 0.15)
 		else:
-			attack.attack_damage = attack_damage * 1000
+			attack.attack_damage = health_component.current_health
 			hitbox_component.damage(attack)

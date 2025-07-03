@@ -1,5 +1,6 @@
 extends Node2D
 class_name HealthComponent
+signal updateHealth
 
 @export var MAX_HEALTH: float = 100.0
 var current_health: float
@@ -11,5 +12,6 @@ func _ready() -> void:
 
 func damage(attack: Attack):
 	current_health -= attack.attack_damage
+	updateHealth.emit()
 	if current_health <= 0:
 		is_alive = false
