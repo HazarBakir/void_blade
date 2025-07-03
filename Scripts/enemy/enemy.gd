@@ -13,11 +13,11 @@ var is_alive: bool = true
 var target: CharacterBody2D = null
 var can_shoot: bool = true
 
-const ORIGINAL_SPEED: float = 300.0
+const ORIGINAL_SPEED: float = 350.0
 const ACCELERATION: float = 8.0
 const DECELERATION: float = 5.0
-const STOP_DISTANCE: float = 300.0
-const RESUME_DISTANCE: float = 200.0
+const STOP_DISTANCE: float = 180.0
+const RESUME_DISTANCE: float = 300.0
 
 var speed: float = ORIGINAL_SPEED
 var current_speed: float = 0.0
@@ -88,7 +88,18 @@ func _handle_movement(delta: float) -> void:
 	var lerp_factor = ACCELERATION if speed > 0 else DECELERATION
 	
 	current_speed = lerp(current_speed, target_speed, lerp_factor * delta)
+<<<<<<< Updated upstream
 	velocity = direction * current_speed
+=======
+	var normal_velocity = direction * current_speed
+	
+	recoil_velocity = lerp(recoil_velocity, Vector2.ZERO, 6.0 * delta)
+	
+	if speed == 0:
+		velocity = recoil_velocity
+	else:
+		velocity = normal_velocity
+>>>>>>> Stashed changes
 
 func _update_rotation() -> void:
 	if target != null:
@@ -141,6 +152,7 @@ func _trigger_death_sequence() -> void:
 	_cleanup_sprite()
 
 func _setup_death_effects() -> void:
+<<<<<<< Updated upstream
 	explode_particle.position = muzzle_point.position
 	explode_particle.emitting = true
 	death_timer.start()
@@ -149,6 +161,10 @@ func _cleanup_sprite() -> void:
 	if sprite != null:
 		sprite.queue_free()
 
+=======
+	particle_manager.emit_particle("enemy", position)
+	
+>>>>>>> Stashed changes
 func _on_shoot_timer_timeout() -> void:
 	if PlayerStats.is_alive() and is_alive:
 		_shoot()

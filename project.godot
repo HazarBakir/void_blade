@@ -17,7 +17,16 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+<<<<<<< Updated upstream
 PlayerStats="*res://Scripts/Player/player_stats.gd"
+=======
+particle_manager="*res://Scripts/particle_manager.gd"
+shake_manager="*res://shake_manager.gd"
+
+[debug]
+
+gdscript/warnings/unused_parameter=0
+>>>>>>> Stashed changes
 
 [input]
 

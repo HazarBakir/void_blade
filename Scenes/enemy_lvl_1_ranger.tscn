@@ -1,19 +1,55 @@
-[gd_scene load_steps=6 format=3 uid="uid://n5m7nhhfcg3n"]
+[gd_scene load_steps=10 format=3 uid="uid://n5m7nhhfcg3n"]
 
 [ext_resource type="Script" uid="uid://cxtqkpmof6s2u" path="res://Scripts/Enemy/enemy.gd" id="1_rrurh"]
+[ext_resource type="PackedScene" uid="uid://bk26mij5r3bbl" path="res://Scenes/Components/HealthComponent.tscn" id="2_cipht"]
 [ext_resource type="Texture2D" uid="uid://cbvrpblaxd16w" path="res://icon.svg" id="2_cvvx1"]
-[ext_resource type="PackedScene" uid="uid://r7whatksuq8d" path="res://Scenes/explode_enemy_death.tscn" id="3_cvvx1"]
+[ext_resource type="PackedScene" path="res://Scenes/Components/HitboxComponent.tscn" id="3_p86u8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xaxbr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_huous"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xaxbr"]
+[sub_resource type="Animation" id="Animation_cipht"]
+resource_name = "Hit"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_p86u8"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8jkys"]
+_data = {
+&"Hit": SubResource("Animation_cipht"),
+&"RESET": SubResource("Animation_p86u8")
+}
 
 [node name="enemy_lvl_1_ranger" type="CharacterBody2D"]
 scale = Vector2(2.04052, 2.04052)
 script = ExtResource("1_rrurh")
 
+[node name="HealthComponent" parent="." instance=ExtResource("2_cipht")]
+MAX_HEALTH = 20.0
+
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_p86u8")]
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("RectangleShape2D_xaxbr")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_huous")
+disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.15, 0.15)
@@ -26,17 +62,10 @@ position = Vector2(12, 0)
 wait_time = 2.0
 one_shot = true
 
-[node name="DetectionArea" type="Area2D" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8jkys")
+}
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
-shape = SubResource("RectangleShape2D_xaxbr")
-
-[node name="Explode Particle" parent="." instance=ExtResource("3_cvvx1")]
-
-[node name="Timer" type="Timer" parent="Explode Particle"]
-one_shot = true
-
+[connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="area_entered" from="DetectionArea" to="." method="_on_detection_area_area_of_player_entered"]
-[connection signal="area_exited" from="DetectionArea" to="." method="_on_detection_area_area_of_player_exited"]
-[connection signal="timeout" from="Explode Particle/Timer" to="." method="_on_death_timer_timeout"]

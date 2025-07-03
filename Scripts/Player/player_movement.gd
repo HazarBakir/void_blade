@@ -1,9 +1,13 @@
 extends CharacterBody2D
+<<<<<<< Updated upstream
 
 @onready var explode_particle: GPUParticles2D = $"Explode Particle"
+=======
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var hitbox_component: HitboxComponent = $HitboxComponent
+>>>>>>> Stashed changes
 @onready var camera: Camera2D = $Camera2D
 @onready var sprite: Sprite2D = $Sprite2D
-@onready var marker_2d: Marker2D = $Marker2D
 
 var speed: float = 700.0
 var follow_speed: float = 400.0
@@ -106,4 +110,19 @@ func _on_enemy_kill_area_area_entered(area: Area2D) -> void:
 
 func _is_enemy_area(area: Area2D) -> bool:
 	return area.get_parent().is_in_group("enemies")
+<<<<<<< Updated upstream
 	
+=======
+
+func _on_area_entered(area: Area2D) -> void:
+	var attack = Attack.new()
+	if area is HitboxComponent and area.get_parent().is_in_group("enemies"):
+		var hitbox: HitboxComponent = area
+		if is_attacking:
+			attack.attack_damage = attack_damage
+			hitbox.damage(attack)
+			$Camera2D.screen_shake(8, 0.15)
+		else:
+			attack.attack_damage = health_component.current_health
+			hitbox_component.damage(attack)
+>>>>>>> Stashed changes

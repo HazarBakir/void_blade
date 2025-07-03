@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://kfomgjtk4775"]
+[gd_scene load_steps=2 format=3 uid="uid://clkfjx2ev7pwk"]
 
 [ext_resource type="Script" uid="uid://bcn53quvl7khp" path="res://Scripts/Menus/main_menu.gd" id="1_28flt"]
 
@@ -13,26 +13,65 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_28flt")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="title" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -177.0
+offset_right = 177.0
+offset_bottom = 23.0
+grow_horizontal = 2
+pivot_offset = Vector2(173, 11)
+text = "Void Blade"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 354.0
+grow_vertical = 0
+pivot_offset = Vector2(206, 13)
+text = "THIS IS A PROTOTYPE VERSION OF THIS GAME."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -50.5
+offset_right = 35.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.955, 1.955)
+pivot_offset = Vector2(35, 46.5)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 
-[node name="play" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="play" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Play"
 
-[node name="options" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="options" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Options"
 
-[node name="quit" type="Button" parent="MarginContainer/VBoxContainer"]
+[node name="quit" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]

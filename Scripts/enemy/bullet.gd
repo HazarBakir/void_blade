@@ -1,9 +1,12 @@
 extends Area2D
-@onready var bullet_particle: GPUParticles2D = $BulletParticle
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var particle_timer: Timer = $BulletParticle/Timer
 
+<<<<<<< Updated upstream
 var speed: float = 400.0
+=======
+var damage: float = 10.0
+@export var speed: float = 500.0
+>>>>>>> Stashed changes
 var target: CharacterBody2D
 var direction: Vector2 = Vector2.ZERO
 var follow_target: bool = true
