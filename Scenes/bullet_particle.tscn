@@ -381,8 +381,8 @@ shader_parameter/damping_min = 0.0
 shader_parameter/damping_max = 0.0
 shader_parameter/initial_angle_min = -299.4
 shader_parameter/initial_angle_max = 103.2
-shader_parameter/scale_min = 3.0
-shader_parameter/scale_max = 5.0
+shader_parameter/scale_min = 1.0
+shader_parameter/scale_max = 10.27
 shader_parameter/hue_variation_min = 0.0
 shader_parameter/hue_variation_max = 0.0
 shader_parameter/anim_speed_min = 0.0
@@ -393,7 +393,7 @@ shader_parameter/lifetime_randomness = 0.0
 shader_parameter/emission_shape_offset = Vector3(0, 0, 0)
 shader_parameter/emission_shape_scale = Vector3(1, 1, 1)
 shader_parameter/velocity_pivot = Vector3(0, 0, 0)
-shader_parameter/color_value = Color(1, 0.416667, 0, 1)
+shader_parameter/color_value = Color(0.929412, 0.670588, 0.0588235, 1)
 shader_parameter/gravity = Vector3(0, -1e-06, 0)
 
 [node name="BulletParticle" type="GPUParticles2D"]

@@ -100,7 +100,7 @@ func _handle_movement(delta: float) -> void:
 
 func _update_rotation() -> void:
 	if target != null:
-		look_at(target.global_position)
+		sprite.look_at(target.global_position)
 
 func _should_shoot() -> bool:
 	if not can_shoot or target == null:
@@ -109,23 +109,15 @@ func _should_shoot() -> bool:
 	var distance_to_player = global_position.distance_to(target.global_position)
 	if distance_to_player > PLAYER_DISTANCE_THRESHOLD:
 		return false
-	
-	return _is_facing_target()
-
-func _is_facing_target() -> bool:
-	var to_player = (target.global_position - global_position).normalized()
-	var forward = Vector2.RIGHT.rotated(rotation)
-	var dot_product = to_player.dot(forward)
-	return dot_product > SHOOT_ANGLE_THRESHOLD
+	return true
 
 func _apply_recoil() -> void:
-	var backward_direction = -Vector2.RIGHT.rotated(rotation)
+	var backward_direction = -Vector2.RIGHT.rotated(sprite.rotation)
 	recoil_velocity = backward_direction * RECOIL_FORCE
 
 func _shoot() -> void:
 	if not _should_shoot():
-		return
-	
+		return	
 	var bullet_instance = BULLET_SCENE.instantiate()
 	if bullet_instance == null:
 		return
@@ -133,7 +125,6 @@ func _shoot() -> void:
 	bullet_instance.global_transform = muzzle_point.global_transform
 	bullet_instance.target = target
 	game_scene.add_child(bullet_instance)
-	
 	_apply_recoil()
 	_apply_shoot_cooldown()
 
