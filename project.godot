@@ -23,6 +23,11 @@ particle_manager="*res://Scripts/particle_manager.gd"
 
 gdscript/warnings/unused_parameter=0
 
+[display]
+
+mouse_cursor/custom_image="uid://b0kxeidr1s50s"
+mouse_cursor/custom_image_hotspot=Vector2(30, 30)
+
 [input]
 
 move_up={

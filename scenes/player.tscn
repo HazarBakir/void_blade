@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://ci83gs3bkbyh4" path="res://Scripts/Player/player_movement.gd" id="1_qhqgy"]
 [ext_resource type="PackedScene" uid="uid://bk26mij5r3bbl" path="res://Scenes/Components/HealthComponent.tscn" id="2_8erm5"]
-[ext_resource type="Texture2D" uid="uid://ctsjve8tw3vv0" path="res://Sprites/crosshair098.png" id="2_vgqql"]
 [ext_resource type="Script" uid="uid://dfwyus0mfu76u" path="res://Scripts/camera.gd" id="2_x3wgy"]
 [ext_resource type="PackedScene" uid="uid://c0gq8trldftv0" path="res://Scenes/Components/HitboxComponent.tscn" id="3_f1ek2"]
 [ext_resource type="Script" uid="uid://b13u0ty16kbto" path="res://Scripts/Player/trail_line.gd" id="4_dqkch"]
+[ext_resource type="Texture2D" uid="uid://b118d671n3r7b" path="res://Sprites/crosshair043.png" id="5_8erm5"]
 [ext_resource type="PackedScene" uid="uid://bodr213y7ryu7" path="res://Scenes/explode particle.tscn" id="5_fkybt"]
 [ext_resource type="PackedScene" uid="uid://44magkyc6d5o" path="res://Scenes/healthbar.tscn" id="8_8erm5"]
 
@@ -32,7 +32,8 @@ unique_name_in_owner = true
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxComponent"]
-polygon = PackedVector2Array(-2.63158, -4.73684, -2.63158, 4.73684, 5.26316, 0)
+position = Vector2(3.15789, 0)
+polygon = PackedVector2Array(-3.15789, -8.42105, 5.26316, 0, -3.15789, 8.42105, -11.5789, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_qhqgy")
@@ -48,16 +49,15 @@ script = ExtResource("2_x3wgy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.57079
-scale = Vector2(0.176536, 0.176536)
-texture = ExtResource("2_vgqql")
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("5_8erm5")
 
 [node name="Line2D" type="Line2D" parent="Sprite2D"]
 show_behind_parent = true
 top_level = true
 z_index = -1
-position = Vector2(1, -1)
 points = PackedVector2Array(0, 0)
-width = 4.625
+width = 5.0
 width_curve = SubResource("Curve_qhqgy")
 gradient = SubResource("Gradient_qhqgy")
 joint_mode = 2
