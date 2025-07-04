@@ -1,5 +1,5 @@
 extends ProgressBar
-@onready var health_component: HealthComponent = %player.get_node("%HealthComponent")
+@export var health_component: HealthComponent
 var tween: Tween
 
 func _ready() -> void:

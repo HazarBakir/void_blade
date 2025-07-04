@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://wer3pvkapch2"]
+[gd_scene load_steps=12 format=3 uid="uid://wer3pvkapch2"]
 
 [ext_resource type="Script" uid="uid://cxtqkpmof6s2u" path="res://Scripts/Enemy/enemy.gd" id="1_rrurh"]
 [ext_resource type="PackedScene" uid="uid://bk26mij5r3bbl" path="res://Scenes/Components/HealthComponent.tscn" id="2_cipht"]
 [ext_resource type="Texture2D" uid="uid://cbvrpblaxd16w" path="res://icon.svg" id="2_cvvx1"]
 [ext_resource type="PackedScene" uid="uid://c0gq8trldftv0" path="res://Scenes/Components/HitboxComponent.tscn" id="3_p86u8"]
+[ext_resource type="PackedScene" uid="uid://44magkyc6d5o" path="res://Scenes/healthbar.tscn" id="5_cipht"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xaxbr"]
 
@@ -33,6 +34,9 @@ _data = {
 &"Hit": SubResource("Animation_cipht"),
 &"RESET": SubResource("Animation_p86u8")
 }
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cipht"]
+bg_color = Color(0.54099, 0.540991, 0.540989, 1)
 
 [node name="enemy_lvl_1_ranger" type="CharacterBody2D"]
 scale = Vector2(2.04052, 2.04052)
@@ -66,6 +70,14 @@ one_shot = true
 libraries = {
 &"": SubResource("AnimationLibrary_8jkys")
 }
+
+[node name="Health" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_cipht")]
+offset_left = -11.0
+offset_top = -16.0
+offset_right = 12.0
+offset_bottom = -12.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_cipht")
+health_component = NodePath("../HealthComponent")
 
 [connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
