@@ -5,7 +5,7 @@ extends CharacterBody2D
 @onready var game_scene = get_node("/root/game_scene")
 @onready var shoot_timer: Timer = $Timer
 @onready var sprite: Sprite2D = $Sprite2D
-@onready var muzzle_point = $"Muzzle-Shoot_Point"
+@onready var muzzle_point = $"Sprite2D/Muzzle-Shoot_Point"
 
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
 
@@ -117,7 +117,7 @@ func _apply_recoil() -> void:
 
 func _shoot() -> void:
 	if not _should_shoot():
-		return	
+		return
 	var bullet_instance = BULLET_SCENE.instantiate()
 	if bullet_instance == null:
 		return
