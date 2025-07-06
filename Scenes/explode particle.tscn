@@ -11,10 +11,11 @@ gravity = Vector3(0, 0, 0)
 linear_accel_min = -20.43
 linear_accel_max = 47.32
 scale_max = 15.0
+color = Color(0.686275, 0.141176, 1, 1)
 
 [node name="Explode Particle" type="GPUParticles2D"]
 emitting = false
-amount = 375
+amount = 700
 lifetime = 10.0
 one_shot = true
 speed_scale = 5.0

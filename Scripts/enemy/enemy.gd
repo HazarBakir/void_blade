@@ -139,7 +139,7 @@ func on_death() -> void:
 		queue_free()
 
 func _setup_death_effects() -> void:
-	particle_manager.emit_particle("enemy", position)
+	particle_manager.emit_particle("enemy", global_position)
 
 func _on_shoot_timer_timeout() -> void:
 	if target.get_node("HealthComponent").is_alive and is_alive:

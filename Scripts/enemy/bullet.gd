@@ -1,7 +1,5 @@
 extends Area2D
-@onready var bullet_particle: GPUParticles2D = $BulletParticle
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var particle_timer: Timer = $BulletParticle/Timer
 
 var damage: float = 10.0
 var speed: float = 500.0
@@ -32,8 +30,8 @@ func setup_follow_timer() -> void:
 
 func move_to_player() -> void:
 	if follow_target and target:
-		direction = (target.position - position).normalized()
-		look_at(target.position)
+		direction = (target.global_position - global_position).normalized()
+		look_at(target.global_position)
 
 func _stop_following() -> void:
 	follow_target = false
@@ -51,7 +49,7 @@ func setup_destroy_timer() -> void:
 func _destroy_projectile() -> void:
 	if not animated_sprite == null:
 		follow_target = false
-		particle_manager.emit_particle("bullet", position)
+		particle_manager.emit_particle("bullet", global_position)
 		queue_free()
 
 func _on_bullet_destroy_timer_timeout() -> void:

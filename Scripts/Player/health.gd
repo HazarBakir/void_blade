@@ -14,7 +14,7 @@ func get_health_percentage() -> float:
 
 func update():
 	var target_value = get_health_percentage()
-	var duration = 2 if target_value <= 0 else 0.5
+	var duration = 2.0 if target_value <= 0 else 0.5
 	
 	if tween:
 		tween.kill()
@@ -31,7 +31,7 @@ func update():
 
 func _on_timer_timeout() -> void:
 	var target_value = get_health_percentage()
-	var duration = 2 if target_value <= 0 else 0.5
+	var duration = 2.0 if target_value <= 0 else 0.5
 	
 	var damage_tween = create_tween()
 	damage_tween.tween_property(damage_bar, "value", target_value, duration+0.3)

@@ -1,13 +1,12 @@
 extends CharacterBody2D
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var hitbox_component: HitboxComponent = $HitboxComponent
-@onready var explode_particle: GPUParticles2D = $"Explode Particle"
 @onready var camera: Camera2D = $Camera2D
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: AnimatedSprite2D = $Sprite2D
 @onready var marker_2d: Marker2D = $Marker2D
 var kill_count: int = 0
 var is_attacking: bool
-var speed: float = 850.0
+var speed: float = 1000.0
 var follow_speed: float = 560.0
 var mouse_position: Vector2
 var accel: float = 10.0
@@ -89,7 +88,7 @@ func zoom_camera(target_zoom: Vector2, delta: float) -> void:
 func trigger_death() -> void:
 	if not sprite == null:
 		$Camera2D.screen_shake(25, 3)
-		particle_manager.emit_particle("player_death", position)
+		particle_manager.emit_particle("player_death", global_position)
 		sprite.queue_free()
 
 func is_enemy_area(area: Area2D) -> bool:
