@@ -33,7 +33,10 @@ func _physics_process(delta: float) -> void:
 		handle_movement_input(delta)
 		apply_movement()
 		update_camera(delta)
-		update_rotation()
+		if is_attacking:
+			update_rotation(delta * 16)
+		else:
+			update_rotation(delta * 8)
 	else:
 		trigger_death()
 
@@ -55,9 +58,9 @@ func apply_movement() -> void:
 func update_camera(delta: float) -> void:
 	update_camera_offset(delta)
 
-func update_rotation() -> void:
+func update_rotation(delta: float) -> void:
 	if sprite:
-		sprite.look_at(mouse_position)
+		sprite.rotation +=1 * delta
 
 func move_fast(delta: float) -> void:
 	var direction = (mouse_position - global_position).normalized()
