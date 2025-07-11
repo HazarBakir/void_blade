@@ -2,15 +2,16 @@ extends Area2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 var damage: float = 10.0
-var speed: float = 500.0
+var speed: float = 290.0
 var target: CharacterBody2D
 var direction: Vector2 = Vector2.ZERO
 var follow_target: bool = true
 
 func _ready() -> void:
 	add_to_group("bullets")
+	global_position = get_parent().global_position
 	setup_follow_timer()
-	scale = Vector2(1.3, 1.3)
+	scale = Vector2(0.8, 0.8)
 
 func _physics_process(delta: float) -> void:
 	if follow_target:

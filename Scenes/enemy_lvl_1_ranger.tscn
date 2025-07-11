@@ -60,8 +60,7 @@ scale = Vector2(0.15, 0.15)
 texture = ExtResource("2_cvvx1")
 
 [node name="Muzzle-Shoot_Point" type="Marker2D" parent="Sprite2D"]
-position = Vector2(80, 0)
-scale = Vector2(6.66667, 6.66667)
+position = Vector2(88.2128, 0)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0

@@ -2,45 +2,55 @@ extends Node2D
 
 @onready var spawn_timer: Timer = $Timer
 @onready var enemies_container: Node = get_tree().current_scene.get_node("enemies")
-var target: CharacterBody2D = null
+@onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
 
 const ENEMY_SCENE = preload("res://Scenes/enemy_lvl_1_ranger.tscn")
 const MIN_SPAWN_TIME: float = 2.0
 const MAX_SPAWN_TIME: float = 5.0
-const SPAWN_OFFSET_RANGE: float = 150.0
+
+const SPAWN_RADIUS: float = 700.0
+const MIN_SPAWN_DISTANCE: float = 300.0 
+
+const MAX_ENEMIES: int = 5
 
 func _ready() -> void:
-	_find_player()
-	_setup_spawn_timer()
+	setup_spawn_timer()
 
-func _setup_spawn_timer() -> void:
-	spawn_timer.one_shot = true
-	_start_random_spawn_timer()
+func setup_spawn_timer() -> void:
+	start_random_spawn_timer()
 
-func _start_random_spawn_timer() -> void:
+func start_random_spawn_timer() -> void:
 	var random_time = randf_range(MIN_SPAWN_TIME, MAX_SPAWN_TIME)
 	spawn_timer.wait_time = random_time
 	spawn_timer.start()
 
-func _spawn_enemy() -> void:
-	if not _can_spawn():
+func spawn_enemy() -> void:
+	
+	if not can_spawn():
 		return
 	
-	var enemy_instance = _create_enemy_instance()
+	
+	check_and_manage_enemy_count()
+	
+	var enemy_instance = create_enemy_instance()
 	if enemy_instance == null:
+		print("Failed to create enemy instance")
 		return
 	
-	_position_enemy(enemy_instance)
-	_add_enemy_to_scene(enemy_instance)
-	_start_random_spawn_timer()
+	position_enemy_in_radius(enemy_instance)
+	add_enemy_to_scene(enemy_instance)
+	start_random_spawn_timer()
 
-func _can_spawn() -> bool:
-	return target.get_node("HealthComponent").is_alive and _is_enemies_container_valid()
+func can_spawn() -> bool:
+	var player_alive = player != null and player.get_node("HealthComponent").is_alive
+	var container_valid = is_enemies_container_valid()
+	
+	return player_alive and container_valid
 
-func _is_enemies_container_valid() -> bool:
+func is_enemies_container_valid() -> bool:
 	return enemies_container != null and is_instance_valid(enemies_container)
 
-func _create_enemy_instance() -> Node:
+func create_enemy_instance() -> Node:
 	if ENEMY_SCENE == null:
 		push_error("Enemy scene failed to preload")
 		return null
@@ -52,28 +62,51 @@ func _create_enemy_instance() -> Node:
 	
 	return enemy_instance
 
-func _position_enemy(enemy_instance: Node) -> void:
-	enemy_instance.position = position + _get_random_offset()
+func position_enemy_in_radius(enemy_instance: Node) -> void:
+	enemy_instance.position = player.position + get_random_position_in_radius()
 
-func _get_random_offset() -> Vector2:
+func get_random_position_in_radius() -> Vector2:
+	var angle = randf() * 2 * PI
+	var distance = randf_range(MIN_SPAWN_DISTANCE, SPAWN_RADIUS)
+	
 	return Vector2(
-		randf_range(-SPAWN_OFFSET_RANGE, SPAWN_OFFSET_RANGE),
-		randf_range(-SPAWN_OFFSET_RANGE, SPAWN_OFFSET_RANGE)
+		cos(angle) * distance,
+		sin(angle) * distance
 	)
 
-func _add_enemy_to_scene(enemy_instance: Node) -> void:
-	if not _is_enemies_container_valid():
+func add_enemy_to_scene(enemy_instance: Node) -> void:
+	if not is_enemies_container_valid():
 		push_error("Enemies container is not available")
 		enemy_instance.queue_free()
 		return
 	
 	enemies_container.add_child(enemy_instance)
 
-func _on_timer_timeout() -> void:
-	if target.get_node("HealthComponent").is_alive:
-		_spawn_enemy()
+func check_and_manage_enemy_count() -> void:
+	if not is_enemies_container_valid():
+		return
 	
-func _find_player() -> void:
-	var player = get_tree().get_nodes_in_group("player")
-	if player.size() > 0:
-		target = player[0] as CharacterBody2D
+	var current_enemy_count = enemies_container.get_child_count()
+	
+	if current_enemy_count >= MAX_ENEMIES:
+		var enemies_to_kill = current_enemy_count - MAX_ENEMIES + 1
+		kill_oldest_enemies(enemies_to_kill)
+
+func kill_oldest_enemies(count: int) -> void:
+	if not is_enemies_container_valid():
+		return
+	
+	var enemies = enemies_container.get_children()
+	
+	for i in range(min(count, enemies.size())):
+		var enemy = enemies[i]
+		if enemy != null and is_instance_valid(enemy):
+			if enemy.has_method("on_death"):
+				enemy.on_death()
+				print("enemy died")
+			else:
+				enemy.queue_free()
+
+func _on_timer_timeout() -> void:
+	if player != null and player.get_node("HealthComponent").is_alive:
+		spawn_enemy()

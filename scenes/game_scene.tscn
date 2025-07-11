@@ -10,8 +10,7 @@ tonemap_exposure = 2.1
 glow_enabled = true
 glow_normalized = true
 glow_intensity = 2.6
-glow_strength = 1.45
-glow_bloom = 0.1
+glow_strength = 1.2
 glow_blend_mode = 1
 glow_hdr_threshold = 0.7
 glow_hdr_scale = 4.0
@@ -27,23 +26,10 @@ unique_name_in_owner = true
 position = Vector2(-2, 0)
 motion_mode = 1
 
-[node name="spawners" type="Node" parent="."]
+[node name="enemy_spawner" parent="." instance=ExtResource("4_fiftr")]
+position = Vector2(-795.334, 0)
 
-[node name="enemy_spawner3" parent="spawners" instance=ExtResource("4_fiftr")]
-position = Vector2(-810, 0)
-scale = Vector2(1.01844, 1)
-
-[node name="enemy_spawner4" parent="spawners" instance=ExtResource("4_fiftr")]
-position = Vector2(2.42815e-07, -879)
-scale = Vector2(1.01844, 1)
-
-[node name="enemy_spawner5" parent="spawners" instance=ExtResource("4_fiftr")]
-position = Vector2(973, 0)
-scale = Vector2(1.01844, 1)
-
-[node name="enemy_spawner6" parent="spawners" instance=ExtResource("4_fiftr")]
-position = Vector2(0, 615)
-scale = Vector2(1.01844, 1)
+[node name="bullets" type="Node" parent="."]
 
 [node name="enemies" type="Node" parent="."]
 

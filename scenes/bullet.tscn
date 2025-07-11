@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://by4phb5t6b52f"]
 
-[ext_resource type="Script" uid="uid://bxembtdwqs3e5" path="res://Scripts/enemy/bullet.gd" id="1_oduel"]
-[ext_resource type="PackedScene" uid="uid://ccme6x75ia77x" path="res://scenes/bullet_particle.tscn" id="2_6afsh"]
-[ext_resource type="PackedScene" uid="uid://c0gq8trldftv0" path="res://scenes/Components/HitboxComponent.tscn" id="2_odot3"]
+[ext_resource type="Script" uid="uid://bxembtdwqs3e5" path="res://Scripts/Enemy/bullet.gd" id="1_oduel"]
+[ext_resource type="PackedScene" uid="uid://ccme6x75ia77x" path="res://Scenes/bullet_particle.tscn" id="2_6afsh"]
+[ext_resource type="PackedScene" uid="uid://c0gq8trldftv0" path="res://Scenes/Components/HitboxComponent.tscn" id="2_odot3"]
 [ext_resource type="Texture2D" uid="uid://bgg4c6xlw04r1" path="res://Sprites/All_Fire_Bullet_Pixel_16x16_01.png" id="2_ycag2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y25gk"]
@@ -52,6 +52,7 @@ animations = [{
 }]
 
 [node name="Bullet" type="Area2D"]
+show_behind_parent = true
 script = ExtResource("1_oduel")
 
 [node name="HitboxComponent" parent="." instance=ExtResource("2_odot3")]

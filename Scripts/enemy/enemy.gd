@@ -5,7 +5,6 @@ extends CharacterBody2D
 @onready var game_scene = get_node("/root/game_scene")
 @onready var shoot_timer: Timer = $Timer
 @onready var sprite: Sprite2D = $Sprite2D
-@onready var muzzle_point = $"Sprite2D/Muzzle-Shoot_Point"
 
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
 
@@ -106,7 +105,7 @@ func _should_shoot() -> bool:
 	if not can_shoot or target == null:
 		return false
 	
-	var distance_to_player = global_position.distance_to(target.global_position)
+	var distance_to_player = sprite.global_position.distance_to(target.global_position)
 	if distance_to_player > PLAYER_DISTANCE_THRESHOLD:
 		return false
 	return true
@@ -122,9 +121,9 @@ func _shoot() -> void:
 	if bullet_instance == null:
 		return
 	
-	bullet_instance.global_transform = muzzle_point.global_transform
+	bullet_instance.global_position = $"Sprite2D/Muzzle-Shoot_Point".global_position
 	bullet_instance.target = target
-	game_scene.add_child(bullet_instance)
+	add_child(bullet_instance)
 	_apply_recoil()
 	_apply_shoot_cooldown()
 

@@ -8,8 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://dqc05wfbxssga" path="res://Sprites/All_Fire_Bullet_Pixel_16x16_05.png" id="5_8erm5"]
 [ext_resource type="PackedScene" uid="uid://44magkyc6d5o" path="res://Scenes/healthbar.tscn" id="8_8erm5"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8erm5"]
-size = Vector2(12.1053, 12.6316)
+[sub_resource type="CircleShape2D" id="CircleShape2D_3smsa"]
+radius = 4.21053
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qhqgy"]
 radius = 3.68421
@@ -107,8 +107,8 @@ unique_name_in_owner = true
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionPolygon2D" type="CollisionShape2D" parent="HitboxComponent"]
-position = Vector2(-1.31579, -2.50967e-07)
-shape = SubResource("RectangleShape2D_8erm5")
+position = Vector2(-1.05263, 0)
+shape = SubResource("CircleShape2D_3smsa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_qhqgy")
@@ -123,7 +123,7 @@ drag_bottom_margin = 0.1
 script = ExtResource("2_x3wgy")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-0.526316, 0)
+position = Vector2(0, 2.5411e-21)
 rotation = 1.57079
 scale = Vector2(0.85, 0.85)
 sprite_frames = SubResource("SpriteFrames_ukyrk")
