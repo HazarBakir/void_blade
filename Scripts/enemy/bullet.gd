@@ -67,7 +67,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if area is HitboxComponent and area.get_parent().is_in_group("player"):
 		var hitbox = area
 		attack.attack_damage = damage
-		if target.is_attacking == false:
+		if not target.combat_component.is_attacking:
 			screen_shake_on_collision(15, 0.5)
 			hitbox.damage(attack)
 		else:

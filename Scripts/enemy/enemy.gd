@@ -148,5 +148,5 @@ func _on_shoot_timer_timeout() -> void:
 func _on_hitbox_component_area_entered(area: Area2D) -> void:
 	if area.get_parent().is_in_group("player"):
 		$AnimationPlayer.play("Hit")
-		if not target.is_attacking:
+		if not target.combat_component.is_attacking:
 			on_death()
