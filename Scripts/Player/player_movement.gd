@@ -3,7 +3,6 @@ extends CharacterBody2D
 @onready var hitbox_component: HitboxComponent = $HitboxComponent
 @onready var camera: Camera2D = $Camera2D
 @onready var sprite: AnimatedSprite2D = $Sprite2D
-@onready var marker_2d: Marker2D = $Marker2D
 var kill_count: int = 0
 var is_attacking: bool
 var speed: float = 1000.0
