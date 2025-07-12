@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://rylggmttg7y2"]
+
+[ext_resource type="Script" uid="uid://nakx40vb51j3" path="res://PlayerCombatComponent.gd" id="1_ln6s6"]
+
+[node name="PlayerCombatController" type="Node2D"]
+script = ExtResource("1_ln6s6")
