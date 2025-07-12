@@ -26,9 +26,6 @@ unique_name_in_owner = true
 position = Vector2(-2, 0)
 motion_mode = 1
 
-[node name="enemy_spawner" parent="." instance=ExtResource("4_fiftr")]
-position = Vector2(-795.334, 0)
-
 [node name="bullets" type="Node" parent="."]
 
 [node name="enemies" type="Node" parent="."]
@@ -57,3 +54,13 @@ script = ExtResource("4_rgj8m")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6h5vk")
+
+[node name="EnemySpawners" type="Node" parent="."]
+
+[node name="enemy_spawner" parent="EnemySpawners" instance=ExtResource("4_fiftr")]
+position = Vector2(-810, 0)
+scale = Vector2(1.01844, 1)
+
+[node name="enemy_spawner2" parent="EnemySpawners" instance=ExtResource("4_fiftr")]
+position = Vector2(-810, 0)
+scale = Vector2(1.01844, 1)

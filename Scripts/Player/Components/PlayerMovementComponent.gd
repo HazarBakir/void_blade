@@ -5,7 +5,7 @@ var player: CharacterBody2D
 var mouse_position: Vector2
 
 var speed: float = 1000.0
-var follow_speed: float = 560.0
+var follow_speed: float = 600.0
 var accel: float = 10.0
 const SLOW_ACCEL_MULTIPLIER: float = 0.6
 

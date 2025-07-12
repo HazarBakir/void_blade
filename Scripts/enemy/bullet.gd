@@ -23,7 +23,7 @@ func _physics_process(delta: float) -> void:
 
 func setup_follow_timer() -> void:
 	var follow_timer = Timer.new()
-	follow_timer.wait_time = 0.3
+	follow_timer.wait_time = 0.55
 	follow_timer.one_shot = true
 	follow_timer.timeout.connect(_stop_following)
 	add_child(follow_timer)
