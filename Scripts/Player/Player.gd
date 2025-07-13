@@ -34,7 +34,7 @@ func handle_living_player(delta: float) -> void:
 func trigger_death() -> void:
 	if sprite != null:
 		camera_controller.screen_shake(25, 3)
-		particle_manager.emit_particle("player_death", global_position)
+		particle_manager.emit_particle("player_death", global_position, global_rotation)
 		sprite.queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
