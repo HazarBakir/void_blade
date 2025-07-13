@@ -39,7 +39,7 @@ _data = {
 bg_color = Color(0.54099, 0.540991, 0.540989, 1)
 
 [node name="enemy_lvl_1_ranger" type="CharacterBody2D"]
-scale = Vector2(2.04052, 2.04052)
+scale = Vector2(2.6, 2.6)
 script = ExtResource("1_rrurh")
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_cipht")]
