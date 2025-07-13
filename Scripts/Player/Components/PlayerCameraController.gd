@@ -23,8 +23,8 @@ func update_camera(delta: float) -> void:
 
 func update_camera_offset(delta: float) -> void:
 	var mouse_position = player.movement_component.get_mouse_position()
-	var target_offset_x = (mouse_position.x - player.global_position.x) / (SCREEN_WIDTH / 2.0) * CAMERA_OFFSET_FACTOR
-	var target_offset_y = (mouse_position.y - player.global_position.y) / (SCREEN_HEIGHT / 2.0) * CAMERA_OFFSET_FACTOR
+	var target_offset_x = (mouse_position.x - player.global_position.x) / (SCREEN_WIDTH / 2.6) * CAMERA_OFFSET_FACTOR
+	var target_offset_y = (mouse_position.y - player.global_position.y) / (SCREEN_HEIGHT / 2.6) * CAMERA_OFFSET_FACTOR
 	
 	camera.offset.x = lerp(camera.offset.x, target_offset_x, CAMERA_LERP_SPEED * delta)
 	camera.offset.y = lerp(camera.offset.y, target_offset_y, CAMERA_LERP_SPEED * delta)
