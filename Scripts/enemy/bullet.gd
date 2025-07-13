@@ -50,7 +50,7 @@ func setup_destroy_timer() -> void:
 func _destroy_projectile() -> void:
 	if not animated_sprite == null:
 		follow_target = false
-		particle_manager.emit_particle("bullet", global_position)
+		particle_manager.emit_particle("bullet", global_position, global_rotation)
 		queue_free()
 
 func _on_bullet_destroy_timer_timeout() -> void:

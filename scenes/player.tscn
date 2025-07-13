@@ -96,7 +96,7 @@ offsets = PackedFloat32Array(0, 0.184314, 0.643137, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.815686, 1, 1, 1, 0.356863, 1, 1, 1, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3smsa"]
-bg_color = Color(0.686275, 0.141176, 1, 1)
+bg_color = Color(0.95202, 0.940507, 0.93369, 1)
 
 [node name="player" type="CharacterBody2D"]
 scale = Vector2(1.9, 1.9)
@@ -124,6 +124,11 @@ disabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.5, 1.5)
+limit_left = -2333
+limit_top = -2020
+limit_right = 2490
+limit_bottom = 1530
+limit_smoothed = true
 drag_left_margin = 0.1
 drag_top_margin = 0.1
 drag_right_margin = 0.1

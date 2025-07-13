@@ -12,7 +12,7 @@ func _ready():
 func register_particle(particle_name: String, scene_path: String):
 	particle_scenes[particle_name] = scene_path
 
-func emit_particle(particle_name: String, position: Vector2, duration: float = 0.0):
+func emit_particle(particle_name: String, position: Vector2, rotation: float, duration: float = 0.0):
 	if not particle_scenes.has(particle_name):
 		return null
 	
@@ -22,6 +22,7 @@ func emit_particle(particle_name: String, position: Vector2, duration: float = 0
 	get_tree().current_scene.add_child(particle_instance)
 	
 	particle_instance.global_position = position
+	particle_instance.global_rotation = rotation
 	
 	particle_instance.emitting = true
 	
