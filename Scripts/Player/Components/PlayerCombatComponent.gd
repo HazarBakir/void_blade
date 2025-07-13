@@ -28,7 +28,7 @@ func handle_area_collision(area: Area2D) -> void:
 		if is_attacking:
 			attack.attack_damage = attack_damage
 			hitbox.damage(attack)
-			player.camera_controller.screen_shake(8, 0.15)
+			player.camera_controller.screen_shake(4, 0.1)
 		else:
 			attack.attack_damage = player.health_component.current_health
 			player.hitbox_component.damage(attack)
