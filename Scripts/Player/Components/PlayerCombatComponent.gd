@@ -3,15 +3,16 @@ class_name PlayerCombatComponent
 
 var player: CharacterBody2D
 var is_attacking: bool = false
-
 var attack_damage: float = 10.0
-var self_damage: float = 10.0
+
+@onready var line = get_node_or_null("../Sprite2D/Line2D")
+
 
 func setup(player_ref: CharacterBody2D) -> void:
 	player = player_ref
 
 func update_combat(delta: float) -> void:
-	update_attack_state()
+		update_attack_state()
 
 func update_attack_state() -> void:
 	is_attacking = Input.is_action_pressed("move_mouse")

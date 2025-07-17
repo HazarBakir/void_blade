@@ -43,7 +43,7 @@ scale = Vector2(2.6, 2.6)
 script = ExtResource("1_rrurh")
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_cipht")]
-MAX_HEALTH = 20.0
+MAX_HEALTH = 10.0
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_p86u8")]
 health_component = NodePath("../HealthComponent")

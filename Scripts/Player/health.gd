@@ -2,6 +2,7 @@ extends ProgressBar
 @export var health_component: HealthComponent
 @onready var damage_bar: ProgressBar = $DamageBar
 @onready var timer: Timer = $Timer
+
 var tween: Tween
 var prev_health: float
 
