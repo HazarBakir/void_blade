@@ -328,19 +328,16 @@ metadata/_edit_use_anchors_ = true
 [node name="CanvasLayer" type="CanvasLayer" parent="Control"]
 
 [node name="KillCount" type="Label" parent="Control/CanvasLayer"]
-anchors_preset = 6
-anchor_left = 1.0
+anchors_preset = 4
 anchor_top = 0.5
-anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -75.0
-offset_top = -11.5
-offset_bottom = 15.5
-grow_horizontal = 0
+offset_top = 276.0
+offset_right = 75.0
+offset_bottom = 303.0
 grow_vertical = 2
+scale = Vector2(1.5, 1.5)
 text = "KillCount:"
 script = ExtResource("4_rgj8m")
-metadata/_edit_use_anchors_ = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6h5vk")
