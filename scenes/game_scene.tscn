@@ -350,6 +350,7 @@ grow_vertical = 2
 scale = Vector2(1.5, 1.5)
 text = "KillCount:"
 script = ExtResource("4_rgj8m")
+metadata/_edit_use_anchors_ = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6h5vk")
@@ -387,24 +388,6 @@ shape = SubResource("RectangleShape2D_b5spy")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Layer0/DeathZone"]
 position = Vector2(136.483, 2177)
-shape = SubResource("RectangleShape2D_utbpp")
-
-[node name="DeathZone2" type="StaticBody2D" parent="Layer0"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Layer0/DeathZone2"]
-position = Vector2(3545.62, -217)
-shape = SubResource("RectangleShape2D_rurhu")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Layer0/DeathZone2"]
-position = Vector2(595.028, -3238)
-shape = SubResource("RectangleShape2D_kk2rg")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Layer0/DeathZone2"]
-position = Vector2(-4376.79, -360.5)
-shape = SubResource("RectangleShape2D_b5spy")
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Layer0/DeathZone2"]
-position = Vector2(134.519, 2173)
 shape = SubResource("RectangleShape2D_utbpp")
 
 [connection signal="area_entered" from="Layer0/DeathZone" to="Layer0/DeathZone" method="_on_area_entered"]
