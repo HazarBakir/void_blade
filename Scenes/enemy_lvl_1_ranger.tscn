@@ -1,10 +1,10 @@
 [gd_scene load_steps=12 format=3 uid="uid://wer3pvkapch2"]
 
-[ext_resource type="Script" uid="uid://cxtqkpmof6s2u" path="res://Scripts/Enemy/enemy.gd" id="1_rrurh"]
-[ext_resource type="PackedScene" uid="uid://bk26mij5r3bbl" path="res://Scenes/Components/HealthComponent.tscn" id="2_cipht"]
+[ext_resource type="Script" uid="uid://cxtqkpmof6s2u" path="res://Scripts/enemy/enemy.gd" id="1_rrurh"]
+[ext_resource type="PackedScene" uid="uid://bk26mij5r3bbl" path="res://scenes/Components/HealthComponent.tscn" id="2_cipht"]
 [ext_resource type="Texture2D" uid="uid://cbvrpblaxd16w" path="res://icon.svg" id="2_cvvx1"]
-[ext_resource type="PackedScene" uid="uid://c0gq8trldftv0" path="res://Scenes/Components/HitboxComponent.tscn" id="3_p86u8"]
-[ext_resource type="PackedScene" uid="uid://44magkyc6d5o" path="res://Scenes/healthbar.tscn" id="5_cipht"]
+[ext_resource type="PackedScene" uid="uid://c0gq8trldftv0" path="res://scenes/Components/HitboxComponent.tscn" id="3_p86u8"]
+[ext_resource type="PackedScene" uid="uid://44magkyc6d5o" path="res://scenes/healthbar.tscn" id="5_cipht"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xaxbr"]
 
@@ -40,6 +40,7 @@ bg_color = Color(0.54099, 0.540991, 0.540989, 1)
 
 [node name="enemy_lvl_1_ranger" type="CharacterBody2D"]
 scale = Vector2(2.6, 2.6)
+motion_mode = 1
 script = ExtResource("1_rrurh")
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_cipht")]
@@ -47,13 +48,14 @@ MAX_HEALTH = 10.0
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_p86u8")]
 health_component = NodePath("../HealthComponent")
+owner_name = "enemy"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 shape = SubResource("RectangleShape2D_xaxbr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 1
 shape = SubResource("RectangleShape2D_huous")
-disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.15, 0.15)

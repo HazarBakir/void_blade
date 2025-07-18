@@ -2,7 +2,6 @@ extends Line2D
 
 signal updateStamina
 
-
 var previous_position: Vector2
 var fade_timer: float = 0.0
 var is_fading: bool = false
@@ -23,7 +22,6 @@ func _ready():
 	set_as_top_level(true)
 
 func _process(delta: float):
-	print(current_stamina)
 	if player_combat and player_combat.is_attacking and current_stamina > min_stamina:
 		if current_stamina <= min_stamina + 0.1:
 			player_combat.is_attacking = false

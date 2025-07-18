@@ -50,9 +50,8 @@ func handle_area_collision(area: Area2D) -> void:
 		
 	var attack = Attack.new()
 	
-	if area is HitboxComponent and area.get_parent().is_in_group("enemies"):
+	if area is HitboxComponent and is_enemy_area(area):
 		var hitbox: HitboxComponent = area
-		
 		if is_attacking and can_attack():
 			attack.attack_damage = attack_damage
 			hitbox.damage(attack)
