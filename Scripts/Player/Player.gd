@@ -8,6 +8,8 @@ extends CharacterBody2D
 @onready var camera: Camera2D = $Camera2D
 @onready var sprite: AnimatedSprite2D = $Sprite2D
 
+signal updateKillCount
+
 var kill_count: int = 0
 
 func _ready() -> void:
@@ -45,3 +47,4 @@ func get_is_attacking() -> bool:
 
 func increment_kill_count() -> void:
 	kill_count += 1
+	updateKillCount.emit()

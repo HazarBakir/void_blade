@@ -1,5 +1,8 @@
 extends Line2D
 
+signal updateStamina
+
+
 var previous_position: Vector2
 var fade_timer: float = 0.0
 var is_fading: bool = false
@@ -9,8 +12,8 @@ var points_alpha: Array = []
 var max_stamina: float = 25.0
 var min_stamina: float = 0.0
 var current_stamina: float = 25.0
-var attack_cost: float = 2.5
-var stamina_refill: float = 5
+var attack_cost: float = 5
+var stamina_refill: float = 3.5
 
 @onready var player_combat = get_node_or_null("../../PlayerCombatComponent")
 
@@ -25,8 +28,10 @@ func _process(delta: float):
 		if current_stamina <= min_stamina + 0.1:
 			player_combat.is_attacking = false
 		current_stamina = max(min_stamina, current_stamina - attack_cost * delta * 2.5)
+		updateStamina.emit()
 	elif player_combat and not player_combat.is_attacking and current_stamina < max_stamina:
 		current_stamina = min(max_stamina, current_stamina + stamina_refill * delta * 2.5)
+		updateStamina.emit()
 
 
 
@@ -42,7 +47,7 @@ func _process(delta: float):
 		is_fading = true
 
 	var max_points = current_stamina
-	while points.size() > max_points and points.size() > 2:
+	while points.size() > max_points and points.size() > 1:
 			remove_point(0)
 			points_alpha.remove_at(0)
 
