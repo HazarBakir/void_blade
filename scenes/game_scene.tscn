@@ -324,7 +324,6 @@ size = Vector2(8039.75, 1424)
 scale = Vector2(1.01844, 1)
 
 [node name="player" parent="." instance=ExtResource("1_w5aja")]
-unique_name_in_owner = true
 position = Vector2(-2, 0)
 
 [node name="bullets" type="Node" parent="."]
