@@ -5,9 +5,9 @@ class_name ParticleManager
 var particle_scenes = {}
 
 func _ready():
-	register_particle("player_death", "res://Scenes/explode particle.tscn")
-	register_particle("enemy", "res://Scenes/explode_enemy_death.tscn")
-	register_particle("bullet", "res://Scenes/bullet_particle.tscn")
+	register_particle("player_death", "res://scenes/explode_particle.tscn")
+	register_particle("enemy", "res://scenes/explode_enemy_death.tscn")
+	register_particle("bullet", "res://scenes/bullet_particle.tscn")
 
 func register_particle(particle_name: String, scene_path: String):
 	particle_scenes[particle_name] = scene_path

@@ -4,7 +4,7 @@ extends Node2D
 @onready var enemies_container: Node = get_tree().current_scene.get_node("enemies")
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
 
-const ENEMY_SCENE = preload("res://Scenes/enemy_lvl_1_ranger.tscn")
+const ENEMY_SCENE = preload("res://scenes/enemy_lvl_1_ranger.tscn")
 const MIN_SPAWN_TIME: float = 2.0
 const MAX_SPAWN_TIME: float = 5.0
 

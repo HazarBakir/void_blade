@@ -60,7 +60,7 @@ func _on_home_pressed() -> void:
 	player_was_dead = false
 	death_timer.stop()
 	resume()
-	get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 	
 func _on_quit_pressed() -> void:
 	get_tree().quit()
