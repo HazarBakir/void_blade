@@ -1,12 +1,12 @@
 [gd_scene load_steps=16 format=4 uid="uid://pektlh5iak8r"]
 
-[ext_resource type="PackedScene" uid="uid://bvr6pjuau5noi" path="res://scenes/player.tscn" id="1_w5aja"]
-[ext_resource type="PackedScene" path="res://pause_menu.tscn" id="2_2fmhe"]
-[ext_resource type="Texture2D" uid="uid://dbc6kv7fg4wkn" path="res://scenes/Sprite-0001.png" id="4_1ixah"]
-[ext_resource type="PackedScene" uid="uid://dot0y6kbrri6e" path="res://scenes/enemy_spawner.tscn" id="4_fiftr"]
-[ext_resource type="Script" uid="uid://dj4jlrxcrjnj2" path="res://Scripts/Player/kill_count.gd" id="4_rgj8m"]
-[ext_resource type="Texture2D" uid="uid://c6o15b7sy0tpt" path="res://scenes/Sprite-0002.png" id="5_1ixah"]
-[ext_resource type="Script" uid="uid://xhj8g5lljddr" path="res://scenes/death_zone.gd" id="6_rurhu"]
+[ext_resource type="PackedScene" uid="uid://bvr6pjuau5noi" path="res://scenes/player.tscn" id="1_2fynl"]
+[ext_resource type="PackedScene" uid="uid://d44ggd3r677p" path="res://scenes/pause_menu.tscn" id="2_avywi"]
+[ext_resource type="Script" uid="uid://dj4jlrxcrjnj2" path="res://Scripts/Player/kill_count.gd" id="3_m0jrh"]
+[ext_resource type="PackedScene" uid="uid://dot0y6kbrri6e" path="res://scenes/enemy_spawner.tscn" id="4_37hcf"]
+[ext_resource type="Texture2D" uid="uid://dbc6kv7fg4wkn" path="res://scenes/Sprite-0001.png" id="5_ha2mj"]
+[ext_resource type="Texture2D" uid="uid://c6o15b7sy0tpt" path="res://scenes/Sprite-0002.png" id="6_7c52g"]
+[ext_resource type="Script" uid="uid://xhj8g5lljddr" path="res://Scripts/death_zone.gd" id="7_lu610"]
 
 [sub_resource type="Environment" id="Environment_6h5vk"]
 background_mode = 3
@@ -27,7 +27,7 @@ adjustment_enabled = true
 adjustment_saturation = 3.23
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rgj8m"]
-texture = ExtResource("4_1ixah")
+texture = ExtResource("5_ha2mj")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -286,7 +286,7 @@ texture = ExtResource("4_1ixah")
 15:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2fmhe"]
-texture = ExtResource("5_1ixah")
+texture = ExtResource("6_7c52g")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -323,7 +323,7 @@ size = Vector2(8039.75, 1424)
 [node name="game_scene" type="Node2D"]
 scale = Vector2(1.01844, 1)
 
-[node name="player" parent="." instance=ExtResource("1_w5aja")]
+[node name="player" parent="." instance=ExtResource("1_2fynl")]
 position = Vector2(-2, 0)
 
 [node name="bullets" type="Node" parent="."]
@@ -339,7 +339,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Control"]
 
-[node name="PauseMenu" parent="Control/CanvasLayer" instance=ExtResource("2_2fmhe")]
+[node name="PauseMenu" parent="Control/CanvasLayer" instance=ExtResource("2_avywi")]
 
 [node name="KillCount" type="Label" parent="Control/CanvasLayer"]
 visible = false
@@ -352,7 +352,7 @@ offset_bottom = 303.0
 grow_vertical = 2
 scale = Vector2(1.5, 1.5)
 text = "KillCount:"
-script = ExtResource("4_rgj8m")
+script = ExtResource("3_m0jrh")
 metadata/_edit_use_anchors_ = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -360,11 +360,11 @@ environment = SubResource("Environment_6h5vk")
 
 [node name="EnemySpawners" type="Node" parent="."]
 
-[node name="enemy_spawner" parent="EnemySpawners" instance=ExtResource("4_fiftr")]
+[node name="enemy_spawner" parent="EnemySpawners" instance=ExtResource("4_37hcf")]
 position = Vector2(-810, 0)
 scale = Vector2(1.01844, 1)
 
-[node name="enemy_spawner2" parent="EnemySpawners" instance=ExtResource("4_fiftr")]
+[node name="enemy_spawner2" parent="EnemySpawners" instance=ExtResource("4_37hcf")]
 position = Vector2(-810, 0)
 scale = Vector2(1.01844, 1)
 
@@ -375,7 +375,7 @@ tile_map_data = PackedByteArray("AAD4//r/AAADAA8AAAD4//v/AAADAAAAAAD4//z/AAADAAE
 tile_set = SubResource("TileSet_2fmhe")
 
 [node name="DeathZone" type="Area2D" parent="Layer0"]
-script = ExtResource("6_rurhu")
+script = ExtResource("7_lu610")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Layer0/DeathZone"]
 position = Vector2(3548.07, -211)
