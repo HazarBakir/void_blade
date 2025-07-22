@@ -5,13 +5,13 @@ extends Node2D
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
 
 const ENEMY_SCENE = preload("res://scenes/enemy_lvl_1_ranger.tscn")
-const MIN_SPAWN_TIME: float = 2.0
-const MAX_SPAWN_TIME: float = 5.0
+const MIN_SPAWN_TIME: float = 1.0
+const MAX_SPAWN_TIME: float = 2.5
 
-const SPAWN_RADIUS: float = 600.0
+const SPAWN_RADIUS: float = 700.0
 const MIN_SPAWN_DISTANCE: float = 300.0 
 
-const MAX_ENEMIES: int = 5
+const MAX_ENEMIES: int = 15
 
 func _ready() -> void:
 	setup_spawn_timer()
@@ -28,7 +28,6 @@ func spawn_enemy() -> void:
 	
 	if not can_spawn():
 		return
-	
 	
 	check_and_manage_enemy_count()
 	
