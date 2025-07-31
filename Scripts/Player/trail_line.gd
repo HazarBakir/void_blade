@@ -8,10 +8,10 @@ var is_fading: bool = false
 var fade_speed: float = 2.0
 var points_alpha: Array = []
 
-var max_stamina: float = 25.0
+var max_stamina: float = 30.0
 var min_stamina: float = 0.0
-var current_stamina: float = 25.0
-var attack_cost: float = 5
+var current_stamina: float = 30.0
+var attack_cost: float = 3.5
 var stamina_refill: float = 3.5
 
 @onready var player_combat = get_node_or_null("../../PlayerCombatComponent")
