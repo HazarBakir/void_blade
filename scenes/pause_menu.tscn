@@ -5,7 +5,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p81d2"]
 shader = ExtResource("2_05uyy")
-shader_parameter/lod = 0.0
+shader_parameter/lod = 1.719
 
 [sub_resource type="Animation" id="Animation_d3xb4"]
 length = 0.001
@@ -64,7 +64,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
