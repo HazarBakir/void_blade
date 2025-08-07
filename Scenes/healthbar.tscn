@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://44magkyc6d5o"]
 
-[ext_resource type="Script" uid="uid://c7shxdlp0vqye" path="res://Scripts/Player/health.gd" id="1_8wl12"]
+[ext_resource type="Script" uid="uid://c7shxdlp0vqye" path="res://Scripts/Player/health.gd" id="1_k4tqu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fiftr"]
 bg_color = Color(0.864675, 0.864675, 0.864675, 1)
@@ -32,7 +32,7 @@ grow_vertical = 0
 theme_override_styles/fill = SubResource("StyleBoxFlat_fiftr")
 value = 100.0
 show_percentage = false
-script = ExtResource("1_8wl12")
+script = ExtResource("1_k4tqu")
 
 [node name="DamageBar" type="ProgressBar" parent="."]
 z_index = -1

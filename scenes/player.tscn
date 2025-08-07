@@ -1,16 +1,16 @@
 [gd_scene load_steps=26 format=3 uid="uid://bvr6pjuau5noi"]
 
 [ext_resource type="Script" uid="uid://dnyaf62oan2um" path="res://Scripts/Player/Player.gd" id="1_tx1dd"]
-[ext_resource type="PackedScene" uid="uid://bk26mij5r3bbl" path="res://scenes/Components/HealthComponent.tscn" id="2_8erm5"]
+[ext_resource type="PackedScene" uid="uid://bk26mij5r3bbl" path="res://Scenes/Components/HealthComponent.tscn" id="2_8erm5"]
 [ext_resource type="Script" uid="uid://dfwyus0mfu76u" path="res://Scripts/camera.gd" id="2_x3wgy"]
-[ext_resource type="PackedScene" uid="uid://c0gq8trldftv0" path="res://scenes/Components/HitboxComponent.tscn" id="3_f1ek2"]
-[ext_resource type="PackedScene" uid="uid://dxpo46e6qmjjl" path="res://scenes/Components/PlayerCameraComponent.tscn" id="3_tx1dd"]
+[ext_resource type="PackedScene" uid="uid://c0gq8trldftv0" path="res://Scenes/Components/HitboxComponent.tscn" id="3_f1ek2"]
+[ext_resource type="PackedScene" uid="uid://dxpo46e6qmjjl" path="res://Scenes/Components/PlayerCameraComponent.tscn" id="3_tx1dd"]
 [ext_resource type="Script" uid="uid://b13u0ty16kbto" path="res://Scripts/Player/trail_line.gd" id="4_dqkch"]
-[ext_resource type="PackedScene" uid="uid://rylggmttg7y2" path="res://scenes/Components/PlayerCombatController.tscn" id="4_gymyn"]
+[ext_resource type="PackedScene" uid="uid://rylggmttg7y2" path="res://Scenes/Components/PlayerCombatController.tscn" id="4_gymyn"]
 [ext_resource type="Texture2D" uid="uid://dqc05wfbxssga" path="res://Sprites/All_Fire_Bullet_Pixel_16x16_05.png" id="5_8erm5"]
-[ext_resource type="PackedScene" uid="uid://cp5sqh8a7fvcu" path="res://scenes/Components/PlayerMovementComponent.tscn" id="5_pu2lt"]
-[ext_resource type="PackedScene" uid="uid://44magkyc6d5o" path="res://scenes/healthbar.tscn" id="8_8erm5"]
-[ext_resource type="Script" uid="uid://bwgsk5aae7nkj" path="res://Scripts/Player/stamina.gd" id="11_gymyn"]
+[ext_resource type="PackedScene" uid="uid://cp5sqh8a7fvcu" path="res://Scenes/Components/PlayerMovementComponent.tscn" id="5_pu2lt"]
+[ext_resource type="PackedScene" uid="uid://44magkyc6d5o" path="res://Scenes/healthbar.tscn" id="8_8erm5"]
+[ext_resource type="Script" path="res://Scripts/Player/stamina.gd" id="11_gymyn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3smsa"]
 radius = 6.31579

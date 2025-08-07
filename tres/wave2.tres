@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ScriptableWave" load_steps=3 format=3 uid="uid://c823ko4x5jal8"]
+
+[ext_resource type="PackedScene" uid="uid://wer3pvkapch2" path="res://Scenes/enemy_lvl_1_ranger.tscn" id="1_oyqkf"]
+[ext_resource type="Script" uid="uid://cqna8t8wck3lb" path="res://Scripts/ScriptableWave.gd" id="2_nqq4e"]
+
+[resource]
+script = ExtResource("2_nqq4e")
+wave_duration = 60.0
+enemy_count = 17
+horde_prefab = Array[PackedScene]([ExtResource("1_oyqkf")])
+horde_routine_delay = 1.2
+horde_spawn_interval = 0.7
+horde_to_spawn = 6
+boon_wave = false
+boss_wave = false
