@@ -8,11 +8,10 @@ signal all_waves_completed()
 @onready var spawn_timer: Timer
 @onready var wave_timer: Timer
 @onready var horde_delay_timer: Timer
-@onready var wave_check_timer: Timer  # YENİ: Wave tamamlanma kontrolü için
+@onready var wave_check_timer: Timer
 @onready var enemies_container: Node = get_tree().current_scene.get_node("enemies")
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
 
-# Wave Configuration - Inspector'dan ayarlanabilir
 @export_group("Wave System")
 @export var waves: Array[ScriptableWave] = []
 @export var wave_break_duration: float = 5.0
@@ -22,7 +21,6 @@ signal all_waves_completed()
 @export var min_spawn_distance: float = 300.0
 @export var max_enemies_at_once: int = 15
 
-# Internal variables
 var current_wave_index: int = -1
 var current_wave: ScriptableWave
 var enemies_spawned_in_wave: int = 0
@@ -30,29 +28,27 @@ var hordes_spawned: int = 0
 var is_wave_active: bool = false
 var is_spawning_horde: bool = false
 var tutorial_completed: bool = false
-var all_enemies_spawned: bool = false  # YENİ: Tüm düşmanlar spawn edildi mi?
+var all_enemies_spawned: bool = false
 
 const SAVE_FILE_PATH = "user://tutorial_completed.save"
 
 func _ready() -> void:
 	await get_tree().process_frame
 	
-	# Create timers dynamically
 	spawn_timer = Timer.new()
 	wave_timer = Timer.new()
 	horde_delay_timer = Timer.new()
-	wave_check_timer = Timer.new()  # YENİ
+	wave_check_timer = Timer.new()
 	
 	add_child(spawn_timer)
 	add_child(wave_timer)
 	add_child(horde_delay_timer)
-	add_child(wave_check_timer)  # YENİ
+	add_child(wave_check_timer)
 	
-	# Timer setup
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	wave_timer.timeout.connect(_on_wave_timer_timeout)
 	horde_delay_timer.timeout.connect(_on_horde_delay_timeout)
-	wave_check_timer.timeout.connect(_on_wave_check_timeout)  # YENİ
+	wave_check_timer.timeout.connect(_on_wave_check_timeout)
 	
 	wave_check_timer.wait_time = 1.0
 	
