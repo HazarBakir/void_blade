@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://clkfjx2ev7pwk"]
+[gd_scene load_steps=3 format=3 uid="uid://clkfjx2ev7pwk"]
 
 [ext_resource type="Script" uid="uid://bcn53quvl7khp" path="res://Scripts/Menus/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="Texture2D" uid="uid://r5nh2sxm0x0c" path="res://Sprites/VoidBlade_Splash.png" id="2_ekxnf"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -13,10 +14,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l6cm7")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(50, 28)
+scale = Vector2(0.11, 0.11)
+texture = ExtResource("2_ekxnf")
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_top = 60.0
+offset_right = 70.0
+offset_bottom = 161.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
