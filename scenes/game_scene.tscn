@@ -5,9 +5,9 @@
 [ext_resource type="Script" uid="uid://dj4jlrxcrjnj2" path="res://Scripts/Player/kill_count.gd" id="3_m0jrh"]
 [ext_resource type="PackedScene" uid="uid://dot0y6kbrri6e" path="res://Scenes/enemy_spawner.tscn" id="4_37hcf"]
 [ext_resource type="PackedScene" uid="uid://bajh4j485xuek" path="res://Scenes/tutorial.tscn" id="4_b5spy"]
-[ext_resource type="Texture2D" uid="uid://dbc6kv7fg4wkn" path="res://Scenes/Sprite-0001.png" id="5_ha2mj"]
+[ext_resource type="Texture2D" uid="uid://dbc6kv7fg4wkn" path="res://Sprites/Sprite-0001.png" id="5_ha2mj"]
 [ext_resource type="Script" uid="uid://cqna8t8wck3lb" path="res://Scripts/ScriptableWave.gd" id="6_5dgvu"]
-[ext_resource type="Texture2D" uid="uid://c6o15b7sy0tpt" path="res://Scenes/Sprite-0002.png" id="6_7c52g"]
+[ext_resource type="Texture2D" uid="uid://c6o15b7sy0tpt" path="res://Sprites/Sprite-0002.png" id="6_7c52g"]
 [ext_resource type="Script" uid="uid://xhj8g5lljddr" path="res://Scripts/death_zone.gd" id="7_lu610"]
 [ext_resource type="Resource" uid="uid://vh7fvfwqwvup" path="res://tres/wave.tres" id="7_uscyt"]
 [ext_resource type="Resource" uid="uid://c823ko4x5jal8" path="res://tres/wave2.tres" id="8_uscyt"]
@@ -368,7 +368,6 @@ environment = SubResource("Environment_6h5vk")
 [node name="WaveManager" parent="." instance=ExtResource("4_37hcf")]
 position = Vector2(-795.334, 0)
 waves = Array[ExtResource("6_5dgvu")]([ExtResource("7_uscyt"), ExtResource("8_uscyt")])
-max_enemies_at_once = 10
 
 [node name="Layer0" type="TileMapLayer" parent="."]
 z_index = -150
