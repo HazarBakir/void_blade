@@ -162,6 +162,7 @@ round_precision = 15
 script = ExtResource("4_dqkch")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="Health" parent="CanvasLayer" node_paths=PackedStringArray("health_component") instance=ExtResource("8_8erm5")]
 theme_override_styles/fill = SubResource("StyleBoxFlat_3smsa")

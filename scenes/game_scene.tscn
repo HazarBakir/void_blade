@@ -1,19 +1,17 @@
-[gd_scene load_steps=20 format=4 uid="uid://pektlh5iak8r"]
+[gd_scene load_steps=17 format=4 uid="uid://pektlh5iak8r"]
 
 [ext_resource type="PackedScene" uid="uid://bvr6pjuau5noi" path="res://Scenes/player.tscn" id="1_2fynl"]
 [ext_resource type="PackedScene" uid="uid://d44ggd3r677p" path="res://Scenes/pause_menu.tscn" id="2_avywi"]
 [ext_resource type="Script" uid="uid://dj4jlrxcrjnj2" path="res://Scripts/Player/kill_count.gd" id="3_m0jrh"]
-[ext_resource type="PackedScene" uid="uid://dot0y6kbrri6e" path="res://Scenes/enemy_spawner.tscn" id="4_37hcf"]
+[ext_resource type="PackedScene" uid="uid://dot0y6kbrri6e" path="res://Scenes/WaveManager.tscn" id="4_37hcf"]
 [ext_resource type="PackedScene" uid="uid://bajh4j485xuek" path="res://Scenes/tutorial.tscn" id="4_b5spy"]
 [ext_resource type="Texture2D" uid="uid://dbc6kv7fg4wkn" path="res://Sprites/Sprite-0001.png" id="5_ha2mj"]
-[ext_resource type="Script" uid="uid://cqna8t8wck3lb" path="res://Scripts/ScriptableWave.gd" id="6_5dgvu"]
 [ext_resource type="Texture2D" uid="uid://c6o15b7sy0tpt" path="res://Sprites/Sprite-0002.png" id="6_7c52g"]
 [ext_resource type="Script" uid="uid://xhj8g5lljddr" path="res://Scripts/death_zone.gd" id="7_lu610"]
-[ext_resource type="Resource" uid="uid://vh7fvfwqwvup" path="res://tres/wave.tres" id="7_uscyt"]
-[ext_resource type="Resource" uid="uid://c823ko4x5jal8" path="res://tres/wave2.tres" id="8_uscyt"]
 
 [sub_resource type="Environment" id="Environment_6h5vk"]
 background_mode = 3
+background_canvas_max_layer = 1
 tonemap_exposure = 2.1
 glow_enabled = true
 glow_normalized = true
@@ -342,11 +340,11 @@ offset_right = 40.0
 offset_bottom = 40.0
 metadata/_edit_use_anchors_ = true
 
+[node name="tutorial" parent="Control" instance=ExtResource("4_b5spy")]
+layout_mode = 1
+metadata/_edit_use_anchors_ = true
+
 [node name="CanvasLayer" type="CanvasLayer" parent="Control"]
-
-[node name="tutorial" parent="Control/CanvasLayer" instance=ExtResource("4_b5spy")]
-
-[node name="PauseMenu" parent="Control/CanvasLayer" instance=ExtResource("2_avywi")]
 
 [node name="KillCount" type="Label" parent="Control/CanvasLayer"]
 visible = false
@@ -362,12 +360,17 @@ text = "KillCount:"
 script = ExtResource("3_m0jrh")
 metadata/_edit_use_anchors_ = true
 
+[node name="CanvasLayer2" type="CanvasLayer" parent="Control"]
+layer = 128
+
+[node name="PauseMenu" parent="Control/CanvasLayer2" instance=ExtResource("2_avywi")]
+top_level = true
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6h5vk")
 
 [node name="WaveManager" parent="." instance=ExtResource("4_37hcf")]
 position = Vector2(-795.334, 0)
-waves = Array[ExtResource("6_5dgvu")]([ExtResource("7_uscyt"), ExtResource("8_uscyt")])
 
 [node name="Layer0" type="TileMapLayer" parent="."]
 z_index = -150
