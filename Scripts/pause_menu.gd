@@ -5,12 +5,10 @@ extends Control
 @onready var quit_button: Button = $PanelContainer/VBoxContainer/Quit
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
 @onready var death_timer: Timer = Timer.new()
-
 var player_was_dead = false
 
 func _ready() -> void:
 	visible = false
-	
 	add_child(death_timer)
 	death_timer.wait_time = 0.8
 	death_timer.one_shot = true
@@ -18,15 +16,40 @@ func _ready() -> void:
 	
 func resume():
 	get_tree().paused = false
+	Game.paused = false
 	disable_buttons()
 	$AnimationPlayer.play_backwards("new_animation")
 	visible = false
 	
 func pause():
 	get_tree().paused = true
+	Game.paused = true
 	enable_buttons()
 	visible = true
 	$AnimationPlayer.play("new_animation")
+
+func find_tutorial() -> Node:
+	var tutorial = get_node_or_null("../../Control/CanvasLayer/tutorial")
+	
+	if tutorial == null:
+		var scene_root = get_tree().current_scene
+		tutorial = scene_root.find_child("tutorial", true, false)
+	
+	if tutorial == null:
+		tutorial = find_tutorial_node(get_tree().current_scene)
+	
+	return tutorial
+
+func find_tutorial_node(node: Node) -> Node:
+	if node.name == "tutorial":
+		return node
+	
+	for child in node.get_children():
+		var result = find_tutorial_node(child)
+		if result:
+			return result
+	
+	return null
 
 func test_esc():
 	if not player or not is_instance_valid(player):
