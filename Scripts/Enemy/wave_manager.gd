@@ -1,5 +1,4 @@
 extends Node2D
-class_name WaveManager
 
 signal wave_started(wave_number: int)
 signal wave_completed(wave_number: int)
@@ -11,6 +10,8 @@ signal all_waves_completed()
 @onready var wave_check_timer: Timer
 @onready var enemies_container: Node = get_tree().current_scene.get_node("enemies")
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
+@onready var wave_count: RichTextLabel = $CanvasLayer/RichTextLabel
+@onready var game_message: RichTextLabel = $CanvasLayer/GameMessage
 
 @export_group("Wave System")
 @export var waves: Array[ScriptableWave] = []
@@ -30,32 +31,36 @@ var is_spawning_horde: bool = false
 var tutorial_completed: bool = false
 var all_enemies_spawned: bool = false
 
-const SAVE_FILE_PATH = "user://tutorial_completed.save"
+var countdown_timer: Timer
+var is_in_countdown: bool = false
+var countdown_step: int = 0
 
 func _ready() -> void:
+	wave_count.text = "-"
+	game_message.text = ""
 	await get_tree().process_frame
 	
 	spawn_timer = Timer.new()
 	wave_timer = Timer.new()
 	horde_delay_timer = Timer.new()
 	wave_check_timer = Timer.new()
+	countdown_timer = Timer.new()
 	
 	add_child(spawn_timer)
 	add_child(wave_timer)
 	add_child(horde_delay_timer)
 	add_child(wave_check_timer)
+	add_child(countdown_timer)
 	
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	wave_timer.timeout.connect(_on_wave_timer_timeout)
 	horde_delay_timer.timeout.connect(_on_horde_delay_timeout)
 	wave_check_timer.timeout.connect(_on_wave_check_timeout)
+	countdown_timer.timeout.connect(_on_countdown_timer_timeout)
 	
 	wave_check_timer.wait_time = 1.0
-	
-	if is_tutorial_already_completed():
-		tutorial_completed = true
-		start_wave_system()
-		return
+	countdown_timer.wait_time = 1.0
+	countdown_timer.one_shot = true
 	
 	var tutorial = find_tutorial()
 	if tutorial and tutorial.has_signal("tutorial_completed"):
@@ -84,19 +89,72 @@ func find_tutorial_node(node: Node) -> Node:
 	
 	return null
 
-func is_tutorial_already_completed() -> bool:
-	if FileAccess.file_exists(SAVE_FILE_PATH):
-		var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
-		if file:
-			var completed = file.get_var()
-			file.close()
-			return completed
-	return false
-
 func _on_tutorial_completed() -> void:
 	tutorial_completed = true
-	await get_tree().create_timer(3.0).timeout
+	show_countdown_and_start_waves()
+
+func show_countdown_and_start_waves() -> void:
+	if Game.paused == false:
+		start_countdown(3, _start_wave_system_after_countdown)
+
+func start_countdown(from_number: int, callback: Callable) -> void:
+	if Game.paused == true:
+		return
+		
+	if get_tree().paused:
+		return
+		
+	is_in_countdown = true
+	countdown_step = from_number
+	_countdown_callback = callback
+	_show_countdown_step()
+
+var _countdown_callback: Callable
+
+func _show_countdown_step() -> void:
+	if Game.paused == true:
+		is_in_countdown = false
+		return
+		
+	if get_tree().paused:
+		is_in_countdown = false
+		return
+		
+	if countdown_step > 1:
+		var color = "yellow" if countdown_step == 3 else ("orange" if countdown_step == 2 else "red")
+		show_game_message("[color=" + color + "][shake rate=15.0 level=5]" + str(countdown_step) + "[/shake][/color]", 0.0)
+		countdown_step -= 1
+		countdown_timer.start()
+	elif countdown_step == 1:
+		show_game_message("[color=red][shake rate=15.0 level=5]1[/shake][/color]", 0.0)
+		countdown_step = 0
+		countdown_timer.start()
+	else:
+		show_game_message("[color=green][wave amp=30.0 freq=5.0]FIGHT![/wave][/color]", 1.5)
+		is_in_countdown = false
+		await get_tree().create_timer(1.5).timeout
+		if _countdown_callback.is_valid():
+			_countdown_callback.call()
+
+func _on_countdown_timer_timeout() -> void:
+	if Game.paused == true:
+		countdown_timer.start()
+		return
+		
+	if get_tree().paused:
+		countdown_timer.start()
+		return
+		
+	_show_countdown_step()
+
+func _start_wave_system_after_countdown() -> void:
 	start_wave_system()
+
+func show_game_message(message: String, duration: float = 2.0) -> void:
+	game_message.text = "[center]" + message + "[/center]"
+	if duration > 0:
+		await get_tree().create_timer(duration).timeout
+		game_message.text = ""
 
 func start_wave_system() -> void:
 	if waves.is_empty():
@@ -107,9 +165,11 @@ func start_wave_system() -> void:
 
 func start_next_wave() -> void:
 	current_wave_index += 1
+	wave_count.text = str(current_wave_index+1)
 	
 	if current_wave_index >= waves.size():
 		all_waves_completed.emit()
+		show_game_message("[color=gold][wave amp=50.0 freq=3.0]ALL WAVES COMPLETED![/wave][/color]", 3.0)
 		print("All waves completed!")
 		return
 	
@@ -131,6 +191,8 @@ func start_next_wave() -> void:
 	print("Horde Prefabs: ", current_wave.horde_prefab.size())
 	print("Tutorial Completed: ", tutorial_completed)
 	
+	show_game_message("[color=cyan][shake rate=10.0 level=3]WAVE " + str(current_wave_index + 1) + "[/shake][/color]", 2.0)
+	
 	wave_started.emit(current_wave_index + 1)
 	
 	wave_timer.wait_time = current_wave.wave_duration
@@ -138,9 +200,7 @@ func start_next_wave() -> void:
 	
 	wave_check_timer.start()
 	
-
 	start_horde_delay()
-
 
 func _on_wave_check_timeout() -> void:
 	if not is_wave_active:
@@ -150,7 +210,6 @@ func _on_wave_check_timeout() -> void:
 		all_enemies_spawned = true
 		print("All enemies spawned for wave ", current_wave_index + 1, " (", enemies_spawned_in_wave, "/", current_wave.enemy_count, ")")
 	
-
 	if all_enemies_spawned and get_alive_enemy_count() == 0:
 		print("Wave ", current_wave_index + 1, " completed - all enemies defeated!")
 		complete_current_wave()
@@ -348,15 +407,27 @@ func complete_current_wave() -> void:
 	print("Enemies spawned: ", enemies_spawned_in_wave, "/", current_wave.enemy_count)
 	print("Remaining enemies: ", get_alive_enemy_count())
 	
+	show_game_message("[color=green][wave amp=40.0 freq=4.0]WAVE CLEARED![/wave][/color]", 2.0)
+	
 	wave_completed.emit(current_wave_index + 1)
 	
 	if current_wave_index + 1 >= waves.size():
 		all_waves_completed.emit()
+		await get_tree().create_timer(2.0).timeout
+		show_game_message("[color=gold][wave amp=50.0 freq=3.0]ALL WAVES COMPLETED![/wave][/color]", 3.0)
 		print("All waves completed!")
 		return
 	
 	print("Waiting ", wave_break_duration, " seconds before next wave...")
 	await get_tree().create_timer(wave_break_duration).timeout
+	
+	show_countdown_before_next_wave()
+
+func show_countdown_before_next_wave() -> void:
+	if Game.paused == false:
+		start_countdown(3, _start_next_wave_after_countdown)
+
+func _start_next_wave_after_countdown() -> void:
 	start_next_wave()
 
 func skip_to_wave(wave_number: int) -> void:
@@ -375,5 +446,14 @@ func get_current_wave_info() -> Dictionary:
 		"is_spawning_horde": is_spawning_horde,
 		"all_enemies_spawned": all_enemies_spawned,
 		"alive_enemies": get_alive_enemy_count(),
-		"time_remaining": wave_timer.time_left if is_wave_active else 0.0
+		"time_remaining": wave_timer.time_left if is_wave_active else 0.0,
+		"is_in_countdown": is_in_countdown
 	}
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PAUSED:
+		if is_in_countdown:
+			countdown_timer.paused = true
+	elif what == NOTIFICATION_UNPAUSED:
+		if is_in_countdown:
+			countdown_timer.paused = false
