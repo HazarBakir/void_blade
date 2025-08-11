@@ -435,21 +435,6 @@ func skip_to_wave(wave_number: int) -> void:
 		current_wave_index = wave_number - 2
 		complete_current_wave()
 
-func get_current_wave_info() -> Dictionary:
-	return {
-		"current_wave": current_wave_index + 1,
-		"total_waves": waves.size(),
-		"enemies_spawned": enemies_spawned_in_wave,
-		"target_enemies": current_wave.enemy_count if current_wave else 0,
-		"hordes_spawned": hordes_spawned,
-		"is_active": is_wave_active,
-		"is_spawning_horde": is_spawning_horde,
-		"all_enemies_spawned": all_enemies_spawned,
-		"alive_enemies": get_alive_enemy_count(),
-		"time_remaining": wave_timer.time_left if is_wave_active else 0.0,
-		"is_in_countdown": is_in_countdown
-	}
-
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PAUSED:
 		if is_in_countdown:
