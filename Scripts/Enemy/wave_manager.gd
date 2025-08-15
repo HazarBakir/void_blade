@@ -191,20 +191,8 @@ func _spawn_enemy() -> void:
 	enemies_container.add_child(enemy)
 	enemies_spawned_in_wave += 1
 	
-	_connect_enemy_death(enemy)
-	
 	if _is_horde_complete():
 		_finish_horde()
-
-func _connect_enemy_death(enemy: Node) -> void:
-	var health_component = enemy.get_node_or_null("HealthComponent")
-	if health_component and health_component.has_signal("died"):
-		health_component.died.connect(_on_enemy_died)
-	elif enemy.has_signal("died"):
-		enemy.died.connect(_on_enemy_died)
-
-func _on_enemy_died() -> void:
-	pass # Enemy death is handled by wave completion check
 
 func _can_spawn() -> bool:
 	return (current_wave and player and player.get_node("HealthComponent").is_alive and
