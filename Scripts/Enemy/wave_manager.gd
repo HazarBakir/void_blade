@@ -4,20 +4,25 @@ signal wave_started(wave_number: int)
 signal wave_completed(wave_number: int)
 signal all_waves_completed()
 
-@onready var spawn_timer: Timer
-@onready var wave_timer: Timer
-@onready var horde_delay_timer: Timer
-@onready var wave_check_timer: Timer
 @onready var enemies_container: Node = get_tree().current_scene.get_node("enemies")
 @onready var player: CharacterBody2D = get_tree().get_first_node_in_group("player")
 @onready var wave_count: RichTextLabel = $CanvasLayer/RichTextLabel
 @onready var game_message: RichTextLabel = $CanvasLayer/GameMessage
+@onready var countdown_ui: RichTextLabel = $CanvasLayer/Countdown
+
+@onready var spawn_timer: Timer = $Timers/SpawnTimer
+@onready var wave_timer: Timer = $Timers/WaveTimer
+@onready var horde_delay_timer: Timer = $Timers/HordeDelayTimer
+@onready var wave_check_timer: Timer = $Timers/WaveCheckTimer
+@onready var countdown_timer: Timer = $Timers/CountdownTimer
+@onready var fight_timer: Timer = $Timers/FightTimer
+@onready var wave_break_timer: Timer = $Timers/WaveBreakTimer
+@onready var message_timer: Timer = $Timers/MessageTimer
 
 @export_group("Wave System")
 @export var waves: Array[ScriptableWave] = []
 @export var wave_break_duration: float = 5.0
-
-@export_group("Spawn Settings")
+@export_group("Spawn Settings")  
 @export var spawn_radius: float = 700.0
 @export var min_spawn_distance: float = 300.0
 @export var max_enemies_at_once: int = 15
@@ -30,415 +35,310 @@ var is_wave_active: bool = false
 var is_spawning_horde: bool = false
 var tutorial_completed: bool = false
 var all_enemies_spawned: bool = false
-
-var countdown_timer: Timer
-var is_in_countdown: bool = false
 var countdown_step: int = 0
+var _countdown_callback: Callable
 
 func _ready() -> void:
+	_setup_ui()
+	_setup_timers()
+	_connect_tutorial()
+
+func _setup_ui() -> void:
 	wave_count.text = "-"
 	game_message.text = ""
-	await get_tree().process_frame
-	
-	spawn_timer = Timer.new()
-	wave_timer = Timer.new()
-	horde_delay_timer = Timer.new()
-	wave_check_timer = Timer.new()
-	countdown_timer = Timer.new()
-	
-	add_child(spawn_timer)
-	add_child(wave_timer)
-	add_child(horde_delay_timer)
-	add_child(wave_check_timer)
-	add_child(countdown_timer)
-	
-	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
-	wave_timer.timeout.connect(_on_wave_timer_timeout)
-	horde_delay_timer.timeout.connect(_on_horde_delay_timeout)
-	wave_check_timer.timeout.connect(_on_wave_check_timeout)
-	countdown_timer.timeout.connect(_on_countdown_timer_timeout)
-	
+	countdown_ui.text = ""
+
+func _setup_timers() -> void:
 	wave_check_timer.wait_time = 1.0
 	countdown_timer.wait_time = 1.0
 	countdown_timer.one_shot = true
+	fight_timer.wait_time = 1.5
+	fight_timer.one_shot = true
+	wave_break_timer.one_shot = true
+	message_timer.one_shot = true
+	wave_timer.wait_time = 60.0
+	wave_timer.one_shot = true
 	
-	var tutorial = find_tutorial()
+	spawn_timer.timeout.connect(_on_spawn_timeout)
+	wave_timer.timeout.connect(_on_wave_timeout)
+	horde_delay_timer.timeout.connect(_on_horde_delay_timeout)
+	wave_check_timer.timeout.connect(_on_wave_check_timeout)
+	countdown_timer.timeout.connect(_on_countdown_timeout)
+	fight_timer.timeout.connect(_on_fight_timer_timeout)
+	wave_break_timer.timeout.connect(_on_wave_break_timeout)
+	message_timer.timeout.connect(_on_message_timer_timeout)
+
+func _connect_tutorial() -> void:
+	var tutorial = _find_tutorial()
 	if tutorial and tutorial.has_signal("tutorial_completed"):
 		tutorial.tutorial_completed.connect(_on_tutorial_completed)
 
-func find_tutorial() -> Node:
+func _find_tutorial() -> Node:
 	var tutorial = get_node_or_null("../../Control/CanvasLayer/tutorial")
-	
-	if tutorial == null:
-		var scene_root = get_tree().current_scene
-		tutorial = scene_root.find_child("tutorial", true, false)
-	
-	if tutorial == null:
-		tutorial = find_tutorial_node(get_tree().current_scene)
-	
-	return tutorial
-
-func find_tutorial_node(node: Node) -> Node:
-	if node.name == "tutorial":
-		return node
-	
-	for child in node.get_children():
-		var result = find_tutorial_node(child)
-		if result:
-			return result
-	
-	return null
+	if tutorial: 
+		return tutorial
+	return get_tree().current_scene.find_child("tutorial", true, false)
 
 func _on_tutorial_completed() -> void:
 	tutorial_completed = true
-	show_countdown_and_start_waves()
+	if not Game.paused:
+		_start_countdown(3, start_wave_system)
 
-func show_countdown_and_start_waves() -> void:
-	if Game.paused == false:
-		start_countdown(3, _start_wave_system_after_countdown)
-
-func start_countdown(from_number: int, callback: Callable) -> void:
-	if Game.paused == true:
+func _start_countdown(from: int, callback: Callable) -> void:
+	if Game.paused or get_tree().paused: 
 		return
-		
-	if get_tree().paused:
-		return
-		
-	is_in_countdown = true
-	countdown_step = from_number
+	countdown_step = from
 	_countdown_callback = callback
 	_show_countdown_step()
 
-var _countdown_callback: Callable
-
 func _show_countdown_step() -> void:
-	if Game.paused == true:
-		is_in_countdown = false
+	if Game.paused or get_tree().paused:
 		return
-		
-	if get_tree().paused:
-		is_in_countdown = false
-		return
-		
+	
 	if countdown_step > 1:
-		var color = "yellow" if countdown_step == 3 else ("orange" if countdown_step == 2 else "red")
-		show_game_message("[color=" + color + "][shake rate=15.0 level=5]" + str(countdown_step) + "[/shake][/color]", 0.0)
+		var colors = ["yellow", "orange", "red"]
+		_show_message("[color=" + colors[3-countdown_step] + "][shake rate=15.0 level=5]" + str(countdown_step) + "[/shake][/color]")
 		countdown_step -= 1
 		countdown_timer.start()
 	elif countdown_step == 1:
-		show_game_message("[color=red][shake rate=15.0 level=5]1[/shake][/color]", 0.0)
+		_show_message("[color=red][shake rate=15.0 level=5]1[/shake][/color]")
 		countdown_step = 0
 		countdown_timer.start()
 	else:
-		show_game_message("[color=green][wave amp=30.0 freq=5.0]FIGHT![/wave][/color]", 1.5)
-		is_in_countdown = false
-		await get_tree().create_timer(1.5).timeout
-		if _countdown_callback.is_valid():
-			_countdown_callback.call()
+		_show_message("[color=green][wave amp=30.0 freq=5.0]FIGHT![/wave][/color]")
+		fight_timer.start()
 
-func _on_countdown_timer_timeout() -> void:
-	if Game.paused == true:
+func _on_fight_timer_timeout() -> void:
+	if Game.paused or get_tree().paused:
+		return
+	game_message.text = ""
+	if _countdown_callback.is_valid(): 
+		_countdown_callback.call()
+
+func _on_countdown_timeout() -> void:
+	if Game.paused or get_tree().paused:
 		countdown_timer.start()
 		return
-		
-	if get_tree().paused:
-		countdown_timer.start()
-		return
-		
 	_show_countdown_step()
-
-func _start_wave_system_after_countdown() -> void:
-	start_wave_system()
-
-func show_game_message(message: String, duration: float = 2.0) -> void:
-	game_message.text = "[center]" + message + "[/center]"
-	if duration > 0:
-		await get_tree().create_timer(duration).timeout
-		game_message.text = ""
 
 func start_wave_system() -> void:
 	if waves.is_empty():
 		print("No waves configured!")
 		return
-	
-	start_next_wave()
+	_start_next_wave()
 
-func start_next_wave() -> void:
+func _start_next_wave() -> void:
 	current_wave_index += 1
-	wave_count.text = str(current_wave_index+1)
 	
 	if current_wave_index >= waves.size():
-		all_waves_completed.emit()
-		show_game_message("[color=gold][wave amp=50.0 freq=3.0]ALL WAVES COMPLETED![/wave][/color]", 3.0)
-		print("All waves completed!")
+		_finish_all_waves()
 		return
 	
 	current_wave = waves[current_wave_index]
 	if current_wave == null:
-		print("ERROR: Wave ", current_wave_index + 1, " is null!")
-		start_next_wave()
+		print("ERROR: Wave is null!")
+		_start_next_wave()
 		return
 	
+	_initialize_wave()
+
+func _initialize_wave() -> void:
 	enemies_spawned_in_wave = 0
 	hordes_spawned = 0
 	is_wave_active = true
 	is_spawning_horde = false
 	all_enemies_spawned = false
 	
-	print("=== Wave ", current_wave_index + 1, " started! ===")
-	print("Duration: ", current_wave.wave_duration)
-	print("Enemy Count: ", current_wave.enemy_count)
-	print("Horde Prefabs: ", current_wave.horde_prefab.size())
-	print("Tutorial Completed: ", tutorial_completed)
+	wave_count.text = str(current_wave_index + 1)
+	_show_message("[color=cyan][shake rate=10.0 level=3]WAVE " + str(current_wave_index + 1) + "[/shake][/color]", 2.0)
 	
-	show_game_message("[color=cyan][shake rate=10.0 level=3]WAVE " + str(current_wave_index + 1) + "[/shake][/color]", 2.0)
-	
-	wave_started.emit(current_wave_index + 1)
-	
-	wave_timer.wait_time = current_wave.wave_duration
 	wave_timer.start()
-	
 	wave_check_timer.start()
-	
-	start_horde_delay()
-
-func _on_wave_check_timeout() -> void:
-	if not is_wave_active:
-		return
-
-	if enemies_spawned_in_wave >= current_wave.enemy_count:
-		all_enemies_spawned = true
-		print("All enemies spawned for wave ", current_wave_index + 1, " (", enemies_spawned_in_wave, "/", current_wave.enemy_count, ")")
-	
-	if all_enemies_spawned and get_alive_enemy_count() == 0:
-		print("Wave ", current_wave_index + 1, " completed - all enemies defeated!")
-		complete_current_wave()
-
-func get_alive_enemy_count() -> int:
-	if not is_enemies_container_valid():
-		return 0
-	
-	var alive_count = 0
-	for enemy in enemies_container.get_children():
-		if enemy != null and is_instance_valid(enemy):
-			var health_component = enemy.get_node_or_null("HealthComponent")
-			if health_component != null and health_component.has_method("is_alive"):
-				if health_component.is_alive():
-					alive_count += 1
-			else:
-				alive_count += 1
-	
-	return alive_count
-
-func start_horde_delay() -> void:
-	if not is_wave_active:
-		print("ERROR: Wave not active when trying to start horde delay")
-		return
-	
-	print("Starting horde delay: ", current_wave.horde_routine_delay, " seconds")
 	horde_delay_timer.wait_time = current_wave.horde_routine_delay
 	horde_delay_timer.start()
-
-func _on_horde_delay_timeout() -> void:
-	print("Horde delay timeout! Can spawn horde: ", can_spawn_horde())
-	if is_wave_active and can_spawn_horde():
-		start_spawning_horde()
-
-func can_spawn_horde() -> bool:
-	if current_wave == null:
-		return false
 	
-	var total_hordes_needed = ceil(float(current_wave.enemy_count) / float(current_wave.horde_to_spawn))
-	return hordes_spawned < total_hordes_needed
+	wave_started.emit(current_wave_index + 1)
 
-func start_spawning_horde() -> void:
-	if not can_spawn_horde():
-		print("ERROR: Cannot spawn horde")
+func _finish_all_waves() -> void:
+	all_waves_completed.emit()
+	_show_message("[color=gold][wave amp=50.0 freq=3.0]ALL WAVES COMPLETED![/wave][/color]", 3.0)
+
+func _start_spawning_horde() -> void:
+	if not _can_spawn_horde(): 
 		return
 	
 	is_spawning_horde = true
 	hordes_spawned += 1
-	
-	print("=== Starting horde ", hordes_spawned, " ===")
-	print("Spawn interval: ", current_wave.horde_spawn_interval)
-	
 	spawn_timer.wait_time = current_wave.horde_spawn_interval
 	spawn_timer.start()
 
-func spawn_enemy() -> void:
-	if not can_spawn():
-		return
-	
-	check_and_manage_enemy_count()
-	
-	var enemy_instance = create_enemy_instance()
-	if enemy_instance == null:
-		return
-	
-	position_enemy_in_radius(enemy_instance)
-	add_enemy_to_scene(enemy_instance)
-	
-	enemies_spawned_in_wave += 1
-	print("Enemy spawned: ", enemies_spawned_in_wave, "/", current_wave.enemy_count)
-	
-	var enemies_in_current_horde = min(current_wave.horde_to_spawn, 
-		current_wave.enemy_count - (hordes_spawned - 1) * current_wave.horde_to_spawn)
-	
-	var enemies_spawned_in_current_horde = enemies_spawned_in_wave - (hordes_spawned - 1) * current_wave.horde_to_spawn
-	
-	if enemies_spawned_in_current_horde >= enemies_in_current_horde:
-		finish_current_horde()
+func _can_spawn_horde() -> bool:
+	if not current_wave: 
+		return false
+	var total_hordes = ceil(float(current_wave.enemy_count) / float(current_wave.horde_to_spawn))
+	return hordes_spawned < total_hordes
 
-func finish_current_horde() -> void:
+func _spawn_enemy() -> void:
+	if not _can_spawn(): 
+		return
+	
+	_manage_enemy_count()
+	var enemy = _create_enemy()
+	if not enemy: 
+		return
+	
+	_position_enemy(enemy)
+	enemies_container.add_child(enemy)
+	enemies_spawned_in_wave += 1
+	
+	_connect_enemy_death(enemy)
+	
+	if _is_horde_complete():
+		_finish_horde()
+
+func _connect_enemy_death(enemy: Node) -> void:
+	var health_component = enemy.get_node_or_null("HealthComponent")
+	if health_component and health_component.has_signal("died"):
+		health_component.died.connect(_on_enemy_died)
+	elif enemy.has_signal("died"):
+		enemy.died.connect(_on_enemy_died)
+
+func _on_enemy_died() -> void:
+	pass # Enemy death is handled by wave completion check
+
+func _can_spawn() -> bool:
+	return (current_wave and player and player.get_node("HealthComponent").is_alive and
+			_is_container_valid() and tutorial_completed and is_wave_active and 
+			is_spawning_horde and enemies_spawned_in_wave < current_wave.enemy_count)
+
+func _create_enemy() -> Node:
+	if current_wave.horde_prefab.is_empty(): 
+		return null
+	var scene = current_wave.horde_prefab[randi() % current_wave.horde_prefab.size()]
+	return scene.instantiate() if scene else null
+
+func _position_enemy(enemy: Node) -> void:
+	var angle = randf() * 2 * PI
+	var distance = randf_range(min_spawn_distance, spawn_radius)
+	enemy.position = player.position + Vector2(cos(angle) * distance, sin(angle) * distance)
+
+func _is_horde_complete() -> bool:
+	var enemies_in_horde = min(current_wave.horde_to_spawn, 
+		current_wave.enemy_count - (hordes_spawned - 1) * current_wave.horde_to_spawn)
+	var spawned_in_horde = enemies_spawned_in_wave - (hordes_spawned - 1) * current_wave.horde_to_spawn
+	return spawned_in_horde >= enemies_in_horde
+
+func _finish_horde() -> void:
 	is_spawning_horde = false
 	spawn_timer.stop()
 	
-	print("Horde ", hordes_spawned, " finished")
-	
-	if can_spawn_horde():
-		start_horde_delay()
+	if _can_spawn_horde():
+		horde_delay_timer.wait_time = current_wave.horde_routine_delay
+		horde_delay_timer.start()
 	else:
-		print("All hordes spawned for wave ", current_wave_index + 1)
+		all_enemies_spawned = true
 
-func can_spawn() -> bool:
-	if current_wave == null:
-		return false
-		
-	var player_alive = player != null and player.get_node("HealthComponent").is_alive
-	var container_valid = is_enemies_container_valid()
-	var wave_active = is_wave_active and is_spawning_horde
-	var enemies_remaining = enemies_spawned_in_wave < current_wave.enemy_count
-	
-	return player_alive and container_valid and tutorial_completed and wave_active and enemies_remaining
-
-func is_enemies_container_valid() -> bool:
-	return enemies_container != null and is_instance_valid(enemies_container)
-
-func create_enemy_instance() -> Node:
-	if current_wave == null or current_wave.horde_prefab.is_empty():
-		print("No enemy prefabs configured for current wave!")
-		return null
-	
-	var random_index = randi() % current_wave.horde_prefab.size()
-	var enemy_scene = current_wave.horde_prefab[random_index]
-	
-	if enemy_scene == null:
-		print("Enemy scene is null at index: ", random_index)
-		return null
-	
-	var enemy_instance = enemy_scene.instantiate()
-	if enemy_instance == null:
-		print("Failed to instantiate enemy scene")
-		return null
-	
-	return enemy_instance
-
-func position_enemy_in_radius(enemy_instance: Node) -> void:
-	enemy_instance.position = player.position + get_random_position_in_radius()
-
-func get_random_position_in_radius() -> Vector2:
-	var angle = randf() * 2 * PI
-	var distance = randf_range(min_spawn_distance, spawn_radius)
-	
-	return Vector2(
-		cos(angle) * distance,
-		sin(angle) * distance
-	)
-
-func add_enemy_to_scene(enemy_instance: Node) -> void:
-	if not is_enemies_container_valid():
-		enemy_instance.queue_free()
+func _manage_enemy_count() -> void:
+	if not _is_container_valid(): 
 		return
-	
-	enemies_container.add_child(enemy_instance)
+	var count = enemies_container.get_child_count()
+	if count >= max_enemies_at_once:
+		_kill_oldest_enemies(count - max_enemies_at_once + 1)
 
-func check_and_manage_enemy_count() -> void:
-	if not is_enemies_container_valid():
-		return
-	
-	var current_enemy_count = enemies_container.get_child_count()
-	
-	if current_enemy_count >= max_enemies_at_once:
-		var enemies_to_kill = current_enemy_count - max_enemies_at_once + 1
-		kill_oldest_enemies(enemies_to_kill)
-
-func kill_oldest_enemies(count: int) -> void:
-	if not is_enemies_container_valid():
-		return
-	
+func _kill_oldest_enemies(amount: int) -> void:
 	var enemies = enemies_container.get_children()
-	
-	for i in range(min(count, enemies.size())):
+	for i in range(min(amount, enemies.size())):
 		var enemy = enemies[i]
-		if enemy != null and is_instance_valid(enemy):
-			if enemy.has_method("on_death"):
+		if enemy and is_instance_valid(enemy):
+			if enemy.has_method("on_death"): 
 				enemy.on_death()
-			else:
+			else: 
 				enemy.queue_free()
 
-func _on_spawn_timer_timeout() -> void:
-	if is_spawning_horde and can_spawn():
-		spawn_enemy()
-
-func _on_wave_timer_timeout() -> void:
-	print("Wave timer timeout for wave ", current_wave_index + 1)
-	print("Enemies spawned: ", enemies_spawned_in_wave, "/", current_wave.enemy_count)
-	print("Alive enemies: ", get_alive_enemy_count())
-	
-	if enemies_spawned_in_wave >= current_wave.enemy_count and get_alive_enemy_count() == 0:
-		complete_current_wave()
-	elif is_wave_active:
-		print("Force completing wave due to timeout")
-		complete_current_wave()
-
-func complete_current_wave() -> void:
-	if not is_wave_active:
+func _check_wave_completion() -> void:
+	if not is_wave_active: 
 		return
 	
+	var alive_enemies = _get_alive_enemies()
+	
+	if all_enemies_spawned and alive_enemies == 0:
+		_complete_wave()
+		return
+	
+	var time_left = int(ceil(wave_timer.time_left))
+	if time_left <= 10:
+		countdown_ui.text = "[color=red]" + str(time_left) + "[/color]"
+	elif time_left <= 30:
+		countdown_ui.text = "[color=orange]" + str(time_left) + "[/color]"
+	else:
+		countdown_ui.text = "[color=white]" + str(time_left) + "[/color]"
+
+func _complete_wave() -> void:
+	if not is_wave_active: 
+		return
+	
+	_cleanup_wave()
+	_show_message("[color=green][wave amp=40.0 freq=4.0]WAVE CLEARED![/wave][/color]", 2.0)
+	wave_completed.emit(current_wave_index + 1)
+	
+	if current_wave_index + 1 >= waves.size():
+		_finish_all_waves()
+		return
+	
+	wave_break_timer.wait_time = wave_break_duration
+	wave_break_timer.start()
+
+func _on_wave_break_timeout() -> void:
+	if not Game.paused:
+		_start_countdown(3, _start_next_wave)
+
+func _cleanup_wave() -> void:
 	is_wave_active = false
 	is_spawning_horde = false
 	all_enemies_spawned = false
+	countdown_ui.text = ""
 	spawn_timer.stop()
 	wave_timer.stop()
 	horde_delay_timer.stop()
 	wave_check_timer.stop()
-	
-	print("=== Wave ", current_wave_index + 1, " completed! ===")
-	print("Enemies spawned: ", enemies_spawned_in_wave, "/", current_wave.enemy_count)
-	print("Remaining enemies: ", get_alive_enemy_count())
-	
-	show_game_message("[color=green][wave amp=40.0 freq=4.0]WAVE CLEARED![/wave][/color]", 2.0)
-	
-	wave_completed.emit(current_wave_index + 1)
-	
-	if current_wave_index + 1 >= waves.size():
-		all_waves_completed.emit()
-		await get_tree().create_timer(2.0).timeout
-		show_game_message("[color=gold][wave amp=50.0 freq=3.0]ALL WAVES COMPLETED![/wave][/color]", 3.0)
-		print("All waves completed!")
-		return
-	
-	print("Waiting ", wave_break_duration, " seconds before next wave...")
-	await get_tree().create_timer(wave_break_duration).timeout
-	
-	show_countdown_before_next_wave()
 
-func show_countdown_before_next_wave() -> void:
-	if Game.paused == false:
-		start_countdown(3, _start_next_wave_after_countdown)
+func _on_spawn_timeout() -> void:
+	if is_spawning_horde and _can_spawn(): 
+		_spawn_enemy()
 
-func _start_next_wave_after_countdown() -> void:
-	start_next_wave()
+func _on_wave_timeout() -> void:
+	if is_wave_active: 
+		_complete_wave()
 
-func skip_to_wave(wave_number: int) -> void:
-	if wave_number > 0 and wave_number <= waves.size():
-		current_wave_index = wave_number - 2
-		complete_current_wave()
+func _on_horde_delay_timeout() -> void:
+	if is_wave_active and _can_spawn_horde(): 
+		_start_spawning_horde()
 
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_PAUSED:
-		if is_in_countdown:
-			countdown_timer.paused = true
-	elif what == NOTIFICATION_UNPAUSED:
-		if is_in_countdown:
-			countdown_timer.paused = false
+func _on_wave_check_timeout() -> void:
+	_check_wave_completion()
+
+func _show_message(text: String, duration: float = 0.0) -> void:
+	game_message.text = "[center]" + text + "[/center]"
+	if duration > 0:
+		message_timer.wait_time = duration
+		message_timer.start()
+
+func _on_message_timer_timeout() -> void:
+	game_message.text = ""
+
+func _get_alive_enemies() -> int:
+	if not _is_container_valid(): 
+		return 0
+	var count = 0
+	for enemy in enemies_container.get_children():
+		if enemy and is_instance_valid(enemy):
+			var health = enemy.get_node_or_null("HealthComponent")
+			if health and health.has_method("is_alive"):
+				if health.is_alive():
+					count += 1
+			else:
+				count += 1
+	return count
+
+func _is_container_valid() -> bool:
+	return enemies_container != null and is_instance_valid(enemies_container)
