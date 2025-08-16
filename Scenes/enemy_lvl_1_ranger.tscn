@@ -44,7 +44,7 @@ motion_mode = 1
 script = ExtResource("1_rrurh")
 
 [node name="HealthComponent" parent="." instance=ExtResource("2_cipht")]
-MAX_HEALTH = 10.0
+MAX_HEALTH = 20.0
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_p86u8")]
 health_component = NodePath("../HealthComponent")
@@ -81,6 +81,9 @@ offset_right = 12.0
 offset_bottom = -12.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_cipht")
 health_component = NodePath("../HealthComponent")
+
+[node name="damageIndicator" type="Marker2D" parent="."]
+position = Vector2(-9.61539, -9.61539)
 
 [connection signal="area_entered" from="HitboxComponent" to="." method="_on_hitbox_component_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

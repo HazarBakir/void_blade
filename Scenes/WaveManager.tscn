@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://cv4n58l3pvndp" path="res://Scripts/Enemy/wave_manager.gd" id="1_4l55s"]
 [ext_resource type="FontFile" uid="uid://b3vfg5cp4lfp6" path="res://Born2bSportyFS.otf" id="2_8h7h8"]
 [ext_resource type="Script" uid="uid://cqna8t8wck3lb" path="res://Scripts/ScriptableWave.gd" id="2_td62b"]
-[ext_resource type="Resource" uid="uid://vh7fvfwqwvup" path="res://tres/wave.tres" id="3_23qk5"]
-[ext_resource type="Resource" uid="uid://c823ko4x5jal8" path="res://tres/wave2.tres" id="4_cqr2a"]
+[ext_resource type="Resource" uid="uid://vh7fvfwqwvup" path="res://waves/wave.tres" id="3_23qk5"]
+[ext_resource type="Resource" uid="uid://c823ko4x5jal8" path="res://waves/wave2.tres" id="4_cqr2a"]
 
 [node name="WaveManager" type="Node2D"]
 script = ExtResource("1_4l55s")

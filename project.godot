@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 
 particle_manager="*res://Scripts/particle_manager.gd"
 Game="*res://Scripts/Game.gd"
+DamageNumber="*res://Scripts/DamageNumber.gd"
 
 [debug]
 

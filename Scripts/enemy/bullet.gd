@@ -1,7 +1,7 @@
 extends Area2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-var damage: float = 5.0
+var damage: float = 15.0
 var speed: float = 240.0
 var target: CharacterBody2D
 var direction: Vector2 = Vector2.ZERO

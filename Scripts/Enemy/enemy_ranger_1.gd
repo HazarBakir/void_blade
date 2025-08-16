@@ -5,6 +5,8 @@ extends CharacterBody2D
 @onready var game_scene = get_node("/root/game_scene")
 @onready var shoot_timer: Timer = $Timer
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var damage_indicator: Marker2D = $damageIndicator
+
 
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
 
@@ -148,5 +150,6 @@ func _on_shoot_timer_timeout() -> void:
 func _on_hitbox_component_area_entered(area: Area2D) -> void:
 	if area.get_parent().is_in_group("player"):
 		$AnimationPlayer.play("Hit")
+		DamageNumber.display_number(target.combat_component.attack_damage, damage_indicator.global_position, false )
 		if not target.combat_component.is_attacking:
 			on_death()
