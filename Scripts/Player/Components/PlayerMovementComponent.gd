@@ -17,8 +17,8 @@ func handle_movement(delta: float) -> void:
 	
 	handle_movement_input(delta)
 	apply_movement()
-	update_sprite_rotation(delta)
-
+	#update_sprite_rotation(delta)
+	player.sprite.look_at(get_mouse_position())
 func handle_movement_input(delta: float) -> void:
 	if Input.is_action_pressed("move_mouse"):
 		move_fast(delta)

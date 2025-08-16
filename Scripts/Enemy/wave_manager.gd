@@ -123,7 +123,6 @@ func _on_countdown_timeout() -> void:
 
 func start_wave_system() -> void:
 	if waves.is_empty():
-		print("No waves configured!")
 		return
 	_start_next_wave()
 
@@ -136,7 +135,6 @@ func _start_next_wave() -> void:
 	
 	current_wave = waves[current_wave_index]
 	if current_wave == null:
-		print("ERROR: Wave is null!")
 		_start_next_wave()
 		return
 	
@@ -156,7 +154,6 @@ func _initialize_wave() -> void:
 	wave_check_timer.start()
 	horde_delay_timer.wait_time = current_wave.horde_routine_delay
 	horde_delay_timer.start()
-	
 	wave_started.emit(current_wave_index + 1)
 
 func _finish_all_waves() -> void:
