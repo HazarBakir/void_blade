@@ -123,10 +123,12 @@ unique_name_in_owner = true
 
 [node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_f1ek2")]
 unique_name_in_owner = true
+scale = Vector2(0.90499, 0.899201)
 health_component = NodePath("../HealthComponent")
 owner_name = "player"
 
 [node name="CollisionPolygon2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(1.05237, 0)
 shape = SubResource("CircleShape2D_3smsa")
 
 [node name="PlayerCameraController" parent="." instance=ExtResource("3_tx1dd")]
