@@ -7,7 +7,6 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var damage_indicator: Marker2D = $damageIndicator
 
-
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
 
 var is_alive: bool = true
@@ -26,6 +25,8 @@ const RECOIL_DURATION: float = 0.4
 var speed: float = ORIGINAL_SPEED
 var current_speed: float = 0.0
 var recoil_velocity: Vector2 = Vector2.ZERO
+var knockback_velocity: Vector2 = Vector2.ZERO
+var is_knocked_back: bool = false
 
 const MIN_SHOOT_INTERVAL: float = 1.0
 const MAX_SHOOT_INTERVAL: float = 3.0
@@ -44,6 +45,7 @@ func _physics_process(delta: float) -> void:
 	if target.get_node("HealthComponent").is_alive:
 		_update_movement_behavior()
 		_handle_movement(delta)
+		_handle_knockback(delta)
 		move_and_slide()
 		_update_rotation()
 
@@ -71,7 +73,7 @@ func _update_target() -> void:
 		_find_player()
 
 func _update_movement_behavior() -> void:
-	if target == null:
+	if target == null or is_knocked_back:
 		return
 	
 	var distance_to_player = global_position.distance_to(target.global_position)
@@ -82,7 +84,7 @@ func _update_movement_behavior() -> void:
 		speed = ORIGINAL_SPEED
 
 func _handle_movement(delta: float) -> void:
-	if target == null or not is_alive:
+	if target == null or not is_alive or is_knocked_back:
 		return
 	
 	var direction = (target.global_position - global_position).normalized()
@@ -99,12 +101,26 @@ func _handle_movement(delta: float) -> void:
 	else:
 		velocity = normal_velocity
 
+func _handle_knockback(delta: float) -> void:
+	if knockback_velocity.length() > 0:
+		is_knocked_back = true
+		velocity = knockback_velocity
+		knockback_velocity = lerp(knockback_velocity, Vector2.ZERO, 8.0 * delta)
+		
+		if knockback_velocity.length() < 10.0:
+			knockback_velocity = Vector2.ZERO
+			is_knocked_back = false
+
+func apply_knockback(force: float, direction: Vector2) -> void:
+	knockback_velocity = direction.normalized() * force
+	is_knocked_back = true
+
 func _update_rotation() -> void:
-	if target != null:
+	if target != null and not is_knocked_back:
 		sprite.look_at(target.global_position)
 
 func _should_shoot() -> bool:
-	if not can_shoot or target == null:
+	if not can_shoot or target == null or is_knocked_back:
 		return false
 	
 	var distance_to_player = sprite.global_position.distance_to(target.global_position)
@@ -153,3 +169,6 @@ func _on_hitbox_component_area_entered(area: Area2D) -> void:
 		DamageNumber.display_number(target.combat_component.attack_damage, damage_indicator.global_position, false )
 		if not target.combat_component.is_attacking:
 			on_death()
+		else:
+			var knockback_direction = (global_position - target.global_position).normalized()
+			apply_knockback(target.combat_component.attack_damage * 50, knockback_direction)

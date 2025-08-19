@@ -4,6 +4,7 @@ class_name PlayerCombatComponent
 var player: CharacterBody2D
 var is_attacking: bool = false
 var attack_damage: float = 10.0
+var knockback_force: float = 500.0
 var was_mouse_pressed: bool = false
 var can_start_attack: bool = true
 @onready var line = get_node_or_null("../Sprite2D/Line2D")
@@ -54,7 +55,16 @@ func handle_area_collision(area: Area2D) -> void:
 		var hitbox: HitboxComponent = area
 		if is_attacking and can_attack():
 			attack.attack_damage = attack_damage
+			attack.knockback_force = knockback_force
 			hitbox.damage(attack)
+			
+			var enemy = area.get_parent()
+			if enemy.has_method("apply_knockback"):
+				var base_direction = (enemy.global_position - player.global_position).normalized()
+				var random_angle = randf_range(-0.3, 0.3)
+				var knockback_direction = base_direction.rotated(random_angle)
+				enemy.apply_knockback(attack.knockback_force, knockback_direction)
+			
 			player.camera_controller.screen_shake(10, 0.5)
 		else:
 			attack.attack_damage = player.health_component.current_health
