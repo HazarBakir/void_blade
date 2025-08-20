@@ -4,7 +4,7 @@ extends CharacterBody2D
 @onready var hitbox_component: HitboxComponent = $HitboxComponent
 @onready var game_scene = get_node("/root/game_scene")
 @onready var shoot_timer: Timer = $Timer
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: AnimatedSprite2D = $Sprite2D
 @onready var damage_indicator: Marker2D = $damageIndicator
 
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
