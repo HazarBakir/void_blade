@@ -34,6 +34,9 @@ const PLAYER_DISTANCE_THRESHOLD: float = 1000.0
 const SHOOT_COOLDOWN: float = 0.2
 const SHOOT_ANGLE_THRESHOLD: float = 0.3
 
+const SEPARATION_FORCE: float = 100.0
+const SEPARATION_RADIUS: float = 120.0
+
 func _ready() -> void:
 	_initialize_enemy()
 	_setup_shooting_system()
@@ -94,12 +97,34 @@ func _handle_movement(delta: float) -> void:
 	current_speed = lerp(current_speed, target_speed, lerp_factor * delta)
 	var normal_velocity = direction * current_speed
 	
+	var separation_force = _get_separation_force()
+	
 	recoil_velocity = lerp(recoil_velocity, Vector2.ZERO, 4.0 * delta)
 	
 	if speed == 0:
-		velocity = recoil_velocity
+		velocity = recoil_velocity + separation_force
 	else:
-		velocity = normal_velocity
+		velocity = normal_velocity + separation_force
+
+func _get_separation_force() -> Vector2:
+	var separation = Vector2.ZERO
+	var nearby_enemies = get_tree().get_nodes_in_group("enemies")
+	var neighbor_count = 0
+	
+	for enemy in nearby_enemies:
+		if enemy == self or not is_instance_valid(enemy):
+			continue
+		
+		var distance = global_position.distance_to(enemy.global_position)
+		if distance < SEPARATION_RADIUS and distance > 0:
+			var away_vector = (global_position - enemy.global_position).normalized()
+			separation += away_vector * (SEPARATION_RADIUS - distance) / SEPARATION_RADIUS
+			neighbor_count += 1
+	
+	if neighbor_count > 0:
+		separation = separation.normalized() * SEPARATION_FORCE
+	
+	return separation
 
 func _handle_knockback(delta: float) -> void:
 	if knockback_velocity.length() > 0:

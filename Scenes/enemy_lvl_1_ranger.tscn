@@ -129,7 +129,7 @@ position = Vector2(1.92308, -5.38461)
 scale = Vector2(0.47, 0.47)
 sprite_frames = SubResource("SpriteFrames_ncsga")
 autoplay = "default"
-frame_progress = 0.864247
+frame_progress = 0.844278
 
 [node name="Muzzle-Shoot_Point" type="Marker2D" parent="Sprite2D"]
 position = Vector2(21.2766, 11.4566)
