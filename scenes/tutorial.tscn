@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=3 uid="uid://bajh4j485xuek"]
 
-[ext_resource type="Script" uid="uid://fdfayxpo8jdb" path="res://Scripts/Menus/tutorial.gd" id="1_ph3nu"]
+[ext_resource type="Script" uid="uid://fdfayxpo8jdb" path="res://scenes/scripts/Menus/tutorial.gd" id="1_ph3nu"]
 [ext_resource type="FontFile" uid="uid://b3vfg5cp4lfp6" path="res://Born2bSportyFS.otf" id="2_i6t4g"]
-[ext_resource type="Texture2D" uid="uid://bmsi416dcqsof" path="res://Scripts/Menus/Left_Click.png" id="3_omtrn"]
-[ext_resource type="Texture2D" uid="uid://bbglrr15pwf81" path="res://Sprites/Hover.png" id="5_p8jf4"]
+[ext_resource type="Texture2D" uid="uid://bmsi416dcqsof" path="res://scenes/scripts/Menus/Left_Click.png" id="3_omtrn"]
+[ext_resource type="Texture2D" uid="uid://bbglrr15pwf81" path="res://scenes/sprites/Hover.png" id="5_p8jf4"]
 
 [sub_resource type="Animation" id="Animation_p1f1o"]
 length = 0.001

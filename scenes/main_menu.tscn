@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://clkfjx2ev7pwk"]
+
+[ext_resource type="Script" uid="uid://bcn53quvl7khp" path="res://scenes/scripts/Menus/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="Texture2D" uid="uid://r5nh2sxm0x0c" path="res://scenes/sprites/VoidBlade_Splash.png" id="2_ekxnf"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l6cm7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(50, 28)
+scale = Vector2(0.11, 0.11)
+texture = ExtResource("2_ekxnf")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_top = 60.0
+offset_right = 70.0
+offset_bottom = 161.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="play" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Play"
+
+[node name="options" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="quit" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]

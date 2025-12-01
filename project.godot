@@ -12,15 +12,15 @@ config_version=5
 
 config/name="void_blade"
 run/main_scene="uid://clkfjx2ev7pwk"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 boot_splash/image="uid://r5nh2sxm0x0c"
 config/icon="res://icon.svg"
 
 [autoload]
 
-particle_manager="*res://Scripts/particle_manager.gd"
-Game="*res://Scripts/Game.gd"
-DamageNumber="*res://Scripts/DamageNumber.gd"
+particle_manager="*res://scenes/scripts/particle_manager.gd"
+Game="*res://scenes/scripts/Game.gd"
+DamageNumber="*res://scenes/scripts/DamageNumber.gd"
 
 [debug]
 
